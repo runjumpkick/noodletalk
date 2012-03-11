@@ -3,19 +3,12 @@ $(function() {
 
   var updateMessage = function(data) {
     if($('li[data-created="'+ data.created +'"]').length < 1 && data.created !== undefined) {
-      var msg = $('<li class="font' + data.font + '" data-created="'+ data.created +'"><img><p></p>' +
-                  '<a href="#" class="delete">delete</a></li>');
+      var msg = $('<li class="font' + data.font + '" data-created="' + data.created +
+                  '"><img><p></p><a href="#" class="delete">delete</a></li>');
       msg.find('img').attr('src', data.gravatar);
       msg.find('p').html(data.message);
       $('body ol').prepend(msg);
     }
-  };
-
-  var submitLogin = function() {
-    $('#login-form').submit(function(ev) {
-      ev.preventDefault();
-      this.submit
-    });
   };
 
   $('#login').click(function() {
