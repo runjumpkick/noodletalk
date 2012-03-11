@@ -3,9 +3,8 @@ $(function() {
 
   var updateMessage = function(data) {
     if($('li[data-created="'+ data.created +'"]').length < 1 && data.created !== undefined) {
-      var msg = $('<li class="" data-created="'+ data.created +'"><img><p></p>' +
+      var msg = $('<li class="' + data.font + '" data-created="'+ data.created +'"><img><p></p>' +
                   '<a href="#" class="delete">delete</a></li>');
-      msg.attr('class', 'font' + data.font);
       msg.find('img').attr('src', data.gravatar);
       msg.find('p').html(data.message);
       $('body ol').prepend(msg);
