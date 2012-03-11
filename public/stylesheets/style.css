@@ -179,22 +179,19 @@ form input {
 }
 
 form input , ol li p {
+    font-family: 'LeagueGothicRegular';
     font-size: 25px;
 }
 
-.font1 form input, .font1 ol li p {
-    font-family: 'LeagueGothicRegular';
-}
-
-.font2 form input, .font2 ol li p {
+form.font2 input, .font2 p {
     font-family: 'FanwoodRegular';
 }
 
-.font3 form input, .font3 ol li p {
+form.font3 input, .font3 p {
     font-family: 'CartoGothicStdBold';
 }
 
-.font4 form input, .font4 ol li p {
+form.font4 input, .font4 p {
     font-family: 'GoudyBookletter1911Regular';
 }
 

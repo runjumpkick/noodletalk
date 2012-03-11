@@ -14,6 +14,7 @@ var getMessage = function(req) {
     message = {
       message: content.generate(req.body.message),
       gravatar: gravatar.url(req.session.email),
+      font: req.session.userFont,
       created: Math.round(new Date().getTime() / 1000)
     };
 
