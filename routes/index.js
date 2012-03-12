@@ -11,7 +11,7 @@ var message = {};
 
 var getMessage = function(req) {
   if(req.body) {
-    message_datetime = new Date();
+    var message_datetime = new Date();
     message_hours = message_datetime.getHours();
     message_mins  = message_datetime.getMinutes();
     message_seconds = message_datetime.getSeconds();
