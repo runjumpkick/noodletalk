@@ -12,6 +12,7 @@ var message = {};
 var getMessage = function(req) {
   if(req.body) {
     var datetime = new Date();
+
     message = {
       message: content.generate(req.body.message),
       gravatar: gravatar.url(req.session.email),

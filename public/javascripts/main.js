@@ -2,18 +2,32 @@ $(function() {
   var socket = io.connect('http://localhost');
 
   var getMessageDateTimeString = function(data) {
-    var timezone_offset_in_hours = (new Date().getTimezoneOffset()/60)-data.server_timezone;
-    var message_locale = new Date(data.raw_time).toLocaleDateString()
-    var message_hours = data.hours - timezone_offset_in_hours;
-    var message_mins  = data.mins;
-    var message_seconds = data.secs;
-    return message_locale + " @ " + message_hours + ":" + message_mins + ":" + message_seconds;
+    var timezoneOffsetInHours = (new Date().getTimezoneOffset()/60) - data.server_timezone;
+    var messageLocale = new Date(data.raw_time).toLocaleDateString();
+    var messageHours = data.hours - timezoneOffsetInHours;
+    var messageMinutes  = data.mins;
+    var messageSeconds = data.secs;
+
+    if(messageHours < 10) {
+      messageHours = '0' + messageHours;
+    }
+
+    if(messageMinutes < 10) {
+      messageMinutes = '0' + messageMinutes;
+    }
+
+    if(messageSeconds < 10) {
+      messageSeconds = '0' + messageSeconds;
+    }
+
+    return messageLocale + " @ " + messageHours + ":" + messageMinutes + ":" + messageSeconds;
   }
 
   var updateMessage = function(data) {
     if($('li[data-created="'+ data.created +'"]').length < 1 && data.created !== undefined) {
       var msg = $('<li class="font' + data.font + '" data-created="' + data.created +
-                  '"><img><time>'+getMessageDateTimeString(data)+'</time><p></p><a href="#" class="delete">delete</a></li>');
+                  '"><img><time>' + getMessageDateTimeString(data) + '</time><p></p>' +
+                  '<a href="#" class="delete">delete</a></li>');
       msg.find('img').attr('src', data.gravatar);
       msg.find('p').html(data.message);
       $('body ol').prepend(msg);
