@@ -11,10 +11,15 @@ var message = {};
 
 var getMessage = function(req) {
   if(req.body) {
+    message_datetime = new Date();
+    message_hours = message_datetime.getHours();
+    message_mins  = message_datetime.getMinutes();
+    message_seconds = message_datetime.getSeconds();
     message = {
       message: content.generate(req.body.message),
       gravatar: gravatar.url(req.session.email),
       font: req.session.userFont,
+      created_datetime: message_datetime.toLocaleDateString() + " @ " + message_hours + ":" + message_mins + ":" + message_seconds,
       created: Math.round(new Date().getTime() / 1000)
     };
 
