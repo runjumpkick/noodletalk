@@ -13,7 +13,12 @@ var getMessageDateTimeString = function() {
   var message_hours = message_datetime.getHours();
   var message_mins  = message_datetime.getMinutes();
   var message_seconds = message_datetime.getSeconds();
-  return message_datetime.toLocaleDateString() + " @ " + message_hours + ":" + message_mins + ":" + message_seconds;
+
+  var dateFormat = message_datetime.toLocaleDateString() + " @ " +
+                   message_hours + ":" +
+                   message_mins + ":" + message_seconds
+
+  return dateFormat;
 }
 
 var getMessage = function(req) {

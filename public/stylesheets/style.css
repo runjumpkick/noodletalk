@@ -152,6 +152,13 @@ ol li iframe {
     margin: 10px;
 }
 
+ol li time {
+    color: #aaa;
+    font-family: 'BebasNeueRegular', sans-serif;
+    font-size: 18px;
+    margin: 10px;
+}
+
 ol li > img {
     height: 45px;
     width: 45px;
@@ -176,6 +183,10 @@ form input {
     margin: 10px 0px 20px 0px;
     padding: 5px;
     width: 95%;
+}
+
+ol li p {
+    margin-top: 10px;
 }
 
 form input , ol li p {
