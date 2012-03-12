@@ -7,7 +7,12 @@ var express = require('express');
 
 var configurations = module.exports;
 var app = express.createServer();
-var options = { domain: 'http://localhost', port: 3000, secureCookie: true };
+var options = { 
+  domain: 'http://localhost',
+  port: 3000,
+  secureCookie: true,
+  authUrl: 'https://browserid.org'
+};
 
 // Configuration
 
