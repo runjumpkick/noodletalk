@@ -15,7 +15,7 @@ var getMessage = function(req) {
 
     message = {
       message: content.generate(req.body.message),
-      gravatar: gravatar.url(req.session.email),
+      gravatar: gravatar.url(req.session.email) + '?&d=identicon',
       font: req.session.userFont,
       hours: datetime.getHours(),
       mins: datetime.getMinutes(),
