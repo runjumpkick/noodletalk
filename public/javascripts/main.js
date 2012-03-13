@@ -72,10 +72,7 @@ $(function() {
         updateMessage(data);
         $('form input').val('');
         document.title = 'Noodle Talk';
-        messagesUnread -= 1;
-        if(messagesUnread < 0) {
-          document.title = 'Noodle Talk';
-        }
+        messagesUnread = 0;
       },
       dataType: 'json'
     });
