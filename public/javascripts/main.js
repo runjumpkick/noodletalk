@@ -1,5 +1,6 @@
 $(function() {
   var socket = io.connect('http://localhost');
+  var messagesUnread = 0;
 
   var getMessageDateTimeString = function(data) {
     var timezoneOffsetInHours = (new Date().getTimezoneOffset()/60) - data.server_timezone;
@@ -21,16 +22,24 @@ $(function() {
     }
 
     return messageLocale + " @ " + messageHours + ":" + messageMinutes + ":" + messageSeconds;
-  }
+  };
 
   var updateMessage = function(data) {
     if($('li[data-created="'+ data.created +'"]').length < 1 && data.created !== undefined) {
+      // Update the message
       var msg = $('<li class="font' + data.font + '" data-created="' + data.created +
                   '"><img><time>' + getMessageDateTimeString(data) + '</time><p></p>' +
                   '<a href="#" class="delete">delete</a></li>');
       msg.find('img').attr('src', data.gravatar);
       msg.find('p').html(data.message);
       $('body ol').prepend(msg);
+
+      // Update the user count
+      $('#info .connected span').text(parseInt(data.connected_clients, 10));
+
+      // Update new message count - assuming unread until focus is on input
+      messagesUnread += 1;
+      document.title = 'Noodle Talk (' + messagesUnread + ')';
     }
   };
 
@@ -47,6 +56,10 @@ $(function() {
     });
   });
 
+  $('form input').focus(function() {
+    document.title = 'Noodle Talk';
+  });
+
   $('form').submit(function(ev) {
     ev.preventDefault();
     var self = $(this);
@@ -58,6 +71,11 @@ $(function() {
       success: function(data) {
         updateMessage(data);
         $('form input').val('');
+        document.title = 'Noodle Talk';
+        messagesUnread -= 1;
+        if(messagesUnread < 0) {
+          document.title = 'Noodle Talk';
+        }
       },
       dataType: 'json'
     });

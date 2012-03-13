@@ -96,6 +96,7 @@ h1 {
     font-size: 40px;
     font-weight: normal;
     letter-spacing: 1px;
+    margin-top: 25px;
     text-shadow: #939e7e 7px 5px 0px;
     text-transform: uppercase;
 }
@@ -112,18 +113,33 @@ a {
     width: 100%;
 }
 
-#header a {
-    background-color: #cd9025;
-    box-shadow: #ddc256 5px 5px 0px;
-    color: #fff;
-    display: block;
-    font-family: 'BebasNeueRegular', sans-serif;
-    font-size: 20px;
-    letter-spacing: 1px;
-    padding: 15px 8px 5px 8px;
+#info {
+    float: right;
     position: absolute;
     right: 10px;
     top: -10px;
+    width: 310px;
+}
+
+#header a, #header .connected, #header .code {
+    color: #fff;
+    display: block;
+    float: left;
+    font-family: 'BebasNeueRegular', sans-serif;
+    font-size: 20px;
+    letter-spacing: 1px;
+    margin-left: 15px;
+    padding: 15px 8px 5px 8px;
+}
+
+#header a {
+    background-color: #cd9025;
+    box-shadow: #ddc256 5px 5px 0px;
+}
+
+#header .connected {
+    background-color: #9c9688;
+    box-shadow: #787263 5px 5px 0px;
 }
 
 ol {

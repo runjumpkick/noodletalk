@@ -22,12 +22,13 @@ var getMessage = function(req) {
       secs: datetime.getSeconds(),
       raw_time: datetime.getTime(),
       server_timezone: datetime.getTimezoneOffset() / 60,
-      created: Math.round(new Date().getTime() / 1000)
+      created: Math.round(new Date().getTime() / 1000),
+      connected_clients: io.sockets.clients().length
     };
 
     return message;
-  };
-}
+  }
+};
 
 
 // Home/main
@@ -55,6 +56,7 @@ exports.login = function(req, res) {
 // Add new message
 exports.message = function(req, res) {
   var message = getMessage(req);
+  
   io.sockets.emit('message', message);
   res.json(message);
 }
