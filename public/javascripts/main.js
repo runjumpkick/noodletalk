@@ -72,22 +72,42 @@ $(function() {
     document.title = 'Noodle Talk';
   });
 
+  $('#help').click(function() {
+    $(this).fadeOut();
+  });
+
   $('form').submit(function(ev) {
     ev.preventDefault();
     var self = $(this);
 
-    $.ajax({
-      type: 'POST',
-      url: self.attr('action'),
-      data: self.serialize(),
-      success: function(data) {
-        updateMessage(data);
-        $('form input').val('');
-        document.title = 'Noodle Talk';
-        messagesUnread = 0;
-      },
-      dataType: 'json'
-    });
+    var helpMatcher = /^(\/help)/i;
+    var clearMatcher = /^(\/clear)/i;
+
+    // if this is a help trigger, open up the help window
+    if(self.find('input').val().match(helpMatcher)) {
+      $('#help').fadeIn();
+      self.find('input').val('');
+
+    // if this is a clear trigger, clear all messages
+    } else if(self.find('input').val().match(clearMatcher)) {
+      $('ol li').remove();
+      self.find('input').val('');
+
+    // this is a submission
+    } else {
+      $.ajax({
+        type: 'POST',
+        url: self.attr('action'),
+        data: self.serialize(),
+        success: function(data) {
+          updateMessage(data);
+          $('form input').val('');
+          document.title = 'Noodle Talk';
+          messagesUnread = 0;
+        },
+        dataType: 'json'
+      });
+    }
   });
 
   $('ol').on('click', 'li a.delete', function(ev) {

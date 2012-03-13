@@ -12,22 +12,38 @@ html
     #header
       h1 Noodle Talk
 
-      if session.email
-        div#info
+      div#info
           div(class='connected')
             = 'Users: '
             span ?
-          a(href='/logout') Log out
-      else
-        div#info
-          a(href='#', id='login') Log in with BrowserID
-          form(method='post', action='/login', id='login-form')
-            input(type='hidden', name='bid_assertion', value='1')
+          if session.email
+            a(href='/logout') Log out
+          else
+            a(href='#', id='login') Log in
+            form(method='post', action='/login', id='login-form')
+              input(type='hidden', name='bid_assertion', value='1')
 
     a(href='https://github.com/ednapiranha/noodletalk', target='_blank', class='github')
       img(src='https://a248.e.akamai.net/assets.github.com/img/71eeaab9d563c2b3c590319b398dd35683265e85/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67',
           alt='Fork me on GitHub')
 
     != body
+
+    #help
+      h2 Noodle Talk Commands
+
+      ul
+        li
+          span /help
+          = ' [displays all available commands]'
+        li
+          span /nick your_nick
+          = ' [changes your nickname]'
+        li
+          span /clear
+          = ' [removes all messages from your screen]'
+        li
+          span /me your message here
+          = ' [makes an action item from your messages]'
 
     #footer

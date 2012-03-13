@@ -244,6 +244,33 @@ form.font4 input, .font4 p {
     font-family: 'GoudyBookletter1911Regular';
 }
 
+#help {
+    background-color: #fff;
+    box-shadow: #888 10px 10px 0px;
+    display: none;
+    font-family: 'BebasNeueRegular', sans-serif;
+    font-size: 18px;
+    opacity: .9;
+    padding: 20px 10px 20px 10px;
+    position: absolute;
+    max-width: 80%;
+}
+
+#help li {
+    margin-bottom: 5px;
+}
+
+#help span {
+    color: #3b7ca1;
+    font-size: 22px;
+    padding-right: 5px;
+}
+
+#help h2 {
+    font-size: 25px;
+    margin-bottom: 20px;
+}
+
 #footer {
 
 }
