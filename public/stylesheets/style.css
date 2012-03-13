@@ -116,19 +116,22 @@ a {
 #info {
     float: right;
     position: absolute;
-    right: 10px;
+    right: 150px;
     top: -10px;
 }
 
-#header a, #header .connected, #header .code {
+#header a, #header .connected {
     color: #fff;
     display: block;
     float: left;
     font-family: 'BebasNeueRegular', sans-serif;
-    font-size: 20px;
+    font-size: 17px;
     letter-spacing: 1px;
-    margin-left: 15px;
+    margin-left: 13px;
+    max-width: 85px;
+    overflow: hidden;
     padding: 15px 8px 5px 8px;
+    white-space: nowrap;
 }
 
 #header a {
@@ -139,6 +142,13 @@ a {
 #header .connected {
     background-color: #9c9688;
     box-shadow: #787263 5px 5px 0px;
+}
+
+a.github {
+    border: 0;
+    position: absolute;
+    right: 0px;
+    top: 0px;
 }
 
 ol {
