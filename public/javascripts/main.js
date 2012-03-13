@@ -1,6 +1,7 @@
 $(function() {
   var socket = io.connect('http://localhost');
   var messagesUnread = 0;
+  var currentNickname = 'Anonymous';
 
   var getMessageDateTimeString = function(data) {
     var timezoneOffsetInHours = (new Date().getTimezoneOffset()/60) - data.server_timezone;
@@ -27,12 +28,24 @@ $(function() {
   var updateMessage = function(data) {
     if($('li[data-created="'+ data.created +'"]').length < 1 && data.created !== undefined) {
       // Update the message
-      var msg = $('<li class="font' + data.font + '" data-created="' + data.created +
-                  '"><img><time>' + getMessageDateTimeString(data) + '</time><p></p>' +
-                  '<a href="#" class="delete">delete</a></li>');
-      msg.find('img').attr('src', data.gravatar);
-      msg.find('p').html(data.message);
-      $('body ol').prepend(msg);
+      var message = $.trim(data.message);
+      var matchNick = message.toLowerCase().match(/\/nick \w+/);
+
+      currentNickname = data.nickname;
+
+      if(message.length > 0) {
+        if(matchNick) {
+          message = 'Nickname has changed to ' + data.nickname;
+        }
+
+        var msg = $('<li class="font' + data.font + '" data-created="' + data.created +
+                    '"><img><span class="nick">' + data.nickname + '</span><time>' +
+                    getMessageDateTimeString(data) + '</time><p></p>' +
+                    '<a href="#" class="delete">delete</a></li>');
+        msg.find('img').attr('src', data.gravatar);
+        msg.find('p').html(message);
+        $('body ol').prepend(msg);
+      }
 
       // Update the user count
       $('#info .connected span').text(parseInt(data.connected_clients, 10));
