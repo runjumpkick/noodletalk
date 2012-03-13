@@ -20,9 +20,10 @@ html
           a(href='https://github.com/ednapiranha/noodletalk', target='_blank') Contribute!
           a(href='/logout') Log out
       else
-        a(href='#', id='login') Log in with BrowserID
-        form(method='post', action='/login', id='login-form')
-          input(type='hidden', name='bid_assertion', value='1')
+        div#info
+          a(href='#', id='login') Log in with BrowserID
+          form(method='post', action='/login', id='login-form')
+            input(type='hidden', name='bid_assertion', value='1')
 
     != body
 
