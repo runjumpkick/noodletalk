@@ -7,6 +7,8 @@
     "jade": ">= 0.0.1",
     "request": "2.9.153",
     "gravatar": "1.0.6",
-    "socket.io": "0.9.x"
+    "socket.io": "0.9.x",
+    "mocha": "0.14.1",
+    "nock": "0.10.7"
   }
 }

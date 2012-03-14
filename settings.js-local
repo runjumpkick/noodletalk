@@ -1,47 +1,41 @@
+// Module dependencies.
+module.exports = function(app, configurations, express) {
+  var options = { 
+    domain: 'http://localhost',
+    port: 3000,
+    secureCookie: true,
+    authUrl: 'https://browserid.org'
+  };
 
-/**
- * Module dependencies.
- */
+  // Configuration
 
-var express = require('express');
+  app.configure(function(){
+    app.set('views', __dirname + '/views');
+    app.set('view engine', 'jade');
+    app.use(express.bodyParser());
+    app.use(express.methodOverride());
+    app.use(express.static(__dirname + '/public'));
+    app.use(express.cookieParser());
+    app.use(express.session({ secret: 'secret' }));
+    app.use(app.router);
+  });
 
-var configurations = module.exports;
-var app = express.createServer();
-var options = { 
-  domain: 'http://localhost',
-  port: 3000,
-  secureCookie: true,
-  authUrl: 'https://browserid.org'
+  app.configure('development', function(){
+    app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
+  });
+
+  app.configure('production', function(){
+    app.use(express.errorHandler());
+  });
+
+  app.dynamicHelpers({
+    session: function (req, res) {
+      return req.session;
+    }
+  });
+
+  configurations.app = app;
+  configurations.options = options;
+
+  return configurations;
 };
-
-// Configuration
-
-app.configure(function(){
-  app.set('views', __dirname + '/views');
-  app.set('view engine', 'jade');
-  app.use(express.bodyParser());
-  app.use(express.methodOverride());
-  app.use(express.static(__dirname + '/public'));
-  app.use(express.cookieParser());
-  app.use(express.session({ secret: 'secret' }));
-  app.use(app.router);
-});
-
-app.configure('development', function(){
-  app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
-});
-
-app.configure('production', function(){
-  app.use(express.errorHandler());
-});
-
-app.dynamicHelpers({
-  session: function (req, res) {
-    return req.session;
-  }
-});
-
-configurations.app = app;
-configurations.options = options;
-
-return configurations;

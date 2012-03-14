@@ -1,10 +1,8 @@
-var gravatar = require('gravatar');
-var content = require('../lib/web-remix');
-var settings = require('../settings');
-var io = require('socket.io').listen(settings.app);
-
 module.exports = function(app) {
   var message = {};
+  var gravatar = require('gravatar');
+  var content = require('../lib/web-remix');
+  var io = require('socket.io').listen(app);
 
   var getMessage = function(req) {
     if(req.body) {
