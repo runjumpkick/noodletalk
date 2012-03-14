@@ -12,14 +12,24 @@ var getMessage = function(req) {
   if(req.body) {
     var datetime = new Date();
     var nickname = content.getNickName(req.body.message);
+    var message = content.generate(req.body.message);
 
     if(nickname.length > 0) {
       req.session.nickname = nickname;
+    } else {
+      req.session.nickname = 'Anonymous';
+    }
+
+    // if this is a /me prepend with the nick
+    var meMatch = /^(\s\/me\s)/i;
+
+    if(message.match(meMatch)) {
+      message = '<em>' + req.session.nickname + ' ' + message.replace(meMatch, '') + '</em>';
     }
 
     message = {
       nickname: req.session.nickname,
-      message: content.generate(req.body.message),
+      message: message,
       gravatar: gravatar.url(req.session.email) + '?&d=identicon',
       font: req.session.userFont,
       hours: datetime.getHours(),
@@ -51,7 +61,7 @@ exports.login = function(req, res) {
         httpOnly: true
       });
       req.session.email = email;
-      req.session.userFont = Math.floor(Math.random() * 5);
+      req.session.userFont = Math.floor(Math.random() * 8);
       req.session.nickname = 'Anonymous';
     }
     res.redirect('back');

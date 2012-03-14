@@ -84,6 +84,27 @@ table {
     font-style: normal;
 }
 
+@font-face {
+    font-family: 'DeutschGothicNormal';
+    src: url('../fonts/Deutsch-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'CabinSketchRegular';
+    src: url('../fonts/CabinSketch-Regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'MomsTypewriterRegular';
+    src: url('../fonts/Moms_typewriter-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
 body {
     background-color: #bac2ac;
     padding: 20px;
@@ -202,6 +223,10 @@ ol li > img {
     width: 45px;
 }
 
+ol li p em {
+    font-style: italic;
+}
+
 ol li a.delete {
     display: block;
     font-family: 'BebasNeueRegular', sans-serif;
@@ -244,13 +269,25 @@ form.font4 input, .font4 p {
     font-family: 'GoudyBookletter1911Regular';
 }
 
+form.font5 input, .font5 p {
+    font-family: 'DeutschGothicNormal';
+}
+
+form.font6 input, .font6 p {
+    font-family: 'CabinSketchRegular';
+}
+
+form.font7 input, .font7 p {
+    font-family: 'MomsTypewriterRegular';
+}
+
 #help {
     background-color: #fff;
     box-shadow: #888 10px 10px 0px;
     display: none;
     font-family: 'BebasNeueRegular', sans-serif;
     font-size: 18px;
-    opacity: .9;
+    opacity: .95;
     padding: 20px 10px 20px 10px;
     position: absolute;
     max-width: 80%;
