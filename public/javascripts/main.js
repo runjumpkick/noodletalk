@@ -1,7 +1,16 @@
+$('window').channels = [];
+
 $(function() {
-  var socket = io.connect('http://localhost');
+  var socket = io.connect(document.location.domain);
   var messagesUnread = 0;
   var currentNickname = 'Anonymous';
+
+  // if this is a channel, make sure to add to it
+  var currentChannel = document.location.href.split('/c')[1];
+  if(currentChannel.length > 0) {
+    $('window').channels.push({ 'channel': currentChannel });
+  }
+  console.log($('window').channels);
 
   var padTimeDigit = function(digit) {
     if(digit < 10) {
@@ -71,6 +80,7 @@ $(function() {
 
   $('form input').focus(function() {
     document.title = 'Noodle Talk';
+    messagesUnread = 0;
   });
 
   $('#help').click(function() {
@@ -119,5 +129,7 @@ $(function() {
     socket.on('message', function (data) {
       updateMessage(data);
     });
+
+
   });
 });

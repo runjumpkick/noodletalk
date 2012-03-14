@@ -49,11 +49,24 @@ module.exports = function(app) {
     }
   };
 
+  /*
+   * Send a broadcast for this message to a channel if a channel is specified;
+   * else send to the public channel
+   */
+  var sendBroadcast = function(message, channel) {
+    if(channel !== undefined) {
+      io.of('/' + channel).emit('message', message);
+    } else {
+      io.sockets.emit('message', message);
+    }
+  };
+
   // Add new message
-  app.post("/message", function(req, res) {
+  app.post('/message', function(req, res) {
     var message = getMessage(req);
-    
-    io.sockets.emit('message', message);
+    var channel = req.body.channel;
+
+    sendBroadcast(message, channel);
     res.json(message);
   });
 };
