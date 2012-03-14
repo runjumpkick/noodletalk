@@ -16,9 +16,11 @@ var getMessage = function(req) {
 
     if(nickname.length > 0) {
       req.session.nickname = nickname;
-    } else {
-      req.session.nickname = 'Anonymous';
     }
+
+    if(!req.session.nickname) {
+      req.session.nickname = 'Anonymous';
+    } 
 
     // if this is a /me prepend with the nick
     var meMatch = /^(\s\/me\s)/i;
