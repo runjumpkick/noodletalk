@@ -29,13 +29,13 @@ $(function() {
       // Update the message
       var message = $.trim(data.message);
       var matchNick = message.toLowerCase().match(/\/nick \w+/);
-      var oldNickname = currentNickname
+      var oldNickname = currentNickname;
 
       currentNickname = data.nickname;
       if(message.length > 0) {
         if(matchNick) {
           message = oldNickname + ' has changed to ' + data.nickname;
-          var msg = $('<li class="action data-created="' + data.created +
+          var msg = $('<li class="action" data-created="' + data.created +
                       '"><p></p>' +
                       '<a href="#" class="delete">delete</a></li>');
           msg.find('p').html(message);
