@@ -34,8 +34,7 @@ $(function() {
       if(message.length > 0) {
         if(data.is_action) {
           var msg = $('<li class="action" data-created="' + data.created +
-                      '"><p></p>' +
-                      '<a href="#" class="delete">delete</a></li>');
+                      '"><p></p><a href="#" class="delete">delete</a></li>');
           msg.find('p').html(message);
         } else {
           var msg = $('<li class="font' + data.font + '" data-created="' + data.created +
@@ -102,7 +101,6 @@ $(function() {
         url: self.attr('action'),
         data: self.serialize(),
         success: function(data) {
-          updateMessage(data);
           $('form input').val('');
           document.title = 'Noodle Talk';
           messagesUnread = 0;
