@@ -30,7 +30,7 @@ var getMessage = function(req) {
     message = {
       nickname: req.session.nickname,
       message: message,
-      gravatar: gravatar.url(req.session.email) + '?&d=identicon',
+      gravatar: gravatar.url(req.session.email),
       font: req.session.userFont,
       hours: datetime.getHours(),
       mins: datetime.getMinutes(),

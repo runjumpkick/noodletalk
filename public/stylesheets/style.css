@@ -227,6 +227,10 @@ ol li p em {
     font-style: italic;
 }
 
+ol li p img {
+    max-width: 100%;
+}
+
 ol li a.delete {
     display: block;
     font-family: 'BebasNeueRegular', sans-serif;
