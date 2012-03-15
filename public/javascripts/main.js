@@ -27,39 +27,37 @@ $(function() {
   };
 
   var updateMessage = function(data) {
-    if($('li[data-created="'+ data.created +'"]').length < 1 && data.created !== undefined) {
-      // Update the message
-      var message = $.trim(data.message);
+    // Update the message
+    var message = $.trim(data.message);
 
-      currentNickname = data.nickname;
-      if(message.length > 0) {
-        if(data.is_action) {
-          var msg = $('<li class="action font' + data.font + '" data-created="' + data.created +
-                      '"><p></p><a href="#" class="delete">delete</a></li>');
-          msg.find('p').html(message);
-        } else {
-          var msg = $('<li class="font' + data.font + '" data-created="' + data.created +
-                      '"><img><span class="nick">' + data.nickname + '</span><time>' +
-                      getMessageDateTimeString(data) + '</time><p></p>' +
-                      '<a href="#" class="delete">delete</a></li>');
-          msg.find('img').attr('src', data.gravatar);
-          msg.find('p').html(message);
-        }
-
-        // Apply log limiter
-        $('body ol li:nth-child(n+' + logLimit +')').remove();
-
-        // Add new message
-        $('body ol').prepend(msg);
+    currentNickname = data.nickname;
+    if(message.length > 0) {
+      if(data.is_action) {
+        var msg = $('<li class="action font' + data.font + '" data-created="' + data.created +
+                    '"><p></p><a href="#" class="delete">delete</a></li>');
+        msg.find('p').html(message);
+      } else {
+        var msg = $('<li class="font' + data.font + '" data-created="' + data.created +
+                    '"><img><span class="nick">' + data.nickname + '</span><time>' +
+                    getMessageDateTimeString(data) + '</time><p></p>' +
+                    '<a href="#" class="delete">delete</a></li>');
+        msg.find('img').attr('src', data.gravatar);
+        msg.find('p').html(message);
       }
 
-      // Update the user count
-      $('#info .connected span').text(parseInt(data.connected_clients, 10));
+      // Apply log limiter
+      $('body ol li:nth-child(n+' + logLimit +')').remove();
 
-      // Update new message count - assuming unread until focus is on input
-      messagesUnread += 1;
-      document.title = 'Noodle Talk (' + messagesUnread + ')';
+      // Add new message
+      $('body ol').prepend(msg);
     }
+
+    // Update the user count
+    $('#info .connected span').text(parseInt(data.connected_clients, 10));
+
+    // Update new message count - assuming unread until focus is on input
+    messagesUnread += 1;
+    document.title = 'Noodle Talk (' + messagesUnread + ')';
   };
 
   $('#login').click(function() {

@@ -46,7 +46,7 @@ module.exports = function(app) {
         secs: datetime.getSeconds(),
         raw_time: datetime.getTime(),
         server_timezone: datetime.getTimezoneOffset() / 60,
-        created: Math.round(new Date().getTime() / 1000),
+        created: new Date().getTime(),
         connected_clients: io.sockets.clients().length,
         is_action: isAction
       };
