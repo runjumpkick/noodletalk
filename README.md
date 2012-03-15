@@ -5,7 +5,16 @@
 
 ## John, why are you yelling so much?!
 
-.0 `npm install`
+## Contribute Rules
 
-.1 `cp settings.js-local to settings.js`
+* Try to follow our code conventions (in theory they exist)
+* We are on a strict diet of NO DATABASE SUPPORT. So - no database pull requests, please.
+
+## Installation Instructions for those who dare tread the dark path
+
+.0 `brew install npm`
+
+.1 `npm install`
+
+.2 `cp settings.js-local to settings.js`
 
