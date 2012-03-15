@@ -1,16 +1,8 @@
-$('window').channels = [];
-
 $(function() {
-  var socket = io.connect(document.location.domain);
+  var socket = io.connect('http://localhost');
   var messagesUnread = 0;
   var currentNickname = 'Anonymous';
-
-  // if this is a channel, make sure to add to it
-  var currentChannel = document.location.href.split('/c')[1];
-  if(currentChannel.length > 0) {
-    $('window').channels.push({ 'channel': currentChannel });
-  }
-  console.log($('window').channels);
+  var logLimit = 80;
 
   var padTimeDigit = function(digit) {
     if(digit < 10) {
@@ -53,6 +45,11 @@ $(function() {
           msg.find('img').attr('src', data.gravatar);
           msg.find('p').html(message);
         }
+
+        // Apply log limiter
+        $('body ol li:nth-child(n+' + logLimit +')').remove();
+
+        // Add new message
         $('body ol').prepend(msg);
       }
 
@@ -129,7 +126,5 @@ $(function() {
     socket.on('message', function (data) {
       updateMessage(data);
     });
-
-
   });
 });

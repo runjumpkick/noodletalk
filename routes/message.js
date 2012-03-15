@@ -4,6 +4,12 @@ module.exports = function(app) {
   var content = require('../lib/web-remix');
   var io = require('socket.io').listen(app);
 
+  // Only using long-polling for now because heroku hates websockets
+  io.configure(function () { 
+    io.set("transports", ["xhr-polling"]); 
+    io.set("polling duration", 10); 
+  });
+
   var getMessage = function(req) {
     if(req.body) {
       var datetime = new Date();
@@ -49,24 +55,11 @@ module.exports = function(app) {
     }
   };
 
-  /*
-   * Send a broadcast for this message to a channel if a channel is specified;
-   * else send to the public channel
-   */
-  var sendBroadcast = function(message, channel) {
-    if(channel !== undefined) {
-      io.of('/' + channel).emit('message', message);
-    } else {
-      io.sockets.emit('message', message);
-    }
-  };
-
   // Add new message
-  app.post('/message', function(req, res) {
+  app.post("/message", function(req, res) {
     var message = getMessage(req);
-    var channel = req.body.channel;
-
-    sendBroadcast(message, channel);
+    
+    io.sockets.emit('message', message);
     res.json(message);
   });
 };
