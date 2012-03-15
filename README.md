@@ -5,7 +5,7 @@
 
 ## John, why are you yelling so much?!
 
-## Contribute Rules
+## Contribution Rules
 
 * Try to follow our code conventions (in theory they exist)
 * We are on a strict diet of NO DATABASE SUPPORT. So - no database pull requests, please.
