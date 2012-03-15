@@ -1,9 +1,9 @@
-var auth = require('../lib/authenticate');
-var settings = require('../settings');
+module.exports = function(app, settings) {
+  var auth = require('../lib/authenticate');
 
-module.exports = function(app) {
+  // Login
   app.post("/login", function(req, res) {
-    auth.verify(req, function(error, email) {
+    auth.verify(req, settings, function(error, email) {
       if(email) {
         res.cookie('rememberme', 'yes', {
           secure: settings.options.secureCookie,
@@ -17,6 +17,7 @@ module.exports = function(app) {
     });
   });
 
+  // Logout
   app.get("/logout", function(req, res) {
     req.session.email = null;
     req.session.userFont = null;

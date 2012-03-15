@@ -1,10 +1,14 @@
-var gravatar = require('gravatar');
-var content = require('../lib/web-remix');
-var settings = require('../settings');
-var io = require('socket.io').listen(settings.app);
-
 module.exports = function(app) {
   var message = {};
+  var gravatar = require('gravatar');
+  var content = require('../lib/web-remix');
+  var io = require('socket.io').listen(app);
+
+  // Only using long-polling for now because heroku hates websockets
+  io.configure(function () { 
+    io.set("transports", ["xhr-polling"]); 
+    io.set("polling duration", 10); 
+  });
 
   var getMessage = function(req) {
     if(req.body) {

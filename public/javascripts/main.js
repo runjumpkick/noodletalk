@@ -77,6 +77,7 @@ $(function() {
 
   $('form input').focus(function() {
     document.title = 'Noodle Talk';
+    messagesUnread = 0;
   });
 
   $('#help').click(function() {

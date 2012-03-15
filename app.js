@@ -1,11 +1,13 @@
-var settings = require('./settings');
-
-var app = settings.app;
+"use strict";
+var express = require('express');
+var configurations = module.exports;
+var app = express.createServer();
+var settings = require('./settings')(app, configurations, express);
 
 // routes
 require("./routes")(app);
 require("./routes/message")(app);
-require("./routes/auth")(app);
+require("./routes/auth")(app, settings);
 
 app.listen(settings.options.port);
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
