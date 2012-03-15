@@ -1,8 +1,13 @@
 $(function() {
-  var socket = io.connect(document.location.domain);
-  var messagesUnread = 0;
-  var currentNickname = 'Anonymous';
-  var logLimit = 80;
+  var socket = io.connect(document.location.domain),
+      messagesUnread = 0,
+      currentNickname = 'Anonymous',
+      nickRegExp = generateNickRegExp(),
+      logLimit = 80;
+
+  function generateNickRegExp() {
+    return new RegExp("(^|\\s)" + currentNickname + "(\\s|$)");
+  }
 
   var padTimeDigit = function(digit) {
     if(digit < 10) {
@@ -30,14 +35,25 @@ $(function() {
     // Update the message
     var message = $.trim(data.message);
 
-    currentNickname = data.nickname;
+    if(currentNickname !== data.nickname){
+      currentNickname = data.nickname;
+      nickRegExp = generateNickRegExp();
+    }
     if(message.length > 0) {
       if(data.is_action) {
         var msg = $('<li class="action font' + data.font + '" data-created="' + data.created +
                     '"><p></p><a href="#" class="delete">delete</a></li>');
         msg.find('p').html(message);
       } else {
-        var msg = $('<li class="font' + data.font + '" data-created="' + data.created +
+
+        var highlightClass = "";
+        if(nickRegExp.test( message )){
+          highlightClass = " nick-highlight ";
+        }
+
+        console.log( nickRegExp, highlightClass, currentNickname );
+
+        var msg = $('<li class="font' + data.font + highlightClass + '" data-created="' + data.created +
                     '"><img><span class="nick">' + data.nickname + '</span><time>' +
                     getMessageDateTimeString(data) + '</time><p></p>' +
                     '<a href="#" class="delete">delete</a></li>');
