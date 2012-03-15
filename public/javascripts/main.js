@@ -1,5 +1,5 @@
 $(function() {
-  var socket = io.connect('http://localhost');
+  var socket = io.connect(document.location.domain);
   var messagesUnread = 0;
   var currentNickname = 'Anonymous';
   var logLimit = 80;
