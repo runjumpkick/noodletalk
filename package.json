@@ -13,5 +13,6 @@
     "nock": "0.10.7",
     "connect-heroku-redis": "0.1.2"
     "should": ">= 0.0.1",
+    "sinon": ">= 1.0.0",
   }
 }

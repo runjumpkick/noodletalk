@@ -46,4 +46,40 @@ describe('web-remix', function() {
     });
 
   });
+
+  describe('.getNickName',function() {
+    describe('have /nick', function() {
+      describe('/nick paramater is not null', function() {
+        describe('the parameter is not empty after striping spaces', function() {
+
+          it('returns the nickname', function() {
+            var subject = webRemix.getNickName('/nick wangernum');
+            subject.should.equal('wangernum');
+          });
+
+          it('truncates nicks at unknown characters', function() {
+            var subject = webRemix.getNickName('/nick f&f');
+            subject.should.equal('f');
+          });
+
+        });
+
+        it('returns an empty string the parameter is empty after stripping spaces', function() {
+          var subject = webRemix.getNickName('/nick          ');
+          subject.should.be.null;
+        });
+      });
+
+      it('returns an empty string when /nick parameter is null', function() {
+        var subject = webRemix.getNickName('/nick');
+        subject.should.be.null;
+      });
+    });
+
+    it('returns an empty string have no /nick', function() {
+      var subject = webRemix.getNickName('testtest');
+      subject.should.be.null;
+    });
+  });
+
 });
