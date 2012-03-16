@@ -137,7 +137,7 @@ a {
 #info {
     float: right;
     position: absolute;
-    right: 150px;
+    right: 30px;
     top: -10px;
 }
 
@@ -317,7 +317,9 @@ form.font7 input, .font7 p {
 }
 
 .nick-highlight {
-  -webkit-box-shadow: inset 2px 2px 2px rgb( 50, 50, 250 ), inset -2px -2px 2px rgb( 50, 50, 250 );
-  -moz-box-shadow: inset 2px 2px 2px rgb( 50, 50, 250 ), inset -2px -2px 2px rgb( 50, 50, 250 );
-  box-shadow: inset 2px 2px 2px rgb( 50, 50, 250 ), inset -2px -2px 2px rgb( 50, 50, 250 );
+  background-color: #d5ffff;
+}
+
+.nick-highlight time {
+    color: #397170;
 }

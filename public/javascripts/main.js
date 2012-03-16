@@ -1,10 +1,9 @@
 $(function() {
-
   function TabComplete(){
     var listIndex = 0;
-    var input = $('#message > form > input')[ 0 ],
-        userListIndex = -1,
-        currentCompare;
+    var input = $('#message > form > input')[ 0 ];
+    var userListIndex = -1;
+    var currentCompare;
 
     function findNext(){
       for(var i=userListIndex + 1, l=userList.length; i<l; ++i){
@@ -21,41 +20,37 @@ $(function() {
       currentCompare = undefined;
     };
 
-    input.addEventListener('keydown', function(e) {
+    // if a user hasn't logged in, the input doesn't exist, so we need to check for it.
+    if(input) {
+      input.addEventListener('keydown', function(e) {
 
-      if(e.keyCode === 9){ 
-        e.preventDefault();
+        if(e.keyCode === 9){ 
+          e.preventDefault();
 
-        if(userListIndex === -1){
-          currentCompare = input.value;
-        }
+          if(userListIndex === -1){
+            currentCompare = input.value;
+          }
 
-        var oldIndex = userListIndex;
-        findNext();
-        if(userListIndex === oldIndex){
-          userListIndex = -1;
+          var oldIndex = userListIndex;
           findNext();
+          if(userListIndex === oldIndex){
+            userListIndex = -1;
+            findNext();
+          }
+
+        } else {
+          userListIndex = -1;
         }
-
-      } else {
-        userListIndex = -1;
-      }
-
-    });
-
+      });
+    }
   }
 
   var socket = io.connect(document.location.domain),
       messagesUnread = 0,
       currentNickname = 'Anonymous',
-      nickRegExp = generateNickRegExp(),
       userList = ['Anonymous'],
       tabComplete = new TabComplete(),
       logLimit = 80;
-
-  function generateNickRegExp() {
-    return new RegExp("(^|\\s)" + currentNickname + "(\\s|$)");
-  }
 
   var padTimeDigit = function(digit) {
     if(digit < 10) {
@@ -85,8 +80,8 @@ $(function() {
 
     if(currentNickname !== data.nickname){
       currentNickname = data.nickname;
-      nickRegExp = generateNickRegExp();
     }
+
     if(message.length > 0) {
       if(data.is_action) {
         var msg = $('<li class="action font' + data.font + '" data-created="' + data.created +
@@ -94,12 +89,13 @@ $(function() {
         msg.find('p').html(message);
       } else {
 
-        var highlightClass = "";
-        if(nickRegExp.test( message )){
-          highlightClass = " nick-highlight ";
+        var highlight = '';
+        if(message.indexOf(currentNickname + ':') > -1){
+          highlight = 'nick-highlight';
         }
 
-        var msg = $('<li class="font' + data.font + highlightClass + '" data-created="' + data.created +
+        var msg = $('<li class="font' + data.font + ' ' + highlight +
+                    '" data-created="' + data.created +
                     '"><img><span class="nick">' + data.nickname + '</span><time>' +
                     getMessageDateTimeString(data) + '</time><p></p>' +
                     '<a href="#" class="delete">delete</a></li>');
