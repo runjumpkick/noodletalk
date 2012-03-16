@@ -12,7 +12,7 @@
 
 ## Installation Instructions for those who dare tread the dark path
 
-.0 `brew install npm`
+.0 `brew install node npm`
 
 .1 `npm install`
 
