@@ -90,7 +90,19 @@ $(function() {
       } else {
 
         var highlight = '';
-        if(message.indexOf(currentNickname + ':') > -1){
+        var nickReference = data.message.split(': ')[0];
+        var matchedNick = false;
+
+        if(nickReference) {
+          for(i=0;i<userList.length;i++) {
+            if(userList[i] === nickReference.replace(/\s/, '')) {
+              matchedNick = true;
+              break;
+            }
+          }
+        }
+
+        if(matchedNick){
           highlight = 'nick-highlight';
         }
 
