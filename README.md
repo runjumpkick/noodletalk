@@ -12,9 +12,11 @@
 
 ## Installation Instructions for those who dare tread the dark path
 
-.0 `brew install node npm`
+.0 `brew install node`
 
-.1 `npm install`
+.1 `curl http://npmjs.org/install.sh | sh`
 
-.2 `cp settings.js-local to settings.js`
+.2 `npm install`
+
+.3 `cp settings.js-local to settings.js`
 
