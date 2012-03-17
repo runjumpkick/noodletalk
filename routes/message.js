@@ -10,18 +10,23 @@ module.exports = function(app, io, userList) {
       var nickname = content.getNickName(req.body.message);
       var message = content.generate(req.body.message);
       var isAction = false;
+      var actionType = '';
 
       if(nickname.length > 0) {
+        /* Right now multiple people can have the same username, so if we remove,
+         * then we risk removing their nick?
+        */ 
         if(oldNickname !== 'Anonymous') {
           userList.splice(userList.indexOf(oldNickname), 1);
         }
         if(userList.indexOf(nickname) === -1) {
-          userList.push(nickname);
+          userList.push(nickname.toLowerCase());
         }
         io.sockets.emit('userlist', userList);
         req.session.nickname = nickname;
         message = '<em>' + oldNickname + ' has changed to ' + nickname + '</em>';
         isAction = true;
+        actionType = 'nick';
       }
 
       if(!req.session.nickname) {
@@ -34,6 +39,7 @@ module.exports = function(app, io, userList) {
       if(message.match(meMatch)) {
         message = '<em>' + req.session.nickname + ' ' + message.replace(meMatch, '') + '</em>';
         isAction = true;
+        actionType = 'activity';
       }
 
       message = {
@@ -48,7 +54,8 @@ module.exports = function(app, io, userList) {
         server_timezone: datetime.getTimezoneOffset() / 60,
         created: new Date().getTime(),
         connected_clients: io.sockets.clients().length,
-        is_action: isAction
+        is_action: isAction,
+        action_type: actionType
       };
 
       return message;

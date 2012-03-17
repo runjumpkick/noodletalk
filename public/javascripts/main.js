@@ -1,78 +1,11 @@
 $(function() {
-  function TabComplete(){
-    var listIndex = 0;
-    var input = $('#message > form > input')[ 0 ];
-    var userListIndex = -1;
-    var currentCompare;
-
-    function findNext(){
-      for(var i=userListIndex + 1, l=userList.length; i<l; ++i){
-        if(userList[i].indexOf(currentCompare) === 0){
-          userListIndex = i;
-          input.value = userList[i] + ': ';
-          break;
-        }
-      }
-    } //findNext
-
-    this.reset = function(){
-      userListIndex = 0;
-      currentCompare = undefined;
-    };
-
-    // if a user hasn't logged in, the input doesn't exist, so we need to check for it.
-    if(input) {
-      input.addEventListener('keydown', function(e) {
-
-        if(e.keyCode === 9){ 
-          e.preventDefault();
-
-          if(userListIndex === -1){
-            currentCompare = input.value;
-          }
-
-          var oldIndex = userListIndex;
-          findNext();
-          if(userListIndex === oldIndex){
-            userListIndex = -1;
-            findNext();
-          }
-
-        } else {
-          userListIndex = -1;
-        }
-      });
-    }
-  }
-
-  var socket = io.connect(document.location.domain),
+  var socket = io.connect('http://localhost'),
       messagesUnread = 0,
       currentNickname = 'Anonymous',
       userList = ['Anonymous'],
-      tabComplete = new TabComplete(),
+      tabComplete = new TabComplete(userList),
       logLimit = 80;
-
-  var padTimeDigit = function(digit) {
-    if(digit < 10) {
-      return '0' + digit;
-    }
-    return digit;
-  }
-
-  var buildTimeString = function( hours, mins, secs ) {
-    return padTimeDigit(hours) + ":" + padTimeDigit(mins) + ":" + padTimeDigit(secs)
-  }
-
-  var getMessageDateTimeString = function(data) {
-    var serverTime = new Date( data.raw_time );
-    var timezoneOffsetInHours = (new Date().getTimezoneOffset()/60) - data.server_timezone;
-    var messageLocale = new Date(data.raw_time).toLocaleDateString();
-    var messageHours = new Date( data.raw_time - (timezoneOffsetInHours*60000)).getHours();
-    var messageMinutes  = data.mins;
-    var messageSeconds = data.secs;
-
-    return messageLocale + " @ " + buildTimeString(messageHours, messageMinutes, messageSeconds);
-  };
+      myPost = false;
 
   var updateMessage = function(data) {
     // Update the message
@@ -87,23 +20,25 @@ $(function() {
         var msg = $('<li class="action font' + data.font + '" data-created="' + data.created +
                     '"><p></p><a href="#" class="delete">delete</a></li>');
         msg.find('p').html(message);
-      } else {
 
-        var highlight = '';
-        var nickReference = data.message.split(': ')[0];
-        var matchedNick = false;
-
-        if(nickReference) {
-          for(i=0;i<userList.length;i++) {
-            if(userList[i] === nickReference.replace(/\s/, '')) {
-              matchedNick = true;
-              break;
-            }
-          }
+        // if this is a nick change, set the nick in the dom for the user
+        console.log(myPost);
+        if(data.action_type === 'nick' && myPost) {
+          console.log('CHANGED NICK TO '+ data.nickname);
+          $('body').data('nick', data.nickname.replace(/\s/, ''));
         }
 
-        if(matchedNick){
-          highlight = 'nick-highlight';
+      } else {
+        var highlight = '';
+        var nickReference = data.message.split(': ')[0];
+        console.log(myPost);
+        console.log($('body').data('nick'));
+        console.log(nickReference);
+        if(nickReference) {
+          nickReference = nickReference.replace(/\s/, '');
+          if(nickReference === $('body').data('nick') && !myPost){
+            highlight = 'nick-highlight';
+          }
         }
 
         var msg = $('<li class="font' + data.font + ' ' + highlight +
@@ -113,6 +48,7 @@ $(function() {
                     '<a href="#" class="delete">delete</a></li>');
         msg.find('img').attr('src', data.gravatar);
         msg.find('p').html(message);
+        myPost = false;
       }
 
       // Apply log limiter
@@ -124,8 +60,8 @@ $(function() {
 
     // Update the user count
     $('#info .connected span').text(parseInt(data.connected_clients, 10));
+    new TabComplete(userList);
 
-    // Update new message count - assuming unread until focus is on input
     messagesUnread += 1;
     document.title = 'Noodle Talk (' + messagesUnread + ')';
   };
@@ -170,6 +106,7 @@ $(function() {
 
     // this is a submission
     } else {
+      myPost = true;
       $.ajax({
         type: 'POST',
         url: self.attr('action'),

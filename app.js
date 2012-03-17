@@ -3,9 +3,10 @@ var express = require('express');
 var configurations = module.exports;
 var app = express.createServer();
 var settings = require('./settings')(app, configurations, express);
-var userList = ['Anonymous'];
+var userList = [];
 
 var io = require('socket.io').listen(app);
+
 // Only using long-polling for now because heroku hates websockets
 io.configure(function () { 
   io.set("transports", ["xhr-polling"]); 
@@ -17,5 +18,4 @@ require("./routes")(app);
 require("./routes/message")(app, io, userList);
 require("./routes/auth")(app, settings, io, userList);
 
-app.listen(settings.options.port);
-console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
+app.listen(process.env.PORT || settings.options.port);
