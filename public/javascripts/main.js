@@ -22,10 +22,9 @@ $(function() {
         msg.find('p').html(message);
 
         // if this is a nick change, set the nick in the dom for the user
-        console.log(myPost);
         if(data.action_type === 'nick' && myPost) {
-          console.log('CHANGED NICK TO '+ data.nickname);
           $('body').data('nick', data.nickname.replace(/\s/, ''));
+          myPost = false;
         }
 
       } else {
