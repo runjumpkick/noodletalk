@@ -30,9 +30,7 @@ $(function() {
       } else {
         var highlight = '';
         var nickReference = data.message.split(': ')[0];
-        console.log(myPost);
-        console.log($('body').data('nick'));
-        console.log(nickReference);
+
         if(nickReference) {
           nickReference = nickReference.replace(/\s/, '');
           if(nickReference === $('body').data('nick') && !myPost){
