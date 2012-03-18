@@ -4,6 +4,7 @@ var configurations = module.exports;
 var app = express.createServer();
 var settings = require('./settings')(app, configurations, express);
 var userList = [];
+var recentMessages = [];
 
 var io = require('socket.io').listen(app);
 
@@ -15,7 +16,7 @@ io.configure(function () {
 
 // routes
 require("./routes")(app);
-require("./routes/message")(app, io, userList);
+require("./routes/message")(app, io, userList, recentMessages);
 require("./routes/auth")(app, settings, io, userList);
 
 app.listen(process.env.PORT || settings.options.port);

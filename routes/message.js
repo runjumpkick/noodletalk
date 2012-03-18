@@ -1,4 +1,4 @@
-module.exports = function(app, io, userList) {
+module.exports = function(app, io, userList, recentMessages) {
   var message = {};
   var gravatar = require('gravatar');
   var content = require('../lib/web-remix');
@@ -62,10 +62,20 @@ module.exports = function(app, io, userList) {
     }
   };
 
+  // Get recent messages
+  app.get("/recent", function(req, res) {
+    res.json(recentMessages);
+  });
+
   // Add new message
   app.post("/message", function(req, res) {
     var message = getMessage(req);
-    
+
+    recentMessages.push(message);
+    if(recentMessages.length > 20) {
+      recentMessages.pop();
+    }
+
     io.sockets.emit('message', message);
     res.json(message);
   });

@@ -1,5 +1,5 @@
 $(function() {
-  var socket = io.connect('http://localhost'),
+  var socket = io.connect('http://' + document.domain),
       messagesUnread = 0,
       currentNickname = 'Anonymous',
       userList = ['Anonymous'],
@@ -11,11 +11,11 @@ $(function() {
     // Update the message
     var message = $.trim(data.message);
 
-    if(currentNickname !== data.nickname){
-      currentNickname = data.nickname;
-    }
+    if(message.length > 0 && $('ol li[data-created="' + data.created + '"]').length === 0) {
+      if(currentNickname !== data.nickname){
+        currentNickname = data.nickname;
+      }
 
-    if(message.length > 0) {
       if(data.is_action) {
         var msg = $('<li class="action font' + data.font + '" data-created="' + data.created +
                     '"><p></p><a href="#" class="delete">delete</a></li>');
@@ -62,6 +62,13 @@ $(function() {
     messagesUnread += 1;
     document.title = 'Noodle Talk (' + messagesUnread + ')';
   };
+
+  // if the user just landed on this page, get the recent messages
+  $.get('/recent', function(data) {
+    for(var i=0; i < data.length; i++) {
+      updateMessage(data[i]);
+    }
+  });
 
   $('#login').click(function() {
     navigator.id.getVerifiedEmail(function(assertion) {
@@ -131,5 +138,4 @@ $(function() {
       updateMessage(data);
     });
   });
-
 });
