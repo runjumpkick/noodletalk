@@ -21,13 +21,7 @@ module.exports = function(app, configurations, express) {
     app.use(express.cookieParser());
     app.use(express.session({
       secret: 'secret',
-      store: new HerokuRedisStore,
-      cookie: {
-        path: '/',
-        expires: false,
-        httpOnly: true,
-        domain:'.localhost'
-      }
+      store: new HerokuRedisStore
     }));
     app.use(app.router);
   });

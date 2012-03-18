@@ -73,7 +73,7 @@ module.exports = function(app, io, userList, recentMessages) {
 
     recentMessages.push(message);
     if(recentMessages.length > 20) {
-      recentMessages.pop();
+      recentMessages.shift();
     }
 
     io.sockets.emit('message', message);
