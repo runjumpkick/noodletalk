@@ -3,7 +3,7 @@ $(function() {
       messagesUnread = 0,
       currentNickname = 'Anonymous',
       userList = ['Anonymous'],
-      tabComplete = new TabComplete(userList),
+      userCount = 0,
       logLimit = 80;
       myPost = false;
 
@@ -54,20 +54,27 @@ $(function() {
       // Add new message
       $('body ol').prepend(msg);
     }
-
-    // Update the user count
-    $('#info .connected span').text(parseInt(data.connected_clients, 10));
-    new TabComplete(userList);
-
+    
     messagesUnread += 1;
     document.title = 'Noodle Talk (' + messagesUnread + ')';
   };
 
   // if the user just landed on this page, get the recent messages
   $.get('/recent', function(data) {
-    for(var i=0; i < data.length; i++) {
-      updateMessage(data[i]);
+    var messages = data.messages;
+    for(var i=0; i < messages.length; i++) {
+      updateMessage(messages[i]);
     }
+    
+    // Update the user list
+    userList = data.user_list;
+    
+    // Update the user count
+    userCount = parseInt(data.connected_clients, 10)+1; // jcw: Adding one in this call only because we haven't counted our own connection yet.
+    $('#info .connected span').text(userCount);
+    
+    // Keep list sane, compile tab completion, etc.
+    keepListSane();
   });
 
   $('#login').click(function() {
@@ -133,9 +140,46 @@ $(function() {
   socket.on('connect', function () {
     socket.on('userlist', function (data) {
       userList = data;
+      keepListSane();
+    });
+    socket.on('usercount', function (data) {
+      userCount = data;
+      $('#info .connected span').text(userCount);
+      keepListSane();
     });
     socket.on('message', function (data) {
       updateMessage(data);
     });
   });
+  
+  var keepListSane = function() {
+    if (userList.length > userCount) {
+      userList.splice(userCount, userList.length - userCount);
+    }
+    socket.tabComplete = new TabComplete(userList);
+  };
+  
+  var showUsers = function() {
+    if ($('#userList').css('display') === 'none') {
+      if (userList instanceof Array) {
+        $('#noodlers').text('');
+        userList.forEach(function(user) {
+            $('#noodlers').append('<li>' + user + '</li>');
+        });
+        if (userList.length < userCount) {
+          $('#noodlers').append('<li>' + (userCount-userList.length) + ' Anonymous</li>');
+        }
+      }
+      $('#userList').fadeIn();
+    }
+  };
+  var hideUsers = function() {
+    if ($('#userList').css('display') !== 'none') { $('#userList').fadeOut(); }
+    return false;
+  }
+  
+  $('.connected').click(showUsers);
+  $('.connected').mouseout(hideUsers);
+  if (navigator.userAgent.match(/iPad|iPhone/)) { document.addEventListener('touchstart', hideUsers, false); }
+  
 });

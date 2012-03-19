@@ -21,9 +21,9 @@ html
       h1 Noodle Talk
 
       div#info
-          div(class='connected')
+          div(class='connected', style='display:block')
             = 'Users: '
-            span ?
+            span() ?
           a(href='https://github.com/ednapiranha/noodletalk', target='_blank') Github
           if session.email
             a(href='/logout') Log out
@@ -32,6 +32,10 @@ html
             form(method='post', action='/login', id='login-form')
               input(type='hidden', name='bid_assertion', value='1')
     != body
+
+    #userList
+      h2 Current Noodlers
+        ul#noodlers
 
     #help
       h2 Noodle Talk Commands
