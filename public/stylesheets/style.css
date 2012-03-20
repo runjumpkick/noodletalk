@@ -106,20 +106,23 @@ table {
 }
 
 body {
-    background-color: #bac2ac;
+    background-color: #d5d9cd;
     padding: 20px;
     font: 16px Helvetica, Arial, sans-serif;
 }
 
 h1 {
-    color: #eee;
-    font-family: 'BebasNeueRegular', sans-serif;
-    font-size: 40px;
-    font-weight: normal;
-    letter-spacing: 1px;
-    margin-top: 25px;
-    text-shadow: #939e7e 7px 5px 0px;
-    text-transform: uppercase;
+    background-image: url('../images/logo.png');
+    background-repeat: no-repeat;
+    font-size: 1px;
+    height: 46px;
+    margin: 0px;
+    text-indent: -9999px;
+    width: 46px;
+}
+
+h1.visitor {
+    padding-bottom: 20px;
 }
 
 a {
@@ -158,8 +161,8 @@ a {
 .connected { cursor: pointer; }
 
 #header a {
-    background-color: #cd9025;
-    box-shadow: #ddc256 5px 5px 0px;
+    background-color: #d47851;
+    box-shadow: #aa6243 5px 5px 0px;
 }
 
 #header .connected {
@@ -249,7 +252,7 @@ form button {
 form input {
     color: #606060;
     font-size: 25px;
-    margin: 10px 0px 20px 0px;
+    margin: 20px 0px 20px 0px;
     padding: 5px;
     width: 95%;
 }
@@ -260,7 +263,7 @@ ol li p {
 
 form input , ol li p {
     font-family: 'LeagueGothicRegular';
-    font-size: 25px;
+    font-size: 20px;
 }
 
 form.font2 input, .font2 p {
@@ -300,16 +303,17 @@ form.font7 input, .font7 p {
 }
 
 #userList {
-    background-color: #fff;
-    box-shadow: #888 10px 10px 0px;
+    background-color: #eee;
+    box-shadow: #333 8px 8px 0px;
     display: none;
     font-family: 'BebasNeueRegular', sans-serif;
     font-size: 18px;
-    opacity: .95;
-    padding: 20px 10px 20px 10px;
+    max-width: 80%;
+    opacity: .97;
+    padding: 20px;
     position: absolute;
     right: 121px;
-    max-width: 80%;
+    top: 37px;
 }
 
 #help li {

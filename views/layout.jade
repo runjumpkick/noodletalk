@@ -18,7 +18,10 @@ html
 
   body(data-nick='')
     #header
-      h1 Noodle Talk
+      if session.email
+        h1 Noodle Talk
+      else
+        h1(class='visitor') Noodle Talk
 
       div#info
           div(class='connected', style='display:block')
