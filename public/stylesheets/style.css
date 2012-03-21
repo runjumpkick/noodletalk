@@ -377,16 +377,23 @@ form.font7 input, .font7 p {
 }
 
 
-@media only screen and (min-width: 900px) and (max-width: 1250px) {
+@media only screen and (min-width: 1000px) and (max-width: 1350px) {
     #messages {
         margin-right: 5px;
         width: 50%;
     }
 }
 
-@media only screen and (max-width: 899px) {
+@media only screen and (max-width: 999px) {
     #messages {
         width: 100%;
+    }
+    #messages ol li video, #messages ol li iframe {
+        height: 281px;
+        width: 500px;
+    }
+    #messages ol li audio {
+        width: 97%;
     }
     #media {
         display: none;
