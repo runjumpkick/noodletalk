@@ -52,7 +52,19 @@ $(function() {
       $('body ol li:nth-child(n+' + logLimit +')').remove();
 
       // Add new message
-      $('body ol').prepend(msg);
+      $('body #messages ol').prepend(msg);
+
+      // If this is media, add it to the media display
+      var mediaColumn = $('body #media ol');
+      if(message.indexOf('iframe') > -1 || message.indexOf('video') > -1
+        || message.indexOf('audio') > -1) {
+        var videoItem = $('<li></li>');
+        mediaColumn.prepend(videoItem.html(message));
+        if(mediaColumn.find('li').length > 3) {
+          // drop off old media so it doesn't clutter
+          mediaColumn.find('li:last').remove();
+        }
+      }
     }
     
     messagesUnread += 1;

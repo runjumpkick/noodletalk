@@ -177,6 +177,16 @@ a.github {
     top: 0px;
 }
 
+#messages {
+    float: left;
+    width: 60%;
+}
+
+#media {
+    float: left;
+    width: 480px;
+}
+
 ol {
     clear: both;
     display: block;
@@ -193,7 +203,7 @@ ol li {
     overflow: hidden;
     padding: 5px;
     position: relative;
-    width: 95%;
+    width: 98%;
 }
 
 ol li span.nick {
@@ -209,11 +219,33 @@ ol li span.nick {
     top: -5px;
 }
 
-ol li iframe {
+ol li iframe, ol li audio, ol li video {
     clear: both;
     display: block;
     float: left;
     margin: 10px;
+}
+
+#messages ol li audio {
+    width: 100px;
+}
+
+#media ol li audio {
+    width: 97%;
+}
+
+#messages ol li video, #messages ol li iframe {
+    height: 85px;
+    width: 100px;
+}
+
+#media ol li video, #media ol li iframe {
+    height: 253px;
+    width: 450px;
+}
+
+#media ol li audio {
+    width: 97%;
 }
 
 ol li time {
@@ -263,7 +295,7 @@ ol li p {
 
 form input , ol li p {
     font-family: 'LeagueGothicRegular';
-    font-size: 20px;
+    font-size: 22px;
 }
 
 form.font2 input, .font2 p {
@@ -280,6 +312,7 @@ form.font4 input, .font4 p {
 
 form.font5 input, .font5 p {
     font-family: 'DeutschGothicNormal';
+    font-size: 24px;
 }
 
 form.font6 input, .font6 p {
@@ -335,14 +368,27 @@ form.font7 input, .font7 p {
     font-size: 18px;
 }
 
-#footer {
-
-}
-
 .nick-highlight {
   background-color: #d5ffff;
 }
 
 .nick-highlight time {
     color: #397170;
+}
+
+
+@media only screen and (min-width: 900px) and (max-width: 1250px) {
+    #messages {
+        margin-right: 5px;
+        width: 50%;
+    }
+}
+
+@media only screen and (max-width: 899px) {
+    #messages {
+        width: 100%;
+    }
+    #media {
+        display: none;
+    }
 }
