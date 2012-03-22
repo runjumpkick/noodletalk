@@ -6,6 +6,22 @@ $(function() {
       userCount = 0,
       logLimit = 80;
       myPost = false;
+      mediaColumn = $('#media ol');
+
+  var updateMedia = function(data) {
+    // Update the media
+    var message = $.trim(data.message);
+
+    if(message.indexOf('<iframe') > -1 || message.indexOf('<video') > -1 ||
+      message.indexOf('<audio') > -1) {
+      var videoItem = $('<li></li>');
+
+      mediaColumn.prepend(videoItem.html(message));
+      if(mediaColumn.find('li').length > 3) {
+        mediaColumn.find('li').shift();
+      }
+    }
+  };
 
   var updateMessage = function(data) {
     // Update the message
@@ -53,18 +69,6 @@ $(function() {
 
       // Add new message
       $('body #messages ol').prepend(msg);
-
-      // If this is media, add it to the media display
-      var mediaColumn = $('body #media ol');
-      if(message.indexOf('<iframe ') > -1 || message.indexOf('<video ') > -1
-        || message.indexOf('<audio ') > -1) {
-        var videoItem = $('<li></li>');
-        mediaColumn.prepend(videoItem.html(message));
-        if(mediaColumn.find('li').length > 3) {
-          // drop off old media so it doesn't clutter
-          mediaColumn.find('li:last').remove();
-        }
-      }
     }
     
     messagesUnread += 1;
@@ -74,8 +78,11 @@ $(function() {
   // if the user just landed on this page, get the recent messages
   $.get('/recent', function(data) {
     var messages = data.messages;
-    for(var i=0; i < messages.length; i++) {
-      updateMessage(messages[i]);
+    for(var i=0; i < messages.generic.length; i++) {
+      updateMessage(messages.generic[i]);
+    }
+    for(var i=0; i < messages.media.length; i++) {
+      updateMedia(messages.media[i]);
     }
     
     // Update the user list
@@ -161,6 +168,7 @@ $(function() {
     });
     socket.on('message', function (data) {
       updateMessage(data);
+      updateMedia(data);
     });
   });
   

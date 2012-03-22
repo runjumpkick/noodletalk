@@ -42,12 +42,16 @@ module.exports = function(app, io, userList, recentMessages) {
         var idx = userList.indexOf(req.session.nickname);
         if (idx === -1) {
           userList.unshift(req.session.nickname);
-          if (userList.length > io.sockets.clients().length) userList = userList.splice(io.sockets.clients().length, userList.length - io.sockets.clients().length);
+          if (userList.length > io.sockets.clients().length) {
+            userList = userList.splice(io.sockets.clients().length, userList.length - io.sockets.clients().length);
+          }
           io.sockets.emit('userlist', userList);
         } else if (idx != 0) {
           userList.splice(idx, 1);
           userList.unshift(req.session.nickname);
-          if (userList.length > io.sockets.clients().length) userList = userList.splice(io.sockets.clients().length, userList.length - io.sockets.clients().length);
+          if (userList.length > io.sockets.clients().length) {
+            userList = userList.splice(io.sockets.clients().length, userList.length - io.sockets.clients().length);
+          }
           io.sockets.emit('userlist', userList);
         }
       }
@@ -93,9 +97,17 @@ module.exports = function(app, io, userList, recentMessages) {
   app.post("/message", function(req, res) {
     var message = getMessage(req);
 
-    recentMessages.push(message);
-    if(recentMessages.length > 20) {
-      recentMessages.shift();
+    recentMessages.generic.push(message);
+    if(recentMessages.generic.length > 20) {
+      recentMessages.generic.shift();
+    }
+    // Add if this is a media item
+    if(message.message.indexOf('<iframe') > -1 || message.message.indexOf('<video') > -1 ||
+      message.message.indexOf('<audio') > -1) {
+      recentMessages.media.push(message);
+    }
+    if(recentMessages.media.length > 3) {
+      recentMessages.media.shift();
     }
 
     io.sockets.emit('message', message);
