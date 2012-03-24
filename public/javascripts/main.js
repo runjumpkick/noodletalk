@@ -1,12 +1,12 @@
 $(function() {
-  var socket = io.connect('http://' + document.domain),
-      messagesUnread = 0,
-      currentNickname = 'Anonymous',
-      userList = ['Anonymous'],
-      userCount = 0,
-      logLimit = 80;
-      myPost = false;
-      mediaColumn = $('#media ol');
+  var socket = io.connect('http://' + document.domain);
+  var messagesUnread = 0;
+  var currentNickname = 'i_love_ie6';
+  var userList = ['i_love_ie6'];
+  var userCount = 0;
+  var logLimit = 80;
+  var myPost = false;
+  var mediaColumn = $('#media ol');
 
   var updateMedia = function(data) {
     // Update the media
