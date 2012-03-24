@@ -215,4 +215,8 @@ $(function() {
   if (navigator.userAgent.match(/iPad|iPhone/)) {
     document.addEventListener('touchstart', hideUsers, false);
   }
+  
+  // Always Be Typing.
+  $('input[name=message]').focus();
+  $(document).keypress(function() { $('input[name=message]').focus(); });
 });
