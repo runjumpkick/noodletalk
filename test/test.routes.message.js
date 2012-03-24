@@ -2,13 +2,19 @@ var express = require('express');
 var assert = require('should');
 var sinon = require('sinon');
 var messages = require('../routes/message');
+var messageMaker = require('../lib/message-maker');
+var app = express.createServer();
+var io = require('socket.io').listen(app);
+var content = require('../lib/web-remix');
+var userList = new Array();
 
 describe('message', function() {
   beforeEach(function() {
     var userList = {};
-    var app = express.createServer();
-    var io = require('socket.io').listen(app);
-    messages( app, sinon.stub(), userList );
+    var recentMessages = {};
+    recentMessages.generic = [];
+    recentMessages.media = [];
+    messages(app, sinon.stub(), userList, recentMessages);
   });
   describe('.getMessage', function() {
     describe('has a request body', function() {
@@ -16,9 +22,16 @@ describe('message', function() {
 
         it('sets the session nickname', function() {
           var newNick = 'nick';
-          var req = {body: { message: "/nick " + newNick } };
+          var req = { 
+            body: { 
+              message: "/nick " + newNick
+            },
+            session: {
+              nickname: newNick
+            }
+          };
 
-          var subject = messages.getMessage(req);
+          var subject = messageMaker.getMessage(req, io, userList);
 
         });
         it('sends a emote action');
