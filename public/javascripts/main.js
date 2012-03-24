@@ -62,7 +62,7 @@ $(function() {
                     '" data-created="' + data.created +
                     '"><img><span class="nick">' + data.nickname + '</span><time>' +
                     getMessageDateTimeString(data) + '</time><p></p>' +
-                    '<a href="#" class="delete">delete</a></li>');
+                    '<a href="#" class="delete">x</a></li>');
         msg.find('img').attr('src', data.gravatar);
         msg.find('p').html(message);
         myPost = false;
