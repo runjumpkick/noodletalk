@@ -1,8 +1,8 @@
 $(function() {
   var socket = io.connect('http://' + document.domain);
   var messagesUnread = 0;
-  var currentNickname = 'i_love_ie6';
-  var userList = ['i_love_ie6'];
+  var currentNickname = null;
+  var userList = [];
   var userCount = 0;
   var logLimit = 80;
   var myPost = false;

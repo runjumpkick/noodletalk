@@ -7,7 +7,7 @@ module.exports = function(app, settings, io, userList) {
       if(email) {
         req.session.email = email;
         req.session.userFont = Math.floor(Math.random() * 8);
-        req.session.nickname = 'i_love_ie6';
+        req.session.nickname = auth.generateRandomNick(userList);
         io.sockets.emit('userlist', userList);
       }
       res.redirect('back');
