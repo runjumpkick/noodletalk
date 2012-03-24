@@ -143,6 +143,7 @@ $(function() {
     } else {
       if (!isSubmitting) {
         isSubmitting = true;
+        $('#help').fadeOut();
         myPost = true;
         $.ajax({
           type: 'POST',

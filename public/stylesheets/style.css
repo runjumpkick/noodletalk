@@ -134,47 +134,32 @@ a {
 #header, #message {
     clear: both;
     float: left;
+    position: relative;
     width: 100%;
 }
 
 #info {
-    float: right;
     position: absolute;
-    right: 30px;
-    top: -10px;
+    right: 20px;
+    top: 10px;
 }
 
 #header a, #header .connected {
-    color: #fff;
+    background-color: #c6ccba;
+    border-radius: 3px;
+    box-shadow: #b1ba9e -1px -1px 0px;
+    color: #707860;
+    cursor: pointer;
     display: block;
     float: left;
     font-family: 'BebasNeueRegular', sans-serif;
     font-size: 17px;
     letter-spacing: 1px;
-    margin-left: 13px;
+    margin-left: 10px;
     max-width: 85px;
     overflow: hidden;
-    padding: 15px 8px 5px 8px;
+    padding: 4px 8px 4px 8px;
     white-space: nowrap;
-}
-
-.connected { cursor: pointer; }
-
-#header a {
-    background-color: #d47851;
-    box-shadow: #aa6243 5px 5px 0px;
-}
-
-#header .connected {
-    background-color: #9c9688;
-    box-shadow: #787263 5px 5px 0px;
-}
-
-a.github {
-    border: 0;
-    position: absolute;
-    right: 0px;
-    top: 0px;
 }
 
 #messages {
@@ -273,12 +258,21 @@ ol li p img {
 }
 
 ol li a.delete {
+    background-color: #fff;
+    border-radius: 8px;
+    color: #da3321;
     display: block;
-    font-family: 'BebasNeueRegular', sans-serif;
-    padding: 5px;
+    font-family: Arial, sans-serif;
+    font-size: 17px;
+    padding: 10px 8px 3px 8px;
     position: absolute;
     right: 0px;
-    top: 0px;
+    top: -10px;
+}
+
+ol li a.delete:hover {
+    background-color: #da3321;
+    color: #fff;
 }
 
 form button {
@@ -286,6 +280,8 @@ form button {
 }
 
 form input {
+    border: 1px solid #eee;
+    border-radius: 5px;
     color: #606060;
     font-size: 25px;
     margin: 20px 0px 20px 0px;
@@ -333,25 +329,27 @@ form.font7 input, .font7 {
     cursor: pointer;
     display: none;
     font-family: 'BebasNeueRegular', sans-serif;
-    font-size: 18px;
+    font-size: 16px;
     opacity: .95;
     padding: 20px 10px 20px 10px;
     position: absolute;
-    top: 148px;
+    top: 146px;
 }
 
 #userList {
-    background-color: #eee;
-    box-shadow: #333 8px 8px 0px;
+    background-color: #8fe4f9;
+    box-shadow: #3c8da1 3px 3px 0px;
+    color: #274850;
     display: none;
     font-family: 'BebasNeueRegular', sans-serif;
     font-size: 18px;
     max-width: 80%;
     opacity: .97;
+    overflow: hidden;
     padding: 20px;
     position: absolute;
-    right: 121px;
-    top: 37px;
+    right: 270px;
+    top: -10px;
 }
 
 #help li {
@@ -408,5 +406,35 @@ form.font7 input, .font7 {
     }
     #media {
         display: none;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    #messages ol li video, #messages ol li iframe {
+        height: 168px;
+        width: 300px;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    #help {
+        width: 270px;
+    }
+
+    #userList {
+        left: 28px;
+        top: 70px;
+        width: 200px;
+    }
+}
+
+@media only screen and (max-width: 350px) {
+    #messages ol li video, #messages ol li iframe {
+        height: 151px;
+        width: 270px;
+    }
+
+    #info {
+        right: 0px;
     }
 }
