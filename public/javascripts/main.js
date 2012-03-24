@@ -18,7 +18,7 @@ $(function() {
 
       mediaColumn.prepend(videoItem.html(message));
       if(mediaColumn.find('li').length > 3) {
-        mediaColumn.find('li').shift();
+        mediaColumn.find('li:last-child').remove();
       }
     }
   };
