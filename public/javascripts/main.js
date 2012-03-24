@@ -10,6 +10,7 @@ $(function() {
   var mediaIframeMatcher = /<iframe\s.+><\/iframe>/i;
   var mediaVideoMatcher = /<video\s.+>.+<\/video>/i;
   var mediaAudioMatcher = /<audio\s.+>.+<\/audio>/i;
+  var isSubmitting = false;
 
   var updateMedia = function(data) {
     // Update the media
@@ -125,7 +126,7 @@ $(function() {
   $('form').submit(function(ev) {
     ev.preventDefault();
     var self = $(this);
-
+    
     var helpMatcher = /^(\/help)/i;
     var clearMatcher = /^(\/clear)/i;
 
@@ -140,18 +141,22 @@ $(function() {
 
     // this is a submission
     } else {
-      myPost = true;
-      $.ajax({
-        type: 'POST',
-        url: self.attr('action'),
-        data: self.serialize(),
-        success: function(data) {
-          $('form input').val('');
-          document.title = 'Noodle Talk';
-          messagesUnread = 0;
-        },
-        dataType: 'json'
-      });
+      if(!isSubmitting) {
+        isSubmitting = true;
+        myPost = true;
+        $.ajax({
+          type: 'POST',
+          url: self.attr('action'),
+          data: self.serialize(),
+          success: function(data) {
+            $('form input').val('');
+            document.title = 'Noodle Talk';
+            messagesUnread = 0;
+            isSubmitting = false;
+          },
+          dataType: 'json'
+        });
+      }
     }
   });
 
