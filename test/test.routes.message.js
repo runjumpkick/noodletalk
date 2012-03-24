@@ -24,43 +24,91 @@ describe('message', function() {
           var newNick = 'nick';
           var req = { 
             body: { 
-              message: "/nick " + newNick
+              message: '/nick ' + newNick
             },
             session: {
-              nickname: newNick
+              nickname: 'oldnick',
+              email: 'test@test.org'
             }
           };
 
-          var subject = messageMaker.getMessage(req, io, userList);
+          var message = messageMaker.getMessage(req, io, userList);
 
+          req.session.nickname.should.equal(newNick);
         });
-        it('sends a emote action');
-        it('updates the userList');
+        it('sends a emote action', function() {
+          var req = { 
+            body: { 
+              message: '<3'
+            },
+            session: {
+              nickname: "nick",
+              email: 'test@test.org'
+            }
+          };
 
-        describe('old nickname is not Anonymous', function() {
-          it('removes the old nickname from the userList');
+          var message = messageMaker.getMessage(req, io, userList).message;
+
+          message.should.equal(' <img src=\"/images/heart.png\"> ');
+        });
+        it('updates the userList', function() {
+          var newNick = 'nick';
+          var req = { 
+            body: { 
+              message: '/nick ' + newNick
+            },
+            session: {
+              nickname: 'oldnick',
+              email: 'test@test.org'
+            }
+          };
+
+          var message = messageMaker.getMessage(req, io, userList);
+
+          userList.should.include('nick');
         });
 
         describe('nickname is not on the userList', function() {
-          it('adds the nickname to the userList');
-        });
+          it('adds the nickname to the userList', function() {
+            var newNick = 'nick';
+            var req = { 
+              body: { 
+                message: '/nick ' + newNick
+              },
+              session: {
+                nickname: 'oldnick',
+                email: 'test@test.org'
+              }
+            };
 
-        describe('nickname is on the userList', function() {
-          it('does not add nickname to userList');
-        });
+            var message = messageMaker.getMessage(req, io, userList);
 
-        describe('old nickname is Anonymous', function() {
-          it('does not remove the nick from the userList');
-        });
+            req.body.message = "/nick gonzo"
+            var message = messageMaker.getMessage(req, io, userList);
 
+            userList.should.include('gonzo');
+            userList.should.not.include('nick');
+          });
+        });
       });
       //describe('has no nickname change');
 
       describe('has no request session nickname', function() {
-        it('sets the nickname to Anonymous');
-      });
-      describe('has a request session nickname', function() {
-        it('does not set the nickname to Anonymous');
+        it('sets the nickname to i_love_ie6xxxxxxx', function() {
+          var req = { 
+            body: { 
+              message: 'test'
+            },
+            session: {
+              nickname: '',
+              email: 'test@test.org'
+            }
+          };
+
+          var message = messageMaker.getMessage(req, io, userList);
+
+          req.session.nickname.should.match(/i_love_ie6.+/)
+        });
       });
 
       //describe('has a /me');

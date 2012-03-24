@@ -4,15 +4,15 @@
 
 ## John, why are you yelling so much?!
 
-## Contribution Rules
+## Contributing to the Noodle
 
 ### Try to follow our code conventions. This means:
 
 * No one-liner conditionals for if/else blocks
 
-* Camelcase variables
+* camelCase variables
 
-* Please test your changes before you send a pull request
+* Please test your changes before you send a pull request. It would also be nice if you added tests too :D
 
 * Assign all variables with a prepending var; don't comma-delimit them to a single one.
     ### No:

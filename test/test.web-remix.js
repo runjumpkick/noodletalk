@@ -40,6 +40,18 @@ describe('web-remix', function() {
       subject.should.equal(' <img src="/images/heart.png"> ');
     });
 
+    it('returns video for a video link', function() {
+      var video = 'http://blah.com/video.ogv'
+      var subject = webRemix.generate(video);
+      subject.should.equal(' <video controls="controls" preload="auto" autobuffer><source src="' + video + '" type="video/ogg; codecs="vp8, vorbis" /></video><a href="' + video + '" target="_blank">' + video + '</a>')
+    });
+
+    it('returns audio for an audio link', function() {
+      var audio = 'http://blah.com/audio.ogg'
+      var subject = webRemix.generate(audio);
+      subject.should.equal(' <audio controls="controls" preload="auto" autobuffer><source src="' + audio + '" type="audio/ogg" /></audio><a href="' + audio + '" target="_blank">' + audio + '</a>')
+    });
+
     it('returns the plain text for anything else', function() {
       var subject = webRemix.generate('foo');
       subject.should.equal(' foo');
