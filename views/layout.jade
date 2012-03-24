@@ -16,7 +16,7 @@ html
     script(src='/javascripts/lib/time-format.js')
     script(src='/javascripts/main.js')
 
-  body(data-nick='')
+  body(data-nick='#{session.nickname}')
     #header
       if session.email
         h1 Noodle Talk
