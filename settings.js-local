@@ -1,7 +1,7 @@
 // Module dependencies.
 module.exports = function(app, configurations, express) {
+  var clientSessions = require('client-sessions');
   var connect = require('connect');
-  var HerokuRedisStore = require('connect-heroku-redis')(connect);
 
   var options = { 
     domain: 'http://localhost',
@@ -18,15 +18,19 @@ module.exports = function(app, configurations, express) {
     app.use(express.bodyParser());
     app.use(express.methodOverride());
     app.use(express.static(__dirname + '/public'));
-    app.use(express.cookieParser());
-    app.use(express.session({
-      secret: 'secret',
-      store: new HerokuRedisStore
+    app.use(clientSessions({
+      cookieName: 'session_noodletalk',
+      secret: 'secret', // MUST be set
+      // true session duration:
+      // will expire after duration (ms)
+      // from last session.reset() or
+      // initial cookieing.
+      duration: 24 * 60 * 60 * 1000 * 21, // 3 weeks
     }));
     app.use(app.router);
   });
 
-  app.configure('development', function(){
+  app.configure('development, test', function(){
     app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
   });
 
