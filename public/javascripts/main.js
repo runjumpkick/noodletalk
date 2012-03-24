@@ -15,7 +15,6 @@ $(function() {
   var updateMedia = function(data) {
     // Update the media
     var message = $.trim(data.message);
-    console.log('test **********************', message);
     if(mediaIframeMatcher.exec(message) !== null ||
       mediaVideoMatcher.exec(message) !== null ||
       mediaAudioMatcher.exec(message) !== null) {
@@ -32,18 +31,18 @@ $(function() {
     // Update the message
     var message = $.trim(data.message);
 
-    if(message.length > 0 && $('ol li[data-created="' + data.created + '"]').length === 0) {
+    if (message.length > 0 && $('ol li[data-created="' + data.created + '"]').length === 0) {
       if(currentNickname !== data.nickname){
         currentNickname = data.nickname;
       }
 
-      if(data.is_action) {
+      if (data.is_action) {
         var msg = $('<li class="action font' + data.font + '" data-created="' + data.created +
                     '"><p></p><a href="#" class="delete">delete</a></li>');
         msg.find('p').html(message);
 
         // if this is a nick change, set the nick in the dom for the user
-        if(data.action_type === 'nick' && myPost) {
+        if (data.action_type === 'nick' && myPost) {
           $('body').data('nick', data.nickname.replace(/\s/, ''));
           myPost = false;
         }
@@ -52,9 +51,9 @@ $(function() {
         var highlight = '';
         var nickReference = data.message.split(': ')[0];
 
-        if(nickReference) {
+        if (nickReference) {
           nickReference = nickReference.replace(/\s/, '');
-          if(nickReference === $('body').data('nick') && !myPost){
+          if (nickReference === $('body').data('nick') && !myPost) {
             highlight = 'nick-highlight';
           }
         }
@@ -83,10 +82,10 @@ $(function() {
   // if the user just landed on this page, get the recent messages
   $.get('/recent', function(data) {
     var messages = data.messages;
-    for(var i=0; i < messages.generic.length; i++) {
+    for (var i=0; i < messages.generic.length; i++) {
       updateMessage(messages.generic[i]);
     }
-    for(var i=0; i < messages.media.length; i++) {
+    for (var i=0; i < messages.media.length; i++) {
       updateMedia(messages.media[i]);
     }
     
@@ -94,7 +93,8 @@ $(function() {
     userList = data.user_list;
     
     // Update the user count
-    userCount = parseInt(data.connected_clients, 10)+1; // jcw: Adding one in this call only because we haven't counted our own connection yet.
+    // jcw: Adding one in this call only because we haven't counted our own connection yet.
+    userCount = parseInt(data.connected_clients, 10)+1;
     $('#info .connected span').text(userCount);
     
     // Keep list sane, compile tab completion, etc.
@@ -103,7 +103,7 @@ $(function() {
 
   $('#login').click(function() {
     navigator.id.getVerifiedEmail(function(assertion) {
-      if(assertion) {
+      if (assertion) {
         var loginForm = $('#login-form');
 
         loginForm.find('input').val(assertion);
@@ -131,17 +131,17 @@ $(function() {
     var clearMatcher = /^(\/clear)/i;
 
     // if this is a help trigger, open up the help window
-    if(self.find('input').val().match(helpMatcher)) {
+    if (self.find('input').val().match(helpMatcher)) {
       $('#help').fadeIn();
       self.find('input').val('');
     // if this is a clear trigger, clear all messages
-    } else if(self.find('input').val().match(clearMatcher)) {
+    } else if (self.find('input').val().match(clearMatcher)) {
       $('ol li').remove();
       self.find('input').val('');
 
     // this is a submission
     } else {
-      if(!isSubmitting) {
+      if (!isSubmitting) {
         isSubmitting = true;
         myPost = true;
         $.ajax({
@@ -203,12 +203,15 @@ $(function() {
     }
   };
   var hideUsers = function() {
-    if ($('#userList').css('display') !== 'none') { $('#userList').fadeOut(); }
+    if ($('#userList').css('display') !== 'none') {
+      $('#userList').fadeOut();
+    }
     return false;
   }
   
   $('.connected').click(showUsers);
   $('.connected').mouseout(hideUsers);
-  if (navigator.userAgent.match(/iPad|iPhone/)) { document.addEventListener('touchstart', hideUsers, false); }
-  
+  if (navigator.userAgent.match(/iPad|iPhone/)) {
+    document.addEventListener('touchstart', hideUsers, false);
+  }
 });
