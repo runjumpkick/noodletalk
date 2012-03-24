@@ -14,7 +14,7 @@ $(function() {
 
     if(message.indexOf('<iframe') > -1 || message.indexOf('<video') > -1 ||
       message.indexOf('<audio') > -1) {
-      var videoItem = $('<li></li>');
+      var videoItem = $('<li class="font' + data.font + '"></li>');
 
       mediaColumn.prepend(videoItem.html(message));
       if(mediaColumn.find('li').length > 3) {

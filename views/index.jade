@@ -1,7 +1,7 @@
 #message
   if session.email
     form(method='post', action='/message', autocomplete='off', class='font#{session.userFont}')
-      input(type='text', name='message', placeholder='enter your message here')
+      input(type='text', name='message', placeholder='enter your message here or type /help for more commands')
       button(type='submit') add
 
 #messages

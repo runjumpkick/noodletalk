@@ -293,46 +293,47 @@ ol li p {
     margin-top: 10px;
 }
 
-form input , ol li p {
+form input , ol li {
     font-family: 'LeagueGothicRegular';
     font-size: 22px;
 }
 
-form.font2 input, .font2 p {
+form.font2 input, .font2 {
     font-family: 'FanwoodRegular';
 }
 
-form.font3 input, .font3 p {
+form.font3 input, .font3 {
     font-family: 'CartoGothicStdBold';
 }
 
-form.font4 input, .font4 p {
+form.font4 input, .font4 {
     font-family: 'GoudyBookletter1911Regular';
 }
 
-form.font5 input, .font5 p {
+form.font5 input, .font5 {
     font-family: 'DeutschGothicNormal';
     font-size: 24px;
 }
 
-form.font6 input, .font6 p {
+form.font6 input, .font6 {
     font-family: 'CabinSketchRegular';
 }
 
-form.font7 input, .font7 p {
+form.font7 input, .font7 {
     font-family: 'MomsTypewriterRegular';
 }
 
 #help {
-    background-color: #fff;
-    box-shadow: #888 10px 10px 0px;
+    background-color: #f1ff7e;
+    box-shadow: #222 10px 10px 0px;
+    cursor: pointer;
     display: none;
     font-family: 'BebasNeueRegular', sans-serif;
     font-size: 18px;
     opacity: .95;
     padding: 20px 10px 20px 10px;
     position: absolute;
-    max-width: 80%;
+    top: 148px;
 }
 
 #userList {
@@ -375,7 +376,6 @@ form.font7 input, .font7 p {
 .nick-highlight time {
     color: #397170;
 }
-
 
 @media only screen and (min-width: 1100px) and (max-width: 1350px) {
     #messages {
