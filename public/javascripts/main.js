@@ -38,7 +38,7 @@ $(function() {
 
       if (data.is_action) {
         var msg = $('<li class="action font' + data.font + '" data-created="' + data.created +
-                    '"><p></p><a href="#" class="delete">delete</a></li>');
+                    '"><p></p><a href="#" class="delete">x</a></li>');
         msg.find('p').html(message);
 
         // if this is a nick change, set the nick in the dom for the user
