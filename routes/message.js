@@ -96,14 +96,18 @@ module.exports = function(app, io, userList, recentMessages) {
   // Add new message
   app.post("/message", function(req, res) {
     var message = getMessage(req);
+    var mediaIframeMatcher = /<iframe\s.+><\/iframe>/i;
+    var mediaVideoMatcher = /<video\s.+>.+<\/video>/i;
+    var mediaAudioMatcher = /<audio\s.+>.+<\/audio>/i;
 
     recentMessages.generic.push(message);
     if(recentMessages.generic.length > 20) {
       recentMessages.generic.shift();
     }
     // Add if this is a media item
-    if(message.message.indexOf('<iframe') > -1 || message.message.indexOf('<video') > -1 ||
-      message.message.indexOf('<audio') > -1) {
+    if(mediaIframeMatcher.exec(message.message) !== null ||
+      mediaVideoMatcher.exec(message.message) !== null ||
+      mediaAudioMatcher.exec(message.message) !== null) {
       recentMessages.media.push(message);
     }
     if(recentMessages.media.length > 3) {

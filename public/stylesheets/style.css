@@ -226,6 +226,10 @@ ol li iframe, ol li audio, ol li video {
     margin: 10px;
 }
 
+#messages ol li {
+    text-overflow: hidden;
+}
+
 #messages ol li audio {
     width: 100px;
 }

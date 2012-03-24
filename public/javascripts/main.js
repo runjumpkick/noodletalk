@@ -7,16 +7,20 @@ $(function() {
   var logLimit = 80;
   var myPost = false;
   var mediaColumn = $('#media ol');
+  var mediaIframeMatcher = /<iframe\s.+><\/iframe>/i;
+  var mediaVideoMatcher = /<video\s.+>.+<\/video>/i;
+  var mediaAudioMatcher = /<audio\s.+>.+<\/audio>/i;
 
   var updateMedia = function(data) {
     // Update the media
     var message = $.trim(data.message);
+    console.log('test **********************', message);
+    if(mediaIframeMatcher.exec(message) !== null ||
+      mediaVideoMatcher.exec(message) !== null ||
+      mediaAudioMatcher.exec(message) !== null) {
+      var mediaItem = $('<li class="font' + data.font + '"></li>');
 
-    if(message.indexOf('<iframe') > -1 || message.indexOf('<video') > -1 ||
-      message.indexOf('<audio') > -1) {
-      var videoItem = $('<li class="font' + data.font + '"></li>');
-
-      mediaColumn.prepend(videoItem.html(message));
+      mediaColumn.prepend(mediaItem.html(message));
       if(mediaColumn.find('li').length > 3) {
         mediaColumn.find('li:last-child').remove();
       }
