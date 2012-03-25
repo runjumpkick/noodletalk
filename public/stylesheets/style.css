@@ -144,10 +144,19 @@ h1 {
     margin: 0px;
     text-indent: -9999px;
     width: 46px;
+    float: left;
 }
 
 h1.visitor {
     padding-bottom: 20px;
+}
+
+h2 {
+    float: left;
+    margin-left: 1em;
+    line-height: 46px;
+    font-size: 120%;
+    font-weight: bold;
 }
 
 a {

@@ -10,7 +10,7 @@ recentMessages.media = [];
 
 // jcw: If we don't construct our userlist as an object it won't
 // be passed by reference and won't be in-common between routes:
-var userList = new Array();
+var userList = new Object();
 
 var io = require('socket.io').listen(app);
 

@@ -17,14 +17,16 @@ html
     script(src='/javascripts/lib/disable-scrolling.js')
     script(src='/javascripts/main.js')
 
-  body(data-nick='#{session.nickname}')
+  body(data-nick='#{session.nickname}', data-topic=topic)
     #hush
-
     #header
       if session.email
         h1 Noodle Talk
       else
         h1(class='visitor') Noodle Talk
+
+      if topic
+        h2= topic
 
       div#info
         div(class='connected', style='display:block')
@@ -37,6 +39,7 @@ html
           a(href='#', id='login') Log in
           form(method='post', action='/login', id='login-form')
             input(type='hidden', name='bid_assertion', value='1')
+            input(type='hidden', name='topic', value=topic)
 
     != body
 

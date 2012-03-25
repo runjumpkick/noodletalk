@@ -4,13 +4,15 @@ module.exports = function(noodle, app, settings, io, userList) {
 
   // Login
   app.post("/login", function(req, res) {
+    var topic = req.param('topic', 'default');
     auth.verify(req, settings, function(error, email) {
       if(email) {
         req.session.email = email;
         req.session.userFont = Math.floor(Math.random() * 8);
-        req.session.nickname = auth.generateRandomNick(userList);
-        io.sockets.emit('userlist', userList);
-        var message = messageMaker.getMessage(noodle, req, io, userList, "joined");
+        req.session.topic = topic;
+        req.session.nickname = auth.generateRandomNick(userList[topic]);
+        io.sockets.emit('userlist', userList[topic]);
+        var message = messageMaker.getMessage(noodle, req, io, userList[topic], "joined");
         io.sockets.emit('message', message);
       }
       res.redirect('back');
@@ -19,11 +21,12 @@ module.exports = function(noodle, app, settings, io, userList) {
 
   // Logout
   app.get("/logout", function(req, res) {
+    var topic = req.param('topic', 'default');
     // Housekeeping:
-    var idx = userList.indexOf(req.session.nickname);
+    var idx = userList[topic].indexOf(req.session.nickname);
     if (idx > -1) {
-      userList.splice(idx, 1);
-      io.sockets.emit('userlist', userList);
+      userList[topic].splice(idx, 1);
+      io.sockets.emit('userlist', userList[topic]);
     }
     
     // Adios:

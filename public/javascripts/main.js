@@ -1,5 +1,6 @@
 $(function() {
-  var socket = io.connect('http://' + document.domain);
+  var currentTopic = $('body').data('topic');
+  var socket = io.connect('http://' + document.domain + '?topic=' + currentTopic);
   var messagesUnread = 0;
   var currentNickname = null;
   var userList = [];
@@ -130,7 +131,7 @@ $(function() {
   };
 
   // if the user just landed on this page, get the recent messages
-  $.get('/recent', function(data) {
+  $.get('/recent?topic=' + currentTopic, function(data) {
     var messages = data.messages;
     for (var i=0; i < messages.generic.length; i++) {
       updateMessage(messages.generic[i]);
@@ -156,7 +157,7 @@ $(function() {
       if (assertion) {
         var loginForm = $('#login-form');
 
-        loginForm.find('input').val(assertion);
+        loginForm.find('input:first').val(assertion);
         $.post('/login', loginForm.serialize(), function(data) {
           document.location.href = '/';
         });
@@ -183,11 +184,11 @@ $(function() {
     // if this is a help trigger, open up the help window
     if (self.find('input').val().match(helpMatcher)) {
       $('#help').fadeIn();
-      self.find('input').val('');
+      self.find('input:first').val('');
     // if this is a clear trigger, clear all messages
-    } else if (self.find('input').val().match(clearMatcher)) {
+    } else if (self.find('input:first').val().match(clearMatcher)) {
       $('ol li').remove();
-      self.find('input').val('');
+      self.find('input:first').val('');
 
     // this is a submission
     } else {
@@ -200,7 +201,7 @@ $(function() {
           url: self.attr('action'),
           data: self.serialize(),
           success: function(data) {
-            $('form input').val('');
+            $('form input:first').val('');
             document.title = 'Noodle Talk';
             messagesUnread = 0;
             isSubmitting = false;
@@ -227,6 +228,9 @@ $(function() {
       keepListSane();
     });
     socket.on('message', function (data) {
+      if (data.topic != currentTopic) {
+        return;
+      }
       updateMessage(data);
       updateMedia(data);
     });
