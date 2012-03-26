@@ -16,7 +16,7 @@ module.exports = function(noodle, app, io, userList, recentMessages) {
 
   // Add new message
   app.post("/message", function(req, res) {
-    var message = messageMaker.getMessage(noodle, req, io, userList);
+    var message = messageMaker.getMessage(noodle, req, io, userList, messageMaker.getMessageType(req));
     var mediaIframeMatcher = /<iframe\s.+><\/iframe>/i;
     var mediaVideoMatcher = /<video\s.+>.+<\/video>/i;
     var mediaAudioMatcher = /<audio\s.+>.+<\/audio>/i;
