@@ -207,13 +207,15 @@ ol {
 
 ol li {
     background-color: #f2f2f2;
+    border-radius: 3px;
+    box-shadow: #ccc -1px -1px 0px;
     clear: both;
     float: left;
     margin-bottom: 5px;
     overflow: hidden;
-    padding: 5px;
+    padding: 8px;
     position: relative;
-    width: 98%;
+    width: 97%;
 }
 
 ol li span.nick {
@@ -305,8 +307,9 @@ form button {
 }
 
 form input {
-    border: 1px solid #eee;
+    border: 0px;
     border-radius: 5px;
+    box-shadow: #ccc -1px -1px 0px;
     color: #606060;
     font-size: 25px;
     margin: 20px 0px 20px 0px;
