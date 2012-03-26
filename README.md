@@ -37,7 +37,7 @@
 
 ## Dependencies
 
-You may need to `npm install` the following packages.
+If you are on an older version of node and don't wish to upgrade, you may need to `npm install` the following packages.
 
 * mocha
 * qs
