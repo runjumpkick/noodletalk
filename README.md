@@ -1,3 +1,5 @@
+<a href='http://www.pledgie.com/campaigns/17022'><img alt='Click here to lend your support to: Noodle Talk and make a donation at www.pledgie.com !' src='http://www.pledgie.com/campaigns/17022.png?skin_name=chrome' border='0' /></a>
+
 # GODDD noodletalk your shit up.
 # For those about to cook we sautee you.
 # THIS IS JUST ABOUT AS PAINFUL AS A CATTLEPROD TO THE SHOULDER CAN BE!
