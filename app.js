@@ -14,6 +14,11 @@ var userList = new Array();
 
 var io = require('socket.io').listen(app);
 
+io.configure(function () { 
+  io.set("transports", ["xhr-polling"]); 
+  io.set("polling duration", 10);
+});
+
 // routes
 require("./routes")(noodle, app);
 require("./routes/message")(noodle, app, io, userList, recentMessages);
