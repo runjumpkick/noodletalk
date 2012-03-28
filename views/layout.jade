@@ -25,10 +25,9 @@ html
         h1 Noodle Talk
 
         #message
-
-        form(method='post', action='/message', autocomplete='off', class='font#{session.userFont}')
-          input(type='text', name='message', placeholder='enter your message here or type /help for more commands')
-          button(type='submit') add
+          form(method='post', action='/message', autocomplete='off', class='font#{session.userFont}')
+            input(type='text', name='message', placeholder='enter your message here or type /help for more commands')
+            button(type='submit') add
       else
         h1(class='visitor') Noodle Talk
 

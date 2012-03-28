@@ -161,7 +161,7 @@ a {
     margin-bottom: 20px;
 }
 
-#header, #message {
+#header {
     clear: both;
     float: left;
     position: relative;
