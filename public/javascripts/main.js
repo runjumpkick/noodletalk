@@ -1,5 +1,5 @@
 $(function() {
-  var socket = io.connect('http://' + document.domain);
+  var socket = io.connect(document.location);
   var messagesUnread = 0;
   var currentNickname = null;
   var userList = [];
