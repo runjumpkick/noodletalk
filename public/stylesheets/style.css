@@ -139,6 +139,7 @@ body {
 h1 {
     background-image: url('../images/logo.png');
     background-repeat: no-repeat;
+    float: left;
     font-size: 1px;
     height: 46px;
     margin: 0px;
@@ -154,6 +155,10 @@ a {
     color: #2e87c6;
     outline: none;
     text-decoration: none;
+}
+
+#header {
+    margin-bottom: 20px;
 }
 
 #header, #message {
@@ -224,7 +229,7 @@ ol li span.nick {
     color: #274850;
     display: block;
     font-family: 'BebasNeueRegular', sans-serif;
-    font-size: 20px;
+    font-size: 18px;
     left: 60px;
     padding: 8px 7px 0px 7px;
     position: absolute;
@@ -267,7 +272,7 @@ ol li iframe, ol li audio, ol li video {
 ol li time {
     color: #aaa;
     font-family: 'BebasNeueRegular', sans-serif;
-    font-size: 18px;
+    font-size: 17px;
     margin: 10px;
 }
 
@@ -311,10 +316,10 @@ form input {
     border-radius: 5px;
     box-shadow: #ccc -1px -1px 0px;
     color: #606060;
-    font-size: 25px;
-    margin: 20px 0px 20px 0px;
+    font-size: 20px;
+    margin: 5px 0px 0px 15px;
     padding: 5px;
-    width: 95%;
+    width: 65%;
 }
 
 ol li p {
@@ -435,12 +440,18 @@ form.font7 input, .font7 {
     #media {
         display: none;
     }
+    form input {
+        clear: both;
+        float: left;
+        margin: 10px 0px 0px 0px;
+        width: 96%;
+    }
 }
 
 @media only screen and (max-width: 600px) {
     #messages ol li video, #messages ol li iframe {
-        height: 168px;
-        width: 300px;
+        height: 163px;
+        width: 290px;
     }
 }
 

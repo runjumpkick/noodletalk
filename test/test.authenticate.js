@@ -15,7 +15,7 @@ var qs = { assertion: '1a2b3c', audience: siteUrl };
 
 describe('login', function() {
   describe('POST /verify', function() {
-   it('logs the user in when they have good credentials', function() {
+    it('logs the user in when they have good credentials', function() {
     var scope = nock(authUrl).post('', qs).reply(200, { status: 'okay', email: 'bela@test.org' });
 
     var params = {
@@ -23,10 +23,10 @@ describe('login', function() {
     };
 
     var authResp = auth.verify(params, settings, function(error, email) { });
-    authResp.should.equal(true);
-   });
+      authResp.should.equal(true);
+    });
 
-   it('does not log the user in if they have bad credentials', function() {
+    it('does not log the user in if they have bad credentials', function() {
     var scope = nock(authUrl).post('', qs).reply(500, { status: 'invalid' });
 
     var params = {
@@ -34,7 +34,7 @@ describe('login', function() {
     };
 
     var authResp = auth.verify(params, settings, function(error, email) { });
-    authResp.should.equal(false);
-   });
+      authResp.should.equal(false);
+    });
   });
 });
