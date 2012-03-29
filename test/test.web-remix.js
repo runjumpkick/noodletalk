@@ -25,7 +25,7 @@ describe('web-remix', function() {
     it('returns image code for an img url', function() {
       var subject = webRemix.generate('http://3.bp.blogspot.com/_K_1LxF4TvhU/S7UUE6PYKiI/AAAAAAAADto/XfpdX2CIxqY/' +
         's400/Riley+the+smiling+dog.jpg');
-      subject.should.equal(' <img src="//3.bp.blogspot.com/_K_1LxF4TvhU/S7UUE6PYKiI/AAAAAAAADto/XfpdX2CIxqY/' +
+      subject.should.equal(' <img src="http://3.bp.blogspot.com/_K_1LxF4TvhU/S7UUE6PYKiI/AAAAAAAADto/XfpdX2CIxqY/' +
         's400/Riley+the+smiling+dog.jpg">');
     });
 
@@ -47,17 +47,15 @@ describe('web-remix', function() {
 
     it('returns video for a video link', function() {
       var video = 'http://blah.com/video.ogv';
-      var videoLink = '//blah.com/video.ogv';
       var subject = webRemix.generate(video);
-      subject.should.equal(' <video controls="controls" preload="none" autobuffer><source src="' + videoLink +
+      subject.should.equal(' <video controls="controls" preload="none" autobuffer><source src="' + video +
         '" type="video/ogg; codecs="vp8, vorbis" /></video><a href="' + video + '" target="_blank">' + video + '</a>')
     });
 
     it('returns audio for an audio link', function() {
       var audio = 'http://blah.com/audio.ogg';
-      var audioLink = '//blah.com/audio.ogg';
       var subject = webRemix.generate(audio);
-      subject.should.equal(' <audio controls="controls" preload="none" autobuffer><source src="' + audioLink +
+      subject.should.equal(' <audio controls="controls" preload="none" autobuffer><source src="' + audio +
         '" type="audio/ogg" /></audio><a href="' + audio + '" target="_blank">' + audio + '</a>')
     });
 
