@@ -6,22 +6,27 @@ describe('web-remix', function() {
 
     it('returns embed code for a youtu.be short url', function() {
       var subject = webRemix.generate('http://youtu.be/5cazkHAHiPU');
-      subject.should.equal(' <iframe width="500" height="281" src="http://www.youtube.com/embed/5cazkHAHiPU" frameborder="0" allowfullscreen></iframe>');
+      subject.should.equal(' <iframe width="500" height="281" src="//www.youtube.com/embed/5cazkHAHiPU" ' +
+        'frameborder="0" allowfullscreen></iframe>');
     });
 
     it('returns embed code for a youtube normal url', function() {
       var subject = webRemix.generate('http://www.youtube.com/watch?v=5cazkHAHiPU');
-      subject.should.equal(' <iframe width="500" height="281" src="http://www.youtube.com/embed/5cazkHAHiPU" frameborder="0" allowfullscreen></iframe>');
+      subject.should.equal(' <iframe width="500" height="281" src="//www.youtube.com/embed/5cazkHAHiPU" ' +
+        'frameborder="0" allowfullscreen></iframe>');
     });
 
     it('returns embed code for a vimeo video url',function() {
       var subject = webRemix.generate('http://vimeo.com/37872583');
-      subject.should.equal(' <iframe src="http://player.vimeo.com/video/37872583" width="500" height="281" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>');
+      subject.should.equal(' <iframe src="//player.vimeo.com/video/37872583" width="500" height="281" ' +
+        'frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>');
     });
 
     it('returns image code for an img url', function() {
-      var subject = webRemix.generate('http://3.bp.blogspot.com/_K_1LxF4TvhU/S7UUE6PYKiI/AAAAAAAADto/XfpdX2CIxqY/s400/Riley+the+smiling+dog.jpg');
-      subject.should.equal(' <img src="http://3.bp.blogspot.com/_K_1LxF4TvhU/S7UUE6PYKiI/AAAAAAAADto/XfpdX2CIxqY/s400/Riley+the+smiling+dog.jpg">');
+      var subject = webRemix.generate('http://3.bp.blogspot.com/_K_1LxF4TvhU/S7UUE6PYKiI/AAAAAAAADto/XfpdX2CIxqY/' +
+        's400/Riley+the+smiling+dog.jpg');
+      subject.should.equal(' <img src="http://3.bp.blogspot.com/_K_1LxF4TvhU/S7UUE6PYKiI/AAAAAAAADto/XfpdX2CIxqY/' +
+        's400/Riley+the+smiling+dog.jpg">');
     });
 
     it('returns a link for an https url', function() {
@@ -41,15 +46,17 @@ describe('web-remix', function() {
     });
 
     it('returns video for a video link', function() {
-      var video = 'http://blah.com/video.ogv'
+      var video = 'http://blah.com/video.ogv';
       var subject = webRemix.generate(video);
-      subject.should.equal(' <video controls="controls" preload="auto" autobuffer><source src="' + video + '" type="video/ogg; codecs="vp8, vorbis" /></video><a href="' + video + '" target="_blank">' + video + '</a>')
+      subject.should.equal(' <video controls="controls" preload="none" autobuffer><source src="' + video +
+        '" type="video/ogg; codecs="vp8, vorbis" /></video><a href="' + video + '" target="_blank">' + video + '</a>')
     });
 
     it('returns audio for an audio link', function() {
-      var audio = 'http://blah.com/audio.ogg'
+      var audio = 'http://blah.com/audio.ogg';
       var subject = webRemix.generate(audio);
-      subject.should.equal(' <audio controls="controls" preload="auto" autobuffer><source src="' + audio + '" type="audio/ogg" /></audio><a href="' + audio + '" target="_blank">' + audio + '</a>')
+      subject.should.equal(' <audio controls="controls" preload="none" autobuffer><source src="' + audio +
+        '" type="audio/ogg" /></audio><a href="' + audio + '" target="_blank">' + audio + '</a>')
     });
 
     it('returns the plain text for anything else', function() {

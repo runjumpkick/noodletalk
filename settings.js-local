@@ -6,7 +6,7 @@ module.exports = function(app, configurations, express) {
   var options = { 
     domain: 'http://localhost',
     port: 3000,
-    secureCookie: true,
+    authPort: 80,
     authUrl: 'https://browserid.org'
   };
 

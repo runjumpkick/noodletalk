@@ -64,7 +64,7 @@ describe('message', function() {
 
           var message = messageMaker.getMessage(noodle, req, io, userList);
 
-          userList.should.include('nick');
+          userList.should.not.include('oldnick');
         });
 
         describe('nickname is not on the userList', function() {
@@ -90,7 +90,25 @@ describe('message', function() {
           });
         });
       });
-      //describe('has no nickname change');
+      
+      describe('has no nickname change', function() {
+        it('should not change the nickname', function() {
+          var req = { 
+            body: { 
+              message: '/nick'
+            },
+            session: {
+              nickname: 'test',
+              email: 'test@test.org'
+            }
+          };
+
+          var message = messageMaker.getMessage(noodle, req, io, userList);
+
+          req.session.nickname.should.equal('test');
+          message.message.should.equal(' ');
+        });
+      });
 
       describe('has no request session nickname', function() {
         it('sets the nickname to i_love_ie6xxxxxxx', function() {
@@ -106,11 +124,27 @@ describe('message', function() {
 
           var message = messageMaker.getMessage(noodle, req, io, userList);
 
-          req.session.nickname.should.match(/i_love_ie6.+/)
+          req.session.nickname.should.match(/i_love_ie6.+/);
         });
       });
 
-      //describe('has a /me');
+      describe('has a /me', function() {
+        it('sets the status of the user', function() {
+          var req = { 
+            body: { 
+              message: '/me is testing'
+            },
+            session: {
+              nickname: 'test',
+              email: 'test@test.org'
+            }
+          };
+
+          var message = messageMaker.getMessage(noodle, req, io, userList);
+
+          message.message.should.equal('<em>test is testing</em>');
+        });
+      });
 
     });
     //describe('has no request body');

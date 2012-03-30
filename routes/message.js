@@ -1,7 +1,6 @@
 module.exports = function(noodle, app, io, userList, recentMessages) {
   var message = {};
   var auth = require('../lib/authenticate');
-  var gravatar = require('gravatar');
   var content = require('../lib/web-remix');
   var messageMaker = require('../lib/message-maker');
 
