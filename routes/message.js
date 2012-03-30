@@ -23,30 +23,41 @@ module.exports = function(noodle, app, io, userList, recentMessages) {
 
   // Add new message
   app.post("/message", function(req, res) {
-    var message = messageMaker.getMessage(noodle, req, io, userList[req.session.topic]);
+    var topic = req.param('topic', 'default');
+    var message = messageMaker.getMessage(noodle, req, io, userList[topic]);
     var mediaIframeMatcher = /<iframe\s.+><\/iframe>/i;
     var mediaVideoMatcher = /<video\s.+>.+<\/video>/i;
     var mediaAudioMatcher = /<audio\s.+>.+<\/audio>/i;
-
-    var topic = req.param('topic', 'default');
-    var topicMessages = {};
-    topicMessages.generic = recentMessages.generic.filter(function (m) { return (m.topic == topic); });
-    topicMessages.media = recentMessages.media.filter(function (m) { return (m.topic == topic); });
-
-    topicMessages.generic.push(message);
-    if(topicMessages.generic.length > 20) {
-      topicMessages.generic.shift();
+    
+    recentMessages.generic.push(message);
+    
+    var totalTopics = {};
+    recentMessages.generic.forEach(function (m, i, a) {
+        totalTopics[m.topic] = 1;
+    });
+    
+    if (recentMessages.generic.length > Object.keys(totalTopics).length * 20) {
+      for (var i = recentMessages.generic.length - 1; i >= 0; i--) {
+        if (recentMessages.generic[i].topic == topic) {
+          recentMessages.generic.splice(i, 1);
+        }
+      }
     }
     // Add if this is a media item
     if(mediaIframeMatcher.exec(message.message) !== null ||
       mediaVideoMatcher.exec(message.message) !== null ||
       mediaAudioMatcher.exec(message.message) !== null) {
-      topicMessages.media.push(message);
+      recentMessages.media.push(messages);
     }
-    if(topicMessages.media.length > 3) {
-      topicMessages.media.shift();
+    
+    if (recentMessages.media.length > Object.keys(totalTopics).length * 3) {
+      for (var i = recentMessages.media.length - 1; i >= 0; i--) {
+        if (recentMessages.media[i].topic == topic) {
+          recentMessages.media.splice(i, 1);
+        }
+      }
     }
-
+    
     io.sockets.emit('message', message);
     io.sockets.emit('usercount', io.sockets.clients().length);
     res.json(message);

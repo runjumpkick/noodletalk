@@ -1,6 +1,6 @@
 $(function() {
   var currentTopic = $('body').data('topic');
-  var socket = io.connect('http://' + document.domain + '?topic=' + currentTopic);
+  var socket = io.connect(document.location);
   var messagesUnread = 0;
   var currentNickname = null;
   var userList = [];
@@ -158,11 +158,12 @@ $(function() {
         var loginForm = $('#login-form');
 
         loginForm.find('input:first').val(assertion);
-        $.post('/login', loginForm.serialize(), function(data) {
-          document.location.href = '/';
+        $.post('/login', loginForm.serialize(), function (data) {
+          document.location.href = '/?topic=' + escape(currentTopic);
         });
       }
     });
+    return false;
   });
 
   $('form input').focus(function() {

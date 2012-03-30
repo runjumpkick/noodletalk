@@ -4,7 +4,8 @@ var express = require('express');
 var configurations = module.exports;
 var app = express.createServer();
 var settings = require('./settings')(app, configurations, express);
-var recentMessages = {};
+
+var recentMessages = new Object();
 recentMessages.generic = [];
 recentMessages.media = [];
 

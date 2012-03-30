@@ -34,7 +34,7 @@ html
           span() ?
         a(href='https://github.com/ednapiranha/noodletalk', target='_blank') Github
         if session.email
-          a(href='/logout') Log out
+          a(href='/logout?topic='+topic) Log out
         else
           a(href='#', id='login') Log in
           form(method='post', action='/login', id='login-form')
