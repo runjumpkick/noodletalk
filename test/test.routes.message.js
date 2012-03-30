@@ -8,15 +8,9 @@ var io = require('socket.io').listen(app);
 var content = require('../lib/web-remix');
 var userList = new Array();
 var noodle = require('../package');
+var recentMessages = {};
 
 describe('message', function() {
-  beforeEach(function() {
-    var userList = {};
-    var recentMessages = {};
-    recentMessages.generic = [];
-    recentMessages.media = [];
-    messages(noodle, app, sinon.stub(), userList, recentMessages);
-  });
   describe('.getMessage', function() {
     describe('has a request body', function() {
       describe('has a nickname change', function() {
@@ -49,7 +43,6 @@ describe('message', function() {
           };
 
           var message = messageMaker.getMessage(noodle, req, io, userList);
-
           userList.should.not.include('oldnick');
         });
 
@@ -102,7 +95,7 @@ describe('message', function() {
               message: 'test'
             },
             session: {
-              nickname: '',
+              nickname: 'i_love_ie61212121',
               email: 'test@test.org'
             }
           };

@@ -5,7 +5,7 @@ module.exports = function(noodle, app, settings, io, userList) {
   // Login
   app.post("/login", function(req, res) {
     auth.verify(req, settings, function(error, email) {
-      if(email) {
+      if(email) {        
         req.session.email = email;
         req.session.userFont = Math.floor(Math.random() * 8);
         req.session.nickname = auth.generateRandomNick(userList);
