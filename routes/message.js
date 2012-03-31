@@ -8,6 +8,7 @@ module.exports = function(noodle, app, io, userList, recentMessages) {
   app.get("/recent", function(req, res) {
     res.json({
       'messages': recentMessages,
+      'connected_clients': io.sockets.clients().length,
       'user_list': userList,
     });
   });
@@ -33,6 +34,7 @@ module.exports = function(noodle, app, io, userList, recentMessages) {
       recentMessages.media.shift();
     }
 
+    io.sockets.emit('usercount', io.sockets.clients().length);
     io.sockets.emit('message', message);
     res.json(message);
   });

@@ -210,6 +210,10 @@ $(function() {
       userList = data;
       keepListSane();
     });
+    socket.on('usercount', function (data) {
+      userCount = data;
+      keepListSane();
+    });
     socket.on('message', function (data) {
       updateMessage(data);
       updateMedia(data);
