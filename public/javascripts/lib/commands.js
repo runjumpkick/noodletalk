@@ -15,6 +15,7 @@ var commandMatched = function(matcher) {
 var checkCommands = function(form) {
   // if this is a help trigger, open up the help window
   if (commandMatched(helpMatcher)) {
+    hideAllCommands('#userList');
     $('#help').fadeIn();
     commandIsMatched = true;
 
@@ -25,6 +26,7 @@ var checkCommands = function(form) {
 
   // if this is a users trigger, display the user list
   } else if (commandMatched(usersMatcher)) {
+    hideAllCommands('#help');
     $('#userList').fadeIn();
     commandIsMatched = true;
   
@@ -39,7 +41,11 @@ var checkCommands = function(form) {
   }
 };
 
-var hideAllCommands = function() {
-  $('#help').fadeOut();
-  $('#userList').fadeOut();
+var hideAllCommands = function(options) {
+  if (options) {
+    $(options).fadeOut();
+  } else {
+    $('#help').fadeOut();
+    $('#userList').fadeOut();
+  }
 }

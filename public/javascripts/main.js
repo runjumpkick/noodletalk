@@ -183,6 +183,7 @@ $(function() {
       // this is a submission
       isSubmitting = true;
       myPost = true;
+      hideAllCommands();
       $.ajax({
         type: 'POST',
         url: self.attr('action'),
@@ -214,16 +215,8 @@ $(function() {
       updateMedia(data);
     });
   });
-  
-  var keepListSane = function() {
-    if (userList.length > userCount) {
-      userList.splice(userCount, userList.length - userCount);
-    }
-    socket.tabComplete = new TabComplete(userList);
-  };
 
-  // close user list
-  $('#userList a.close, form input').click(function() {
+  var updateUserList = function() {
     var noodlers = $('#noodlers');
     if (userList instanceof Array) {
       noodlers.html('');
@@ -238,6 +231,18 @@ $(function() {
         noodlers.append('<li>' + (userCount - userList.length) + ' Anonymous</li>');
       }
     }
+  };
+
+  var keepListSane = function() {
+    if (userList.length > userCount) {
+      userList.splice(userCount, userList.length - userCount);
+    }
+    updateUserList();
+    socket.tabComplete = new TabComplete(userList);
+  };
+
+  // close user list
+  $('#userList a.close, form input').click(function() {
     $('#userList').fadeOut();
   });
 

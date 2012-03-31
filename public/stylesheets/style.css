@@ -334,6 +334,7 @@ form.font2 input, .font2 {
 
 form.font3 input, .font3 {
     font-family: 'CartoGothicStdBold';
+    font-size: 20px;
 }
 
 form.font4 input, .font4 {
@@ -351,22 +352,10 @@ form.font6 input, .font6 {
 
 form.font7 input, .font7 {
     font-family: 'MomsTypewriterRegular';
+    font-size: 20px;
 }
 
-#help {
-    background-color: #f1ff7e;
-    box-shadow: #222 2px 2px 0px;
-    cursor: pointer;
-    display: none;
-    font-family: 'BebasNeueRegular', sans-serif;
-    font-size: 16px;
-    opacity: .98;
-    padding: 20px 10px 20px 10px;
-    position: absolute;
-    top: 80px;
-}
-
-#userList {
+#userList, #help {
     background-color: #8fe4f9;
     border-radius: 3px;
     box-shadow: #60bdd4 1px 1px 0px;
@@ -384,6 +373,13 @@ form.font7 input, .font7 {
     width: 35%;
 }
 
+#help {
+    background-color: #fff286;
+    box-shadow: #929328 1px 1px 0px;
+    color: #706124;
+    font-size: 17px;
+}
+
 #userList li {
     background-color: #aaeeff;
     border-radius: 3px;
@@ -392,6 +388,7 @@ form.font7 input, .font7 {
     overflow: hidden;
     padding: 3px 3px 0px 3px;
     text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 #userList li:hover {
@@ -407,8 +404,8 @@ form.font7 input, .font7 {
 }
 
 #help span {
-    color: #3b7ca1;
-    font-size: 22px;
+    color: #e35f07;
+    font-size: 21px;
     padding-right: 5px;
 }
 
@@ -468,7 +465,7 @@ form.font7 input, .font7 {
     form input {
         width: 79%;
     }
-    #userList {
+    #userList, #help {
         top: 130px;
         width: 60%;
     }
@@ -497,12 +494,7 @@ form.font7 input, .font7 {
     #help {
         width: 270px;
     }
-    #userList {
-        left: 28px;
-        top: 70px;
-        width: 200px;
-    }
-    #userList {
+    #userList, #help {
         left: 20px;
         top: 130px;
         width: 260px;
