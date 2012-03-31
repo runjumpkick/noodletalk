@@ -5,26 +5,26 @@ module.exports = function(noodle, app, io, userList, recentMessages) {
   var messageMaker = require('../lib/message-maker');
 
   // Get recent messages
-  app.get("/recent", function(req, res) {
-    var topic = req.param('topic', 'default');
-    var topicMessages = {};
-    topicMessages.generic = recentMessages.generic.filter(function (m) { return (m.topic == topic); });
-    topicMessages.media = recentMessages.media.filter(function (m) { return (m.topic == topic); });
-    if (!userList[topic]) {
-      userList[topic] = [];
+  app.get("/about/:channel/recent", function(req, res) {
+    var channel = req.params.channel;
+    var channelMessages = {};
+    channelMessages.generic = recentMessages.generic.filter(function (m) { return (m.channel == channel); });
+    channelMessages.media = recentMessages.media.filter(function (m) { return (m.channel == channel); });
+    if (!userList[channel]) {
+      userList[channel] = [];
     }
     req.session = null;
     res.json({
-      'messages': topicMessages,
+      'messages': channelMessages,
       'connected_clients': io.sockets.clients().length,
-      'user_list': userList[topic],
+      'user_list': userList[channel],
     });
   });
 
   // Add new message
-  app.post("/message", function(req, res) {
-    var topic = req.param('topic', 'default');
-    var message = messageMaker.getMessage(noodle, topic, req, io, userList);
+  app.post("/about/:channel/message", function(req, res) {
+    var channel = req.params.channel;
+    var message = messageMaker.getMessage(noodle, channel, req, io, userList);
     var mediaIframeMatcher = /<iframe\s.+><\/iframe>/i;
     var mediaVideoMatcher = /<video\s.+>.+<\/video>/i;
     var mediaAudioMatcher = /<audio\s.+>.+<\/audio>/i;
@@ -33,12 +33,12 @@ module.exports = function(noodle, app, io, userList, recentMessages) {
     
     var totalTopics = {};
     recentMessages.generic.forEach(function (m, i, a) {
-        totalTopics[m.topic] = 1;
+        totalTopics[m.channel] = 1;
     });
     
     if (recentMessages.generic.length > Object.keys(totalTopics).length * 20) {
       for (var i = recentMessages.generic.length - 1; i >= 0; i--) {
-        if (recentMessages.generic[i].topic == topic) {
+        if (recentMessages.generic[i].channel == channel) {
           recentMessages.generic.splice(i, 1);
         }
       }
@@ -52,7 +52,7 @@ module.exports = function(noodle, app, io, userList, recentMessages) {
     
     if (recentMessages.media.length > Object.keys(totalTopics).length * 3) {
       for (var i = recentMessages.media.length - 1; i >= 0; i--) {
-        if (recentMessages.media[i].topic == topic) {
+        if (recentMessages.media[i].channel == channel) {
           recentMessages.media.splice(i, 1);
         }
       }

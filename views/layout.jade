@@ -17,22 +17,21 @@ html
     script(src='/javascripts/lib/disable-scrolling.js')
     script(src='/javascripts/main.js')
 
-  body(data-nick=nickname, data-topic=topic)
+  body(data-nick=nickname, data-channel=channel)
     #hush
     #header
       if session.email
         h1 Noodle Talk
 
         #message
-          form(method='post', action='/message', autocomplete='off', class='font#{session.userFont}')
+          form(method='post', action='/about/#{channel}/message', autocomplete='off', class='font#{session.userFont}')
             input(type='text', name='message', placeholder='enter your message here or type /help for more commands')
-            input(type='hidden', name='topic', value=topic)
             button(type='submit') add
       else
         h1(class='visitor') Noodle Talk
 
-      if topic
-        h2= topic
+      if channel
+        h2= channel
 
       div#info
         div(class='connected', style='display:block')
@@ -40,12 +39,11 @@ html
           span ?
         a(href='https://github.com/ednapiranha/noodletalk', target='_blank') Github
         if session.email
-          a(href='/logout?topic='+topic) Log out
+          a(href='/about/#{channel}/logout') Log out
         else
           a(href='#', id='login') Log in
-          form(method='post', action='/login', id='login-form')
+          form(method='post', action='/about/#{channel}/login', id='login-form')
             input(type='hidden', name='bid_assertion', value='1')
-            input(type='hidden', name='topic', value=topic)
 
     != body
 

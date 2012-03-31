@@ -1,6 +1,6 @@
 $(function() {
-  var socket = io.connect(document.location);
-  var currentTopic = $('body').data('topic');
+  var socket = io.connect(location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : ''));
+  var currentChannel = $('body').data('channel');
   var messagesUnread = 0;
   var userList = [];
   var userCount = 0;
@@ -125,7 +125,7 @@ $(function() {
   };
 
   // if the user just landed on this page, get the recent messages
-  $.get('/recent?topic=' + currentTopic, function(data) {
+  $.get('/about/' + $('body').data('channel') + '/recent', function(data) {
     var messages = data.messages;
     for (var i=0; i < messages.generic.length; i++) {
       updateMessage(messages.generic[i]);
@@ -152,8 +152,8 @@ $(function() {
         var loginForm = $('#login-form');
 
         loginForm.find('input:first').val(assertion);
-        $.post('/login', loginForm.serialize(), function (data) {
-          document.location.href = '/?topic=' + escape(currentTopic);
+        $.post('/about/' + $('body').data('channel') + '/login', loginForm.serialize(), function (data) {
+          document.location.href = '/about/' + $('body').data('channel');
         });
       }
     });
@@ -223,7 +223,7 @@ $(function() {
       keepListSane();
     });
     socket.on('message', function (data) {
-      if (data.topic != currentTopic) {
+      if (data.channel != $('body').data('channel')) {
         return;
       }
       updateMessage(data);
