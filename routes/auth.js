@@ -6,7 +6,7 @@ module.exports = function(noodle, app, settings, io, userList) {
   app.post("/about/:channel/login", function(req, res) {
     var channel = req.params.channel;
     auth.verify(req, settings, function(error, email) {
-      if(email) {
+      if(email) {        
         req.session.email = email;
         req.session.userFont = Math.floor(Math.random() * 8);
         req.session.nickname = new Object({ channel: auth.generateRandomNick(userList[channel]) });;
