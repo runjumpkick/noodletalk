@@ -177,38 +177,26 @@ $(function() {
     ev.preventDefault();
     var self = $(this);
     
-    var helpMatcher = /^(\/help)/i;
-    var clearMatcher = /^(\/clear)/i;
+    checkCommands(self);
 
-    // if this is a help trigger, open up the help window
-    if (self.find('input').val().match(helpMatcher)) {
-      $('#help').fadeIn();
-      self.find('input').val('');
-    // if this is a clear trigger, clear all messages
-    } else if (self.find('input').val().match(clearMatcher)) {
-      $('ol li').remove();
-      self.find('input').val('');
-
-    // this is a submission
-    } else {
-      if (!isSubmitting) {
-        isSubmitting = true;
-        $('#help').fadeOut();
-        myPost = true;
-        $.ajax({
-          type: 'POST',
-          url: self.attr('action'),
-          data: self.serialize(),
-          success: function(data) {
-            $('form input').val('');
-            document.title = 'Noodle Talk';
-            messagesUnread = 0;
-            isSubmitting = false;
-          },
-          dataType: 'json'
-        });
-      }
+    if(!commandIsMatched && !isSubmitting) {
+      // this is a submission
+      isSubmitting = true;
+      myPost = true;
+      $.ajax({
+        type: 'POST',
+        url: self.attr('action'),
+        data: self.serialize(),
+        success: function(data) {
+          $('form input').val('');
+          document.title = 'Noodle Talk';
+          messagesUnread = 0;
+          isSubmitting = false;
+        },
+        dataType: 'json'
+      });
     }
+    commandIsMatched = false;
   });
 
   $('ol').on('click', 'li a.delete', function(ev) {
@@ -219,11 +207,6 @@ $(function() {
   socket.on('connect', function () {
     socket.on('userlist', function (data) {
       userList = data;
-      keepListSane();
-    });
-    socket.on('usercount', function (data) {
-      userCount = data;
-      $('#info .connected span').text(userCount);
       keepListSane();
     });
     socket.on('message', function (data) {
@@ -238,8 +221,9 @@ $(function() {
     }
     socket.tabComplete = new TabComplete(userList);
   };
-  
-  $('.connected').click(function() {
+
+  // close user list
+  $('#userList a.close, form input').click(function() {
     var noodlers = $('#noodlers');
     if (userList instanceof Array) {
       noodlers.html('');
@@ -254,10 +238,6 @@ $(function() {
         noodlers.append('<li>' + (userCount - userList.length) + ' Anonymous</li>');
       }
     }
-    $('#userList').fadeIn();
-  });
-
-  $('#userList a.close, form input').click(function() {
     $('#userList').fadeOut();
   });
 

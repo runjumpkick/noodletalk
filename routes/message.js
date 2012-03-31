@@ -7,8 +7,7 @@ module.exports = function(noodle, app, io, userList, recentMessages) {
   // Get recent messages
   app.get("/recent", function(req, res) {
     res.json({
-      'messages': recentMessages, 
-      'connected_clients': io.sockets.clients().length,
+      'messages': recentMessages,
       'user_list': userList,
     });
   });
@@ -35,7 +34,6 @@ module.exports = function(noodle, app, io, userList, recentMessages) {
     }
 
     io.sockets.emit('message', message);
-    io.sockets.emit('usercount', io.sockets.clients().length);
     res.json(message);
   });
 };
