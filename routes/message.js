@@ -13,6 +13,7 @@ module.exports = function(noodle, app, io, userList, recentMessages) {
     if (!userList[topic]) {
       userList[topic] = [];
     }
+    req.session = null;
     res.json({
       'messages': topicMessages,
       'connected_clients': io.sockets.clients().length,
@@ -23,7 +24,7 @@ module.exports = function(noodle, app, io, userList, recentMessages) {
   // Add new message
   app.post("/message", function(req, res) {
     var topic = req.param('topic', 'default');
-    var message = messageMaker.getMessage(noodle, req, io, userList[topic]);
+    var message = messageMaker.getMessage(noodle, topic, req, io, userList);
     var mediaIframeMatcher = /<iframe\s.+><\/iframe>/i;
     var mediaVideoMatcher = /<video\s.+>.+<\/video>/i;
     var mediaAudioMatcher = /<audio\s.+>.+<\/audio>/i;

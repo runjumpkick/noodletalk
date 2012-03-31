@@ -21,7 +21,7 @@ io.configure(function () {
 });
 
 // routes
-require("./routes")(noodle, app);
+require("./routes")(noodle, app, userList);
 require("./routes/message")(noodle, app, io, userList, recentMessages);
 require("./routes/auth")(noodle, app, settings, io, userList);
 

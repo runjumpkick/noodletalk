@@ -1,8 +1,7 @@
 $(function() {
-  var currentTopic = $('body').data('topic');
   var socket = io.connect(document.location);
+  var currentTopic = $('body').data('topic');
   var messagesUnread = 0;
-  var currentNickname = null;
   var userList = [];
   var userCount = 0;
   var logLimit = 80;
@@ -71,10 +70,6 @@ $(function() {
     var message = $.trim(data.message);
 
     if (message.length > 0 && $('ol li[data-created="' + data.created + '"]').length === 0) {
-      if(currentNickname !== data.nickname){
-        currentNickname = data.nickname;
-      }
-
       if (data.is_action) {
         var msg = $('<li class="action font' + data.font + '" data-created="' + data.created +
                     '"><p></p><a href="#" class="delete">x</a></li>');
@@ -125,7 +120,6 @@ $(function() {
         localVersion = data.version;
       } else if (localVersion != data.version) {
         hush('<img onclick="window.location.reload()" src="/images/please_refresh.gif" />', 'refresh', 500, 1000);
-        console.log('refreshing: ' + localVersion + ' != ' + data.version);
       }
     }
   };
