@@ -130,8 +130,8 @@ $(function() {
     for (var i=0; i < messages.generic.length; i++) {
       updateMessage(messages.generic[i]);
     }
-    for (var i=0; i < messages.media.length; i++) {
-      updateMedia(messages.media[i]);
+    for (var i=0; i < messages.medias.length; i++) {
+      updateMedia(messages.medias[i]);
     }
     
     // Update the user list
@@ -152,8 +152,8 @@ $(function() {
         var loginForm = $('#login-form');
 
         loginForm.find('input:first').val(assertion);
-        $.post('/about/' + $('body').data('channel') + '/login', loginForm.serialize(), function (data) {
-          console.log('log in successful');
+        $.post('/about/' + $('body').data('channel') + '/login',
+          loginForm.serialize(), function (data) {
           document.location.href = '/about/' + data.channel;
         });
       }
