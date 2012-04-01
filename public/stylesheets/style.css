@@ -89,8 +89,8 @@ img.hush {
 }
 
 @font-face {
-    font-family: 'FanwoodRegular';
-    src: url('../fonts/Fanwood-webfont.woff') format('woff');
+    font-family: 'CPMono_v07Plain';
+    src: url('../fonts/CPMono_v07_Plain-webfont.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 }
@@ -103,8 +103,8 @@ img.hush {
 }
 
 @font-face {
-    font-family: 'CartoGothicStdBold';
-    src: url('../fonts/CartoGothicStd-Bold-webfont.woff') format('woff');
+    font-family: 'CartoGothicStdBook';
+    src: url('../fonts/CartoGothicStd-Book-webfont.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 }
@@ -124,8 +124,15 @@ img.hush {
 }
 
 @font-face {
-    font-family: 'MomsTypewriterRegular';
-    src: url('../fonts/Moms_typewriter-webfont.woff') format('woff');
+    font-family: 'ComicZineOTRegular';
+    src: url('../fonts/comic_zine_ot-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'CamboRegular';
+    src: url('../fonts/Cambo-Regular-webfont.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 }
@@ -338,11 +345,11 @@ form input , ol li {
 }
 
 form.font2 input, .font2 {
-    font-family: 'FanwoodRegular';
+    font-family: 'CPMono_v07Plain';
 }
 
 form.font3 input, .font3 {
-    font-family: 'CartoGothicStdBold';
+    font-family: 'CartoGothicStdBook';
     font-size: 20px;
 }
 
@@ -360,8 +367,12 @@ form.font6 input, .font6 {
 }
 
 form.font7 input, .font7 {
-    font-family: 'MomsTypewriterRegular';
-    font-size: 20px;
+    font-family: 'ComicZineOTRegular';
+    font-size: 26px;
+}
+
+form.font8 input, .font8 {
+    font-family: 'CamboRegular';
 }
 
 #userList, #help {

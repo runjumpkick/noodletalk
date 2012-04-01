@@ -10,6 +10,7 @@ module.exports = function(noodle, app, settings, io, userList) {
         req.session.email = email;
         req.session.userFont = Math.floor(Math.random() * 8);
         req.session.nickname = new Object({ channel: auth.generateRandomNick(userList[channel]) });;
+        
         var message = messageMaker.getMessage(noodle, channel, req, io, userList, "joined");
         io.sockets.in(channel).emit('userlist', userList[channel]);
         io.sockets.in(channel).emit('message', message);

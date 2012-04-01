@@ -22,4 +22,11 @@ module.exports = function(noodle, app, userList) {
     }
     res.render('index', { title: 'Noodle Talk', channel: channel, nickname: nickname });
   });
+
+  app.get("/font", function(req, res) {
+    req.session.userFont = Math.floor(Math.random() * 9);
+    res.json({
+      'font': req.session.userFont
+    });
+  });
 };

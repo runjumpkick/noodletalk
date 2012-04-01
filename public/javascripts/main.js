@@ -246,8 +246,4 @@ $(function() {
   $('#userList a.close, form input').click(function() {
     $('#userList').fadeOut();
   });
-
-  // Always Be Typing.
-  $('input[name=message]').focus();
-  $(document).keypress(function() { $('input[name=message]').focus(); });
 });
