@@ -14,8 +14,10 @@ module.exports = function(noodle, app, settings, io, userList) {
         var message = messageMaker.getMessage(noodle, channel, req, io, userList, "joined");
         io.sockets.in(channel).emit('userlist', userList[channel]);
         io.sockets.in(channel).emit('message', message);
+        res.redirect('/about/' + escape(channel));
+      } else {
+        res.redirect('/about/' + escape(channel));
       }
-      res.redirect('/about/' + escape(channel));
     });
   });
 
