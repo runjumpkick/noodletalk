@@ -1,6 +1,5 @@
 $(function() {
   var socket = io.connect(location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : ''));
-  var currentChannel = $('body').data('channel');
   var messagesUnread = 0;
   var userList = [];
   var userCount = 0;
@@ -96,6 +95,10 @@ $(function() {
                     '" data-created="' + data.created +
                     '"><img><span class="nick">' + data.nickname + '</span><time>' +
                     getMessageDateTimeString(data) + '</time><p></p>' +
+                    '<a href="/about/' + $('body').data('base-channel') + '/' +
+                    data.nickname.toLowerCase().replace(/[\W ]+/g, '-') +
+                    ':-' + message.toLowerCase().replace(/[\W ]+/g, '-') +
+                    '" class="reply" target="_blank">reply</a>' +
                     '<a href="#" class="delete">x</a></li>');
         msg.find('img').attr('src', data.gravatar);
         msg.find('p').html(message);
@@ -214,7 +217,7 @@ $(function() {
       updateMessage(data);
       updateMedia(data);
     });
-    socket.emit('join channel', currentChannel);
+    socket.emit('join channel', $('body').data('channel'));
   });
 
   var updateUserList = function() {
