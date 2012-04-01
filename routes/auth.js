@@ -11,13 +11,11 @@ module.exports = function(noodle, app, settings, io, userList) {
         req.session.userFont = Math.floor(Math.random() * 9);
         req.session.nickname = new Object({ channel: auth.generateRandomNick(userList[channel]) });;
         
-        var message = messageMaker.getMessage(noodle, channel, req, io, userList, "joined");
-        io.sockets.in(channel).emit('userlist', userList[channel]);
-        io.sockets.in(channel).emit('message', message);
-        res.redirect('/about/' + escape(channel));
-      } else {
-        res.redirect('/about/' + escape(channel));
+        //var message = messageMaker.getMessage(noodle, channel, req, io, userList, "joined");
+        //io.sockets.in(channel).emit('userlist', userList[channel]);
+        //io.sockets.in(channel).emit('message', message);
       }
+      res.redirect('/about/' + escape(channel));
     });
   });
 
