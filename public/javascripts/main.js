@@ -223,12 +223,10 @@ $(function() {
       keepListSane();
     });
     socket.on('message', function (data) {
-      if (data.channel != $('body').data('channel')) {
-        return;
-      }
       updateMessage(data);
       updateMedia(data);
     });
+    socket.emit('join channel', currentChannel);
   });
   
   var keepListSane = function() {

@@ -20,6 +20,12 @@ io.configure(function () {
   io.set("polling duration", 10);
 });
 
+io.sockets.on('connection', function (socket) {
+  socket.on('join channel', function (channel) {
+    socket.join(channel);
+  });
+});
+
 // routes
 require("./routes")(noodle, app, userList);
 require("./routes/message")(noodle, app, io, userList, recentMessages);

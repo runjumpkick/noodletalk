@@ -16,7 +16,7 @@ module.exports = function(noodle, app, io, userList, recentMessages) {
     req.session = null;
     res.json({
       'messages': channelMessages,
-      'connected_clients': io.sockets.clients().length,
+      'connected_clients': io.sockets.clients(channel).length,
       'user_list': userList[channel],
     });
   });
@@ -58,8 +58,8 @@ module.exports = function(noodle, app, io, userList, recentMessages) {
       }
     }
     
-    io.sockets.emit('message', message);
-    io.sockets.emit('usercount', io.sockets.clients().length);
+    io.sockets.in(channel).emit('message', message);
+    io.sockets.in(channel).emit('usercount', io.sockets.clients(channel).length);
     res.json(message);
   });
 };

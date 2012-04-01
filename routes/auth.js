@@ -10,9 +10,9 @@ module.exports = function(noodle, app, settings, io, userList) {
         req.session.email = email;
         req.session.userFont = Math.floor(Math.random() * 8);
         req.session.nickname = new Object({ channel: auth.generateRandomNick(userList[channel]) });;
-        io.sockets.emit('userlist', userList[channel]);
         var message = messageMaker.getMessage(noodle, channel, req, io, userList, "joined");
-        io.sockets.emit('message', message);
+        io.sockets.in(channel).emit('userlist', userList[channel]);
+        io.sockets.in(channel).emit('message', message);
       }
       res.redirect('/about/' + escape(channel));
     });
@@ -25,7 +25,7 @@ module.exports = function(noodle, app, settings, io, userList) {
     var idx = userList[channel] ? userList[channel].indexOf(req.session.nickname[channel]) : -1;
     if (idx > -1) {
       userList[channel].splice(idx, 1);
-      io.sockets.emit('userlist', userList[channel]);
+      io.sockets.in(channel).emit('userlist', userList[channel]);
     }
     
     // Adios:
