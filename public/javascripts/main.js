@@ -153,7 +153,8 @@ $(function() {
 
         loginForm.find('input:first').val(assertion);
         $.post('/about/' + $('body').data('channel') + '/login', loginForm.serialize(), function (data) {
-          document.location.href = '/about/' + $('body').data('channel');
+          console.log('log in successful');
+          document.location.href = '/about/' + data.channel;
         });
       }
     });
