@@ -5,7 +5,7 @@ var clearMatcher = /^(\/clear)/i;
 var usersMatcher = /^(\/users)/i;
 var logoutMatcher = /^(\/logout)/i;
 var fontMatcher = /^(\/font)/i;
-var joinMatcher = /^(\/join)/i;
+var joinMatcher = /^(\/((join)|(j)))/i;
 var leaveMatcher = /^(\/leave|\/part)/i;
 
 var commandMatched = function(matcher) {
@@ -43,7 +43,6 @@ var checkCommands = function(form) {
     commandIsMatched = true;
     hideAllCommands();
     $.get('/font', function(data) {
-      console.log('font has changed to ' + data.font);
       $('#message form').attr('class', 'font' + data.font);
     });
 
@@ -51,8 +50,8 @@ var checkCommands = function(form) {
   } else if (commandMatched(joinMatcher)) {
     hideAllCommands();
     commandIsMatched = true;
-    var channel = $('form input[name="message"]').val().replace(/^\/join #?/, '');
-    window.open('/about/' + escape(channel), '_blank');
+    var channel = $('form input[name="message"]').val().replace(/^\/((join)|(j)) #?/, '');
+    window.open('/about/' + escape(channel.toLowerCase()), '_blank');
 
   // leave a channel
   } else if (commandMatched(leaveMatcher)) {

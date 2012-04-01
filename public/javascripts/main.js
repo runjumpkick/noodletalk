@@ -47,7 +47,11 @@ $(function() {
           newElement.attr('id', contentID);
           newElement.attr('class', 'hush');
           $('body').append(newElement);
-          $('#'+contentID).animate({'width':440,'height':338, 'margin-left': -220, 'margin-top': -184}, timeToAppear, function() {});
+          $('#'+contentID).animate({
+            'width': 440,'height': 338, 'margin-left': -220, 'margin-top': -184 },
+            timeToAppear,
+            function() {}
+          );
         },timeToAppear);
         $('#hush').fadeIn();
       },timeToFadeIn);
@@ -61,7 +65,12 @@ $(function() {
         $('#hush').fadeOut();
         hushLock = 0;
       },timeToFadeOut);
-      $('#'+contentID).animate({'width':0,'height':0, 'margin-left': 0, 'margin-top': 0}, timeToDisappear, function() {});
+      $('#'+contentID).animate({
+        'width': 0,'height': 0, 
+        'margin-left': 0, 'margin-top': 0 },
+        timeToDisappear,
+        function() {}
+      );
     },timeToDisappear);
   }
   
