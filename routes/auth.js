@@ -7,7 +7,7 @@ module.exports = function(noodle, app, settings, io, userList) {
     auth.verify(req, settings, function(error, email) {
       if(email) {        
         req.session.email = email;
-        req.session.userFont = Math.floor(Math.random() * 8);
+        req.session.userFont = Math.floor(Math.random() * 9);
         req.session.nickname = auth.generateRandomNick(userList);
         
         var message = messageMaker.getMessage(noodle, req, io, userList, "joined");

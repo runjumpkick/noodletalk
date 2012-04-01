@@ -4,6 +4,7 @@ var helpMatcher = /^(\/help)/i;
 var clearMatcher = /^(\/clear)/i;
 var usersMatcher = /^(\/users)/i;
 var logoutMatcher = /^(\/logout)/i;
+var fontMatcher = /^(\/font)/i;
 
 var commandMatched = function(matcher) {
   if ($('form input[name="message"]').val().match(matcher)) {
@@ -34,6 +35,14 @@ var checkCommands = function(form) {
   } else if(commandMatched(logoutMatcher)) {
     commandIsMatched = true;
     document.location.href = '/logout';
+
+  // switch fonts
+  } else if(commandMatched(fontMatcher)) {
+    commandIsMatched = true;
+    $.get('/font', function(data) {
+      console.log('font has changed to ' + data.font);
+      $('#message form').attr('class', 'font' + data.font);
+    });
   }
 
   if (commandIsMatched) {
