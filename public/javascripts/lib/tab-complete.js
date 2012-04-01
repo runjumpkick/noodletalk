@@ -9,7 +9,7 @@ function TabComplete(myUserList) {
   function findNext(){
     for (var i=userListIndex + 1, l=userList.length; i<l; ++i){
       for (var j=0; j < userList.length; j++) {
-        if(userList[j].username.indexOf(currentCompare) === 0){
+        if(userList[j].username.toLowerCase().indexOf(currentCompare.toLowerCase()) === 0){
           userListIndex = i;
           input.value = userList[j].username.toLowerCase() + ': ';
           break;

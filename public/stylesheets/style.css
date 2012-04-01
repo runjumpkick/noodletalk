@@ -148,10 +148,6 @@ h1 {
     float: left;
 }
 
-h1.visitor {
-    padding-bottom: 20px;
-}
-
 h2.channel {
     float: left;
     margin-left: 1em;
@@ -298,7 +294,7 @@ ol li p img {
     max-width: 100%;
 }
 
-ol li a.delete, #userList a.close {
+ol li a.delete, a.close {
     background-color: #fff;
     border-radius: 8px;
     color: #da3321;
@@ -312,7 +308,7 @@ ol li a.delete, #userList a.close {
     top: -10px;
 }
 
-ol li a.delete:hover, #userList a.close:hover {
+ol li a.delete:hover, a.close:hover {
     background-color: #da3321;
     color: #fff;
 }
@@ -329,7 +325,7 @@ form input {
     font-size: 20px;
     margin: 5px 0px 0px 15px;
     padding: 5px;
-    width: 65%;
+    width: 85%;
 }
 
 ol li p {
@@ -347,6 +343,7 @@ form.font2 input, .font2 {
 
 form.font3 input, .font3 {
     font-family: 'CartoGothicStdBold';
+    font-size: 20px;
 }
 
 form.font4 input, .font4 {
@@ -364,22 +361,10 @@ form.font6 input, .font6 {
 
 form.font7 input, .font7 {
     font-family: 'MomsTypewriterRegular';
+    font-size: 20px;
 }
 
-#help {
-    background-color: #f1ff7e;
-    box-shadow: #222 10px 10px 0px;
-    cursor: pointer;
-    display: none;
-    font-family: 'BebasNeueRegular', sans-serif;
-    font-size: 16px;
-    opacity: .95;
-    padding: 20px 10px 20px 10px;
-    position: absolute;
-    top: 80px;
-}
-
-#userList {
+#userList, #help {
     background-color: #8fe4f9;
     border-radius: 3px;
     box-shadow: #60bdd4 1px 1px 0px;
@@ -397,6 +382,13 @@ form.font7 input, .font7 {
     width: 35%;
 }
 
+#help {
+    background-color: #fff286;
+    box-shadow: #929328 1px 1px 0px;
+    color: #706124;
+    font-size: 17px;
+}
+
 #userList li {
     background-color: #aaeeff;
     border-radius: 3px;
@@ -405,6 +397,7 @@ form.font7 input, .font7 {
     overflow: hidden;
     padding: 3px 3px 0px 3px;
     text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 #userList li:hover {
@@ -420,8 +413,8 @@ form.font7 input, .font7 {
 }
 
 #help span {
-    color: #3b7ca1;
-    font-size: 22px;
+    color: #e35f07;
+    font-size: 21px;
     padding-right: 5px;
 }
 
@@ -445,7 +438,11 @@ form.font7 input, .font7 {
 @media only screen and (min-width: 1100px) and (max-width: 1350px) {
     #messages {
         margin-right: 5px;
-        width: 50%;
+        width: 53%;
+    }
+
+    form input {
+        width: 84%;
     }
 }
 
@@ -453,6 +450,10 @@ form.font7 input, .font7 {
     #messages {
         margin-right: 10px;
         width: 45%;
+    }
+
+    form input {
+        width: 80%;
     }
 }
 
@@ -471,21 +472,30 @@ form.font7 input, .font7 {
         display: none;
     }
     form input {
-        clear: both;
-        float: left;
-        margin: 10px 0px 0px 0px;
-        width: 96%;
+        width: 79%;
     }
-    #userList {
+    #userList, #help {
         top: 130px;
         width: 60%;
     }
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 820px) {
+    form input {
+        width: 72%;
+    }
+}
+
+@media only screen and (max-width: 620px) {
     #messages ol li video, #messages ol li iframe {
         height: 163px;
         width: 290px;
+    }
+    form input {
+        clear: both;
+        float: left;
+        margin: 10px 0px 0px 0px;
+        width: 98%;
     }
 }
 
@@ -493,12 +503,7 @@ form.font7 input, .font7 {
     #help {
         width: 270px;
     }
-    #userList {
-        left: 28px;
-        top: 70px;
-        width: 200px;
-    }
-    #userList {
+    #userList, #help {
         left: 20px;
         top: 130px;
         width: 260px;

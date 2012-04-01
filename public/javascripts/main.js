@@ -173,38 +173,27 @@ $(function() {
     ev.preventDefault();
     var self = $(this);
     
-    var helpMatcher = /^(\/help)/i;
-    var clearMatcher = /^(\/clear)/i;
+    checkCommands(self);
 
-    // if this is a help trigger, open up the help window
-    if (self.find('input').val().match(helpMatcher)) {
-      $('#help').fadeIn();
-      self.find('input:first').val('');
-    // if this is a clear trigger, clear all messages
-    } else if (self.find('input:first').val().match(clearMatcher)) {
-      $('ol li').remove();
-      self.find('input:first').val('');
-
-    // this is a submission
-    } else {
-      if (!isSubmitting) {
-        isSubmitting = true;
-        $('#help').fadeOut();
-        myPost = true;
-        $.ajax({
-          type: 'POST',
-          url: self.attr('action'),
-          data: self.serialize(),
-          success: function(data) {
-            $('form input:first').val('');
-            document.title = 'Noodle Talk';
-            messagesUnread = 0;
-            isSubmitting = false;
-          },
-          dataType: 'json'
-        });
-      }
+    if(!commandIsMatched && !isSubmitting) {
+      // this is a submission
+      isSubmitting = true;
+      myPost = true;
+      hideAllCommands();
+      $.ajax({
+        type: 'POST',
+        url: self.attr('action'),
+        data: self.serialize(),
+        success: function(data) {
+          $('form input').val('');
+          document.title = 'Noodle Talk';
+          messagesUnread = 0;
+          isSubmitting = false;
+        },
+        dataType: 'json'
+      });
     }
+    commandIsMatched = false;
   });
 
   $('ol').on('click', 'li a.delete', function(ev) {
@@ -219,7 +208,6 @@ $(function() {
     });
     socket.on('usercount', function (data) {
       userCount = data;
-      $('#info .connected span').text(userCount);
       keepListSane();
     });
     socket.on('message', function (data) {
@@ -228,15 +216,8 @@ $(function() {
     });
     socket.emit('join channel', currentChannel);
   });
-  
-  var keepListSane = function() {
-    if (userList.length > userCount) {
-      userList.splice(userCount, userList.length - userCount);
-    }
-    socket.tabComplete = new TabComplete(userList);
-  };
-  
-  $('.connected').click(function() {
+
+  var updateUserList = function() {
     var noodlers = $('#noodlers');
     if (userList instanceof Array) {
       noodlers.html('');
@@ -251,9 +232,17 @@ $(function() {
         noodlers.append('<li>' + (userCount - userList.length) + ' Anonymous</li>');
       }
     }
-    $('#userList').fadeIn();
-  });
+  };
 
+  var keepListSane = function() {
+    if (userList.length > userCount) {
+      userList.splice(userCount, userList.length - userCount);
+    }
+    updateUserList();
+    socket.tabComplete = new TabComplete(userList);
+  };
+
+  // close user list
   $('#userList a.close, form input').click(function() {
     $('#userList').fadeOut();
   });
