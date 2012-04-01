@@ -39,6 +39,7 @@ var checkCommands = function(form) {
   // switch fonts
   } else if(commandMatched(fontMatcher)) {
     commandIsMatched = true;
+    hideAllCommands();
     $.get('/font', function(data) {
       console.log('font has changed to ' + data.font);
       $('#message form').attr('class', 'font' + data.font);
