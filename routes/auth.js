@@ -4,7 +4,7 @@ module.exports = function(noodle, app, settings, io, userList) {
 
   // Login
   app.post("/about/:channel/login", function(req, res) {
-    var channel = req.params.channel;
+    var channel = req.params.channel || 'noodletalk';
     auth.verify(req, settings, function(error, email) {
       if(email) {        
         req.session.email = email;
