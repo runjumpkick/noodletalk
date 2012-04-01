@@ -29,11 +29,13 @@
 
 ## Installation Instructions for those who dare tread the dark path
 
-1. `curl http://npmjs.org/install.sh | sh`
+1. If you are on an older version of node, or don't have it, install it from here http://nodejs.org/
 
-2. `npm install`
+2. `curl http://npmjs.org/install.sh | sh`
 
-3. `cp settings.js-local to settings.js`
+3. `npm install`
+
+4. `cp settings.js-local to settings.js`
 
 ## Dependencies
 
