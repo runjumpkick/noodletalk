@@ -338,6 +338,7 @@ form input , ol li {
 
 form.font2 input, .font2 {
     font-family: 'CPMono_v07Plain';
+    font-size: 20px;
 }
 
 form.font3 input, .font3 {
@@ -360,7 +361,7 @@ form.font6 input, .font6 {
 
 form.font7 input, .font7 {
     font-family: 'ComicZineOTRegular';
-    font-size: 26px;
+    font-size: 27px;
 }
 
 form.font8 input, .font8 {
