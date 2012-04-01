@@ -8,8 +8,12 @@ module.exports = function(noodle, app, io, userList, recentMessages) {
   app.get("/about/:channel/recent", function(req, res) {
     var channel = req.params.channel;
     var channelMessages = {};
-    channelMessages.generic = recentMessages.generic.filter(function (m) { return (m.channel == channel); });
-    channelMessages.media = recentMessages.media.filter(function (m) { return (m.channel == channel); });
+    channelMessages.generic = recentMessages.generic.filter(function (m) {
+      return (m.channel == channel);
+    });
+    channelMessages.media = recentMessages.media.filter(function (m) {
+      return (m.channel == channel);
+    });
     if (!userList[channel]) {
       userList[channel] = [];
     }

@@ -110,7 +110,7 @@ $(function() {
     }
     
     messagesUnread += 1;
-    document.title = 'Noodle Talk (' + messagesUnread + ')';
+    document.title = '#' + $('body').data('channel') + ' (' + messagesUnread + ')';
     
     // Version checking: if we have a mismatch of our local version and the server version force a refresh.
     if (data.version)
@@ -161,7 +161,7 @@ $(function() {
   });
 
   $('form input').focus(function() {
-    document.title = 'Noodle Talk';
+    document.title = '#' + $('body').data('channel');
     messagesUnread = 0;
   });
 

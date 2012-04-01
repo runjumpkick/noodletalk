@@ -5,8 +5,11 @@ module.exports = function(noodle, app, userList) {
     res.redirect('/about/noodletalk');
   });
   
-  app.get("/about/:channel", function(req, res) {
+  app.get("/about/:channel?", function(req, res) {
     var channel = req.params.channel;
+    if (!channel) {
+      res.redirect('/about/noodletalk');
+    }
     if (!userList[channel]) {
       userList[channel] = [];
     }

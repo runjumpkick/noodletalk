@@ -1,7 +1,7 @@
 !!! 5
 html
   head
-    title= title
+    title= '#' + channel
     meta(content='width=device-width, height=device-height, user-scalable=no, initial-scale=0.9, maximum-scale=0.9, minimum-scale=0.9', name='viewport')
     meta(content='yes', name='apple-mobile-web-app-capable')
     meta(content='chrome=1', http-equiv='X-UA-Compatible')
@@ -27,9 +27,6 @@ html
           form(method='post', action='/about/#{channel}/message', autocomplete='off', class='font#{session.userFont}')
             input(type='text', name='message', placeholder='enter your message here or type /help for more commands')
             button(type='submit') add
-
-      if channel
-        h2(class='channel')= channel
 
       div#info
         a(href='https://github.com/ednapiranha/noodletalk', target='_blank') Github
@@ -71,5 +68,11 @@ html
         li
           span /users
           = ' displays the current list of users'
+        li
+          span /join #channel
+          = ' opens #channel in a new window'
+        li
+          span /leave or /part
+          = ' closes the current channel window'
 
     #footer
