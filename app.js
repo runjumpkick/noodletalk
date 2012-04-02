@@ -26,14 +26,25 @@ io.sockets.on('connection', function (socket) {
     socket.set('channel', channel);
   });
   socket.on('reply', function (data) {
-    console.log('Reply: %j', data);
-    io.sockets.in(data.channel).emit('reply', data.message);
+    var avatarURL = '';
+    userList[data.channel].forEach(function (u, i, a) {
+      if (u.username === data.nickname) {
+        avatarURL = u.avatar;
+      }
+    });
+    io.sockets.in(data.channel).emit('reply', {
+      reply: data.message,
+      user: {
+        nickname: data.nickname,
+        avatar: avatarURL
+      }
+    });
   });
 });
 
 // routes
-require("./routes")(noodle, app, userList);
 require("./routes/message")(noodle, app, io, userList, recentMessages);
+require("./routes")(noodle, app, userList);
 require("./routes/auth")(noodle, app, settings, io, userList);
 
 app.listen(settings.options.port);

@@ -28,13 +28,21 @@ module.exports = function(noodle, app, userList) {
       if (!req.session.nickname[channel]) {
         if (thread) {
           req.session.nickname[channel] = req.session.nickname[baseChannel];
-        } else {
+        }
+        if (!req.session.nickname[channel]) {
           req.session.nickname[channel] = auth.generateRandomNick(userList[channel]);
         }
       }
       var nickname = req.session.nickname[channel];
+      req.session.updated = new Date();
     }
-    res.render('index', { title: 'Noodle Talk', channel: channel, baseChannel: baseChannel, thread: unslugThread, nickname: nickname });
+    res.render('index', {
+      title: 'Noodle Talk',
+      channel: channel,
+      baseChannel: baseChannel,
+      thread: unslugThread,
+      nickname: nickname
+    });
   });
 
   app.get("/font", function(req, res) {
