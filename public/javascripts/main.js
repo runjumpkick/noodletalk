@@ -9,6 +9,7 @@ $(function() {
   var mediaIframeMatcher = /<iframe\s.+><\/iframe>/i;
   var mediaVideoMatcher = /<video\s.+>.+<\/video>/i;
   var mediaAudioMatcher = /<audio\s.+>.+<\/audio>/i;
+  var slugReplacer = /[\W ]+/g;
   var isSubmitting = false;
   var localVersion = undefined;
   var hushLock = 0;
@@ -110,8 +111,8 @@ $(function() {
                     '"><img><span class="nick">' + data.nickname + '</span><time>' +
                     getMessageDateTimeString(data) + '</time><p></p>' +
                     '<a href="#" class="delete">x</a></li>');
-        var replySlug = data.nickname.toLowerCase().replace(/[\W ]+/g, '-') +
-                    ':' + message.toLowerCase().replace(/[\W ]+/g, '-').replace(/\-+$/, '');
+        var replySlug = data.nickname.toLowerCase().replace(slugReplacer, '-') +
+                    ':' + message.toLowerCase().replace(slugReplacer, '-').replace(/\-+$/, '');
         var reply = $('<a href="/about/' + $('body').data('base-channel') + '/' + replySlug +
                     '" class="reply ' + replySlug.replace(/:/, '_') + '" target="_blank">reply</a>');
         msg.find('img').attr('src', data.gravatar);
@@ -120,7 +121,11 @@ $(function() {
           $(this).text('replied');
           socket.emit('reply', {
             channel: $('body').data('channel'),
-            message: replySlug.replace(/:/, '_')
+            message: replySlug.replace(/:/, '_'),
+            user: {
+              nickname: data.nickname,
+              avatar: data.gravatar
+            }
           });
         });
         myPost = false;
@@ -158,12 +163,6 @@ $(function() {
       for (var i=0; i < messages.media.length; i++) {
         updateMedia(messages.media[i]);
       }
-      for (var i=0; i < messages.generic.length; i++) {
-        updateMessage(messages.generic[i]);
-      }
-      for (var i=0; i < messages.medias.length; i++) {
-        updateMedia(messages.medias[i]);
-      }
     }
 
     // Update the user list
@@ -191,6 +190,15 @@ $(function() {
       }
     });
     return false;
+  });
+
+  $('#messageIndicator').click(function () {
+    $(this).removeClass('on');
+    if ($('#messageBox').css('display') == 'none') {
+      $('#messageBox').fadeIn();
+    } else {
+      $('#messageBox').fadeOut();
+    }
   });
 
   $('form input').focus(function() {
@@ -248,10 +256,27 @@ $(function() {
       updateMedia(data);
     });
     socket.on('reply', function (data) {
-      var rep = $('ol li p a.' + data);
+      var rep = $('ol li p a.' + data.reply);
       rep.text('replied');
       if (rep.closest('li').hasClass('mine')) {
         rep.closest('li').addClass('replied');
+        if (data.user.nickname !== $('body').data('nick')) {
+          var replyItem = $('<li class="pMessage"><a href="" target="_blank">' +
+            '<img src=""> <span></span> replied to you.</a> ' +
+            '<a href="#" class="close">x</a></li>');
+          replyItem.find('img').attr('src', data.user.avatar);
+          replyItem.find('span').text(data.user.nickname);
+          replyItem.find('a:first').attr('href', '/about/' +
+            $('body').data('base-channel') + '/' + data.reply);
+          replyItem.find('a:last').click(function () {
+            replyItem.remove();
+            if ($('#messageList li').length == 0) {
+              $('#messageBox').fadeOut();
+            }
+          });
+          $('#messageList').append(replyItem);
+          $('#messageIndicator').addClass('on');
+        }
       }
     });
     socket.emit('join channel', $('body').data('channel'));
@@ -283,7 +308,8 @@ $(function() {
   };
 
   // close user list
-  $('#userList a.close, form input').click(function() {
+  $('#userList a.close, #messageBox a.close, form input').click(function() {
     $('#userList').fadeOut();
+    $('#messageBox').fadeOut();
   });
 });

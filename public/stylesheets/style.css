@@ -202,6 +202,10 @@ a {
     white-space: nowrap;
 }
 
+#messageIndicator.on {
+    box-shadow: inset #4fd3f7 0px 0px 4px, #b1ba9e -1px -1px 0px;
+}
+
 #messages {
     float: left;
     width: 60%;
@@ -327,8 +331,9 @@ ol li a.reply {
     float: right;
 }
 
-ol li.replied {
-    background-color: #e2503a;
+ol li.replied a.reply {
+    border-color: #e2503a;
+    color: #e2503a;
 }
 
 form button {
@@ -387,7 +392,7 @@ form.font8 input, .font8 {
     font-family: 'CamboRegular';
 }
 
-#userList, #help {
+div.listBox {
     background-color: #8fe4f9;
     border-radius: 3px;
     box-shadow: #60bdd4 1px 1px 0px;
@@ -441,13 +446,44 @@ form.font8 input, .font8 {
     padding-right: 5px;
 }
 
-#help h2, #userList h2 {
+div.listBox h2 {
     font-size: 24px;
     margin-bottom: 20px;
 }
 
 #userList h2 ul li {
     font-size: 18px;
+}
+
+#messageList li {
+    font-size: 14pt;
+    float: left;
+    width: 100%;
+    background-color: #aaeeff;
+    height: 18px;
+    border-radius: 5px;
+    padding: 2px;
+}
+
+#messageList li:hover {
+    background-color: #c7f4ff;
+}
+
+#messageList li img {
+    width: 16px;
+    height: 16px;
+}
+
+#messageList li a.close {
+    font-weight: bold;
+    position: relative;
+    width: 10px;
+    height: 10px;
+    line-height: 4px;
+    float: right;
+    background-color: transparent;
+    border-radius: 0px;
+    margin-top: 5px;
 }
 
 .nick-highlight {
