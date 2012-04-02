@@ -95,13 +95,20 @@ $(function() {
                     '" data-created="' + data.created +
                     '"><img><span class="nick">' + data.nickname + '</span><time>' +
                     getMessageDateTimeString(data) + '</time><p></p>' +
-                    '<a href="/about/' + $('body').data('base-channel') + '/' +
-                    data.nickname.toLowerCase().replace(/[\W ]+/g, '-') +
-                    ':-' + message.toLowerCase().replace(/[\W ]+/g, '-') +
-                    '" class="reply" target="_blank">reply</a>' +
                     '<a href="#" class="delete">x</a></li>');
+        var replySlug = data.nickname.toLowerCase().replace(/[\W ]+/g, '-') +
+                    ':' + message.toLowerCase().replace(/[\W ]+/g, '-').replace(/\-+$/, '');
+        var reply = $('<a href="/about/' + $('body').data('base-channel') + '/' + replySlug +
+                    '" class="reply ' + replySlug.replace(/:/, '_') + '" target="_blank">reply</a>');
         msg.find('img').attr('src', data.gravatar);
-        msg.find('p').html(message);
+        msg.find('p').html(message).append(reply);
+        msg.find('p a.reply').click(function (e) {
+          $(this).text('replied');
+          socket.emit('reply', {
+            channel: $('body').data('channel'),
+            message: replySlug.replace(/:/, '_')
+          });
+        });
         myPost = false;
       }
 
@@ -113,7 +120,7 @@ $(function() {
     }
     
     messagesUnread += 1;
-    document.title = 'Noodle Talk (' + messagesUnread + ')';
+    document.title = '#' + $('body').data('channel') + ' (' + messagesUnread + ')';
     
     // Version checking: if we have a mismatch of our local version and the server version force a refresh.
     if (data.version)
@@ -130,13 +137,15 @@ $(function() {
   // if the user just landed on this page, get the recent messages
   $.get('/about/' + $('body').data('channel') + '/recent', function(data) {
     var messages = data.messages;
-    for (var i=0; i < messages.generic.length; i++) {
-      updateMessage(messages.generic[i]);
+    if (messages) {
+      for (var i=0; i < messages.generic.length; i++) {
+        updateMessage(messages.generic[i]);
+      }
+      for (var i=0; i < messages.media.length; i++) {
+        updateMedia(messages.media[i]);
+      }
     }
-    for (var i=0; i < messages.media.length; i++) {
-      updateMedia(messages.media[i]);
-    }
-    
+
     // Update the user list
     userList = data.user_list;
     
@@ -156,7 +165,7 @@ $(function() {
 
         loginForm.find('input:first').val(assertion);
         $.post('/about/' + $('body').data('channel') + '/login', loginForm.serialize(), function (data) {
-          document.location.href = '/about/' + $('body').data('channel');
+          document.location.href = '/about/' + data.channel;
         });
       }
     });
@@ -164,7 +173,7 @@ $(function() {
   });
 
   $('form input').focus(function() {
-    document.title = 'Noodle Talk';
+    document.title = '#' + $('body').data('channel');
     messagesUnread = 0;
   });
 
@@ -217,6 +226,9 @@ $(function() {
       updateMessage(data);
       updateMedia(data);
     });
+    socket.on('reply', function (data) {
+      $('ol li p a.' + data).text('replied');
+    });
     socket.emit('join channel', $('body').data('channel'));
   });
 
@@ -238,7 +250,7 @@ $(function() {
   };
 
   var keepListSane = function() {
-    if (userList.length > userCount) {
+    if (userList && userList.length > userCount) {
       userList.splice(userCount, userList.length - userCount);
     }
     updateUserList();
@@ -249,8 +261,4 @@ $(function() {
   $('#userList a.close, form input').click(function() {
     $('#userList').fadeOut();
   });
-
-  // Always Be Typing.
-  $('input[name=message]').focus();
-  $(document).keypress(function() { $('input[name=message]').focus(); });
 });

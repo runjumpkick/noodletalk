@@ -23,6 +23,11 @@ io.configure(function () {
 io.sockets.on('connection', function (socket) {
   socket.on('join channel', function (channel) {
     socket.join(channel);
+    socket.set('channel', channel);
+  });
+  socket.on('reply', function (data) {
+    console.log('Reply: %j', data);
+    io.sockets.in(data.channel).emit('reply', data.message);
   });
 });
 

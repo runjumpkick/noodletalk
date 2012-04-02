@@ -4,6 +4,9 @@ var helpMatcher = /^(\/help)/i;
 var clearMatcher = /^(\/clear)/i;
 var usersMatcher = /^(\/users)/i;
 var logoutMatcher = /^(\/logout)/i;
+var fontMatcher = /^(\/font)/i;
+var joinMatcher = /^(\/join)/i;
+var leaveMatcher = /^(\/leave|\/part)/i;
 
 var commandMatched = function(matcher) {
   if ($('form input[name="message"]').val().match(matcher)) {
@@ -34,6 +37,28 @@ var checkCommands = function(form) {
   } else if(commandMatched(logoutMatcher)) {
     commandIsMatched = true;
     document.location.href = '/about/' + $('body').data('channel') + '/logout';
+
+  // switch fonts
+  } else if(commandMatched(fontMatcher)) {
+    commandIsMatched = true;
+    hideAllCommands();
+    $.get('/font', function(data) {
+      console.log('font has changed to ' + data.font);
+      $('#message form').attr('class', 'font' + data.font);
+    });
+
+  // join a channel
+  } else if (commandMatched(joinMatcher)) {
+    hideAllCommands();
+    commandIsMatched = true;
+    var channel = $('form input[name="message"]').val().replace(/^\/join #?/, '');
+    window.open('/about/' + escape(channel), '_blank');
+
+  // leave a channel
+  } else if (commandMatched(leaveMatcher)) {
+    hideAllCommands();
+    commandIsMatched = true;
+    window.close();
   }
 
   if (commandIsMatched) {

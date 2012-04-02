@@ -1,7 +1,7 @@
 !!! 5
 html
   head
-    title= title
+    title= '#' + channel
     meta(content='width=device-width, height=device-height, user-scalable=no, initial-scale=0.9, maximum-scale=0.9, minimum-scale=0.9', name='viewport')
     meta(content='yes', name='apple-mobile-web-app-capable')
     meta(content='chrome=1', http-equiv='X-UA-Compatible')
@@ -23,9 +23,6 @@ html
     #header
       h1 Noodle Talk
 
-      if channel
-        h2(class='channel') Noodle Talk about #{baseChannel}
-
       if session.email
         #message
           form(method='post', action='/about/#{channel}/message', autocomplete='off', class='font#{session.userFont}')
@@ -33,7 +30,7 @@ html
             button(type='submit') add
       
       if thread
-        h3(class='thread') in response to #{thread}
+        h2(class='thread') in response to #{thread}
 
       div#info
         a(href='https://github.com/ednapiranha/noodletalk', target='_blank') Github
@@ -58,6 +55,9 @@ html
           span /clear
           = ' removes all messages from your screen'
         li
+          span /font
+          = ' changes to a new random font'
+        li
           span /help
           = ' displays all available commands'
         li
@@ -72,5 +72,11 @@ html
         li
           span /users
           = ' displays the current list of users'
+        li
+          span /join #channel
+          = ' opens #channel in a new window'
+        li
+          span /leave or /part
+          = ' closes the current channel window'
 
     #footer

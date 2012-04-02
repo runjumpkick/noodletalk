@@ -5,14 +5,17 @@ module.exports = function(noodle, app, userList) {
     res.redirect('/about/noodletalk');
   });
 
-  app.get("/about/:channel/:thread?", function(req, res) {
+  app.get("/about/:channel?/:thread?", function(req, res) {
     var channel = req.params.channel;
+    if (!channel) {
+      res.redirect('/about/noodletalk');
+    }
     var baseChannel = channel;
     var thread = req.params.thread;
     var unslugThread = null;
     if (thread) {
       channel += '/' + thread;
-      unslugThread = thread.replace(/\-/g, ' ');
+      unslugThread = thread.replace(/:/, ': ').replace(/\-/g, ' ');
     }
     if (!userList[channel]) {
       userList[channel] = [];
@@ -32,5 +35,12 @@ module.exports = function(noodle, app, userList) {
       var nickname = req.session.nickname[channel];
     }
     res.render('index', { title: 'Noodle Talk', channel: channel, baseChannel: baseChannel, thread: unslugThread, nickname: nickname });
+  });
+
+  app.get("/font", function(req, res) {
+    req.session.userFont = Math.floor(Math.random() * 9);
+    res.json({
+      'font': req.session.userFont
+    });
   });
 };
