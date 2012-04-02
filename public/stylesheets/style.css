@@ -327,6 +327,10 @@ ol li a.reply {
     float: right;
 }
 
+ol li.replied {
+    background-color: #e2503a;
+}
+
 form button {
     display: none;
 }

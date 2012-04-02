@@ -100,7 +100,12 @@ $(function() {
           }
         }
 
-        var msg = $('<li class="font' + data.font + ' ' + highlight +
+        var mine = '';
+        if (myPost) {
+          mine = 'mine';
+        }
+
+        var msg = $('<li class="font' + data.font + ' ' + highlight + ' ' + mine +
                     '" data-created="' + data.created +
                     '"><img><span class="nick">' + data.nickname + '</span><time>' +
                     getMessageDateTimeString(data) + '</time><p></p>' +
@@ -243,7 +248,11 @@ $(function() {
       updateMedia(data);
     });
     socket.on('reply', function (data) {
-      $('ol li p a.' + data).text('replied');
+      var rep = $('ol li p a.' + data);
+      rep.text('replied');
+      if (rep.closest('li').hasClass('mine')) {
+        rep.closest('li').addClass('replied');
+      }
     });
     socket.emit('join channel', $('body').data('channel'));
   });
