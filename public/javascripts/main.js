@@ -46,7 +46,11 @@ $(function() {
           newElement.attr('id', contentID);
           newElement.attr('class', 'hush');
           $('body').append(newElement);
-          $('#'+contentID).animate({'width':440,'height':338, 'margin-left': -220, 'margin-top': -184}, timeToAppear, function() {});
+          $('#'+contentID).animate({
+            'width': 440,'height': 338, 'margin-left': -220, 'margin-top': -184 },
+            timeToAppear,
+            function() {}
+          );
         },timeToAppear);
         $('#hush').fadeIn();
       },timeToFadeIn);
@@ -60,7 +64,12 @@ $(function() {
         $('#hush').fadeOut();
         hushLock = 0;
       },timeToFadeOut);
-      $('#'+contentID).animate({'width':0,'height':0, 'margin-left': 0, 'margin-top': 0}, timeToDisappear, function() {});
+      $('#'+contentID).animate({
+        'width': 0,'height': 0, 
+        'margin-left': 0, 'margin-top': 0 },
+        timeToDisappear,
+        function() {}
+      );
     },timeToDisappear);
   }
   
@@ -144,6 +153,12 @@ $(function() {
       for (var i=0; i < messages.media.length; i++) {
         updateMedia(messages.media[i]);
       }
+      for (var i=0; i < messages.generic.length; i++) {
+        updateMessage(messages.generic[i]);
+      }
+      for (var i=0; i < messages.medias.length; i++) {
+        updateMedia(messages.medias[i]);
+      }
     }
 
     // Update the user list
@@ -164,7 +179,8 @@ $(function() {
         var loginForm = $('#login-form');
 
         loginForm.find('input:first').val(assertion);
-        $.post('/about/' + $('body').data('channel') + '/login', loginForm.serialize(), function (data) {
+        $.post('/about/' + $('body').data('channel') + '/login',
+          loginForm.serialize(), function (data) {
           document.location.href = '/about/' + data.channel;
         });
       }

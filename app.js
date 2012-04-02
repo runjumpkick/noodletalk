@@ -7,7 +7,7 @@ var settings = require('./settings')(app, configurations, express);
 
 var recentMessages = new Object();
 recentMessages.generic = [];
-recentMessages.media = [];
+recentMessages.medias = [];
 
 // jcw: If we don't construct our userlist as an object it won't
 // be passed by reference and won't be in-common between routes:
