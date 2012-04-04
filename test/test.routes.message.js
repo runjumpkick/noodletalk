@@ -85,7 +85,7 @@ describe('message', function() {
           var message = messageMaker.getMessage(noodle, channel, req, io, userList);
 
           req.session.nickname[channel].should.equal('test');
-          message.message.should.equal(' ');
+          message.message.should.equal('');
         });
       });
 
@@ -122,6 +122,40 @@ describe('message', function() {
           var message = messageMaker.getMessage(noodle, channel, req, io, userList);
 
           message.message.should.equal('<em>test is testing</em>');
+        });
+      });
+
+      describe('has no change', function() {
+        it('ensures no message is broadcasted on a single command', function() {
+          var req = { 
+            body: { 
+              message: '/blah'
+            },
+            session: {
+              nickname: { 'noodletalk': 'test' },
+              email: 'test@test.org'
+            }
+          };
+
+          var message = messageMaker.getMessage(noodle, channel, req, io, userList);
+
+          message.message.should.equal('');
+        });
+
+        it('ensures no message is broadcasted on a command with trailing text', function() {
+          var req = { 
+            body: { 
+              message: '/blah test'
+            },
+            session: {
+              nickname: { 'noodletalk': 'test' },
+              email: 'test@test.org'
+            }
+          };
+
+          var message = messageMaker.getMessage(noodle, channel, req, io, userList);
+
+          message.message.should.equal('');
         });
       });
 

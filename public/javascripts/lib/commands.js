@@ -7,6 +7,9 @@ var logoutMatcher = /^(\/logout)/i;
 var fontMatcher = /^(\/font)/i;
 var joinMatcher = /^(\/((join)|(j)))/i;
 var leaveMatcher = /^(\/leave|\/part)/i;
+var meMatcher = /^(\/me\s)\w?/i;
+var nickMatcher = /^(\/nick\s)\w?/i;
+var slashMatcher = /^(\/)\w?/i;
 
 var commandMatched = function(matcher) {
   if ($('form input[name="message"]').val().match(matcher)) {
@@ -58,6 +61,17 @@ var checkCommands = function(form) {
     hideAllCommands();
     commandIsMatched = true;
     window.close();
+  
+  } else if (commandMatched(meMatcher)) {
+    // pass
+  
+  } else if (commandMatched(nickMatcher)) {
+    // pass
+
+  // random /command that was entered but matched none of the above
+  } else if (commandMatched(slashMatcher)) {
+    hideAllCommands();
+    commandIsMatched = true;
   }
 
   if (commandIsMatched) {
