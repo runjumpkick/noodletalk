@@ -3,6 +3,7 @@ $(function() {
   var currentChannel = $('body').data('channel');
   var messagesUnread = 0;
   var userList = [];
+  var myUserList = [];
   var userCount = 0;
   var logLimit = 80;
   var myPost = false;
@@ -86,7 +87,12 @@ $(function() {
 
         // if this is a nick change, set the nick in the dom for the user
         if (data.action_type === 'nick' && myPost) {
+          var oldNick = $('body').data('nick');
           $('body').data('nick', data.nickname.replace(/\s/, ''));
+
+          // The user list clears out every hour so let's remove the user's old name from the list
+          // if they succesfully updated
+          myUserList = userList;
           myPost = false;
         }
 
@@ -229,27 +235,23 @@ $(function() {
 
   var updateUserList = function() {
     var noodlers = $('#noodlers');
-    if (userList instanceof Array) {
-      noodlers.html('');
-      userList.forEach(function(user) {
-        var noodleItem = $('<li><img src=""> <span></span></li>');
+    noodlers.html('');
+    for (var i=0; i < userList.length; i++) {
+      var currentUser = userList[i].nickname;
+      var noodleItem = $('<li><img src=""> <span></span></li>');
 
-        noodleItem.find('img').attr('src', user.avatar);
-        noodleItem.find('span').text(user.username);
-        noodlers.append(noodleItem);
-      });
-      if (userList.length < userCount) {
-        noodlers.append('<li>' + (userCount - userList.length) + ' Anonymous</li>');
-      }
+      noodleItem.find('img').attr('src', userList[i].avatar + "?size=24");
+      noodleItem.find('span').text(userList[i].nickname);
+      noodlers.append(noodleItem);
+    };
+    if (userList.length < userCount) {
+      noodlers.append('<li>' + (userCount - userList.length) + ' Anonymous</li>');
     }
   };
 
   var keepListSane = function() {
-    if (userList.length > userCount) {
-      userList.splice(userCount, userList.length - userCount);
-    }
     updateUserList();
-    socket.tabComplete = new TabComplete(userList);
+    socket.tabComplete = new TabComplete(myUserList);
   };
 
   // close user list
