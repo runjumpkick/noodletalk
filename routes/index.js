@@ -17,7 +17,7 @@ module.exports = function(client, noodle, app, io) {
     if (!channel) {
       res.redirect('/about/noodletalk');
     } else {
-      client.sadd('channels', channel);
+      noodleRedis.setChannel(client, channel);
     }
 
     if (req.session.email) {
@@ -28,17 +28,28 @@ module.exports = function(client, noodle, app, io) {
     }
     
     noodleRedis.getUserlist(client, channel, function(err, userList) {
-      io.sockets.in(channel).emit('userlist', userList);
+      noodleRedis.getChannellist(client, function(err, channels) {
+        io.sockets.in(channel).emit('userlist', userList);
+        io.sockets.emit('channels', channels);
+      });
     });
-    
+
     res.render('index', { title: 'Noodle Talk', channel: channel, nickname: nickname });
   });
 
+  // Change the random font
   app.get("/font", function(req, res) {
     req.session.userFont = Math.floor(Math.random() * 9);
     io.sockets.broadcast('font', userFont);
     res.json({
       'font': req.session.userFont
+    });
+  });
+
+  // Request the current version number
+  app.get("/version", function(req, res) {
+    res.json({
+      'version': noodle.version
     });
   });
 };

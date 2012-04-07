@@ -14,6 +14,7 @@ html
     script(src='/socket.io/socket.io.js')
     script(src='/javascripts/lib/tab-complete.js')
     script(src='/javascripts/lib/time-format.js')
+    script(src='/javascripts/lib/version-timeout.js')
     script(src='/javascripts/lib/commands.js')
     script(src='/javascripts/lib/disable-scrolling.js')
     script(src='/javascripts/main.js')
@@ -37,16 +38,24 @@ html
 
     != body
 
-    #userList
+    #userList.info-block
       a(class='close') x
       h2 Active Noodlers
         ul#noodlers
 
-    #help
+    #channelList.info-block
+      a(class='close') x
+      h2 Active Channels
+        ul#channels
+
+    #help.info-block
       a(class='close') x
       h2 Noodle Commands
 
       ul
+        li
+          span /channels
+          = ' lists all active channels'
         li
           span /clear
           = ' removes all messages from your screen'

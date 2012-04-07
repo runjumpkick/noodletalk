@@ -26,7 +26,7 @@ io.sockets.on('connection', function (socket) {
 
 // routes
 require("./routes")(client, noodle, app, io);
-require("./routes/message")(client, settings, noodle, app, io);
-require("./routes/auth")(client, settings, noodle, app, io);
+require("./routes/message")(client, settings, app, io);
+require("./routes/auth")(client, settings, app, io);
 
 app.listen(settings.options.port);

@@ -9,6 +9,7 @@ var joinMatcher = /^(\/((join)|(j)))/i;
 var leaveMatcher = /^(\/leave|\/part)/i;
 var meMatcher = /^(\/me\s)\w?/i;
 var nickMatcher = /^(\/nick\s)\w?/i;
+var channelMatcher = /^(\/channels)/i;
 var slashMatcher = /^(\/)\w?/i;
 
 var commandMatched = function(matcher) {
@@ -21,7 +22,7 @@ var commandMatched = function(matcher) {
 var checkCommands = function(form) {
   // if this is a help trigger, open up the help window
   if (commandMatched(helpMatcher)) {
-    hideAllCommands('#userList');
+    hideAllCommands();
     $('#help').fadeIn();
     commandIsMatched = true;
 
@@ -32,7 +33,7 @@ var checkCommands = function(form) {
 
   // if this is a users trigger, display the user list
   } else if (commandMatched(usersMatcher)) {
-    hideAllCommands('#help');
+    hideAllCommands();
     $('#userList').fadeIn();
     commandIsMatched = true;
   
@@ -61,7 +62,13 @@ var checkCommands = function(form) {
     hideAllCommands();
     commandIsMatched = true;
     window.close();
-  
+
+  // channel listing
+  } else if (commandMatched(channelMatcher)) {
+    hideAllCommands();
+    commandIsMatched = true;
+    $('#channelList').fadeIn();
+
   } else if (commandMatched(meMatcher)) {
     // pass
   
@@ -83,7 +90,6 @@ var hideAllCommands = function(options) {
   if (options) {
     $(options).fadeOut();
   } else {
-    $('#help').fadeOut();
-    $('#userList').fadeOut();
+    $('#help, #userList, #channelList').fadeOut();
   }
 }

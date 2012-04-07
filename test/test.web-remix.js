@@ -49,14 +49,20 @@ describe('web-remix', function() {
       var video = 'http://blah.com/video.ogv';
       var subject = webRemix.generate(video);
       subject.should.equal(' <video controls="controls" preload="none" autobuffer><source src="' + video +
-        '" type="video/ogg; codecs="vp8, vorbis" /></video><a href="' + video + '" target="_blank">' + video + '</a>')
+        '" type="video/ogg; codecs="vp8, vorbis" /></video><a href="' + video + '" target="_blank">' + video + '</a>');
     });
 
     it('returns audio for an audio link', function() {
       var audio = 'http://blah.com/audio.ogg';
       var subject = webRemix.generate(audio);
       subject.should.equal(' <audio controls="controls" preload="none" autobuffer><source src="' + audio +
-        '" type="audio/ogg" /></audio><a href="' + audio + '" target="_blank">' + audio + '</a>')
+        '" type="audio/ogg" /></audio><a href="' + audio + '" target="_blank">' + audio + '</a>');
+    });
+
+    it('returns a channel link', function() {
+      var channel = 'join this #channel';
+      var subject = webRemix.generate(channel);
+      subject.should.equal(' join this <a href="/about/channel" target="_blank">#channel</a>');
     });
 
     it('returns the plain text for anything else', function() {

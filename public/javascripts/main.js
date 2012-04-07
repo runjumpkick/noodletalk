@@ -1,8 +1,10 @@
 $(function() {
-  var socket = io.connect(location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : ''));
+  var socket = io.connect(location.protocol + '//' + location.hostname +
+               (location.port ? ':' + location.port : ''));
   var currentChannel = $('body').data('channel');
   var messagesUnread = 0;
   var userList = [];
+  var channelList = [];
   var myUserList = [];
   var userCount = 0;
   var logLimit = 80;
@@ -12,8 +14,6 @@ $(function() {
   var mediaVideoMatcher = /<video\s.+>.+<\/video>/i;
   var mediaAudioMatcher = /<audio\s.+>.+<\/audio>/i;
   var isSubmitting = false;
-  var localVersion = undefined;
-  var hushLock = 0;
 
   var updateMedia = function(data) {
     // Update the media
@@ -29,51 +29,6 @@ $(function() {
       }
     }
   };
-  
-  var hush = function(content,contentID,timeToFadeIn,timeToAppear) {
-    if (!hushLock)
-    {
-      hushLock = 1;
-      
-      // Disable messaging.
-      $('input[name=message]').attr('disabled','disabled');
-      
-      // Disable scrolling.
-      disableScroll();
-      
-      setTimeout(function() {
-        setTimeout(function()
-        {
-          var newElement = jQuery(content);
-          newElement.attr('id', contentID);
-          newElement.attr('class', 'hush');
-          $('body').append(newElement);
-          $('#'+contentID).animate({
-            'width': 440,'height': 338, 'margin-left': -220, 'margin-top': -184 },
-            timeToAppear,
-            function() {}
-          );
-        },timeToAppear);
-        $('#hush').fadeIn();
-      },timeToFadeIn);
-    }
-  }
-  
-  var unHush = function(contentID,timeToFadeOut,timeToDisappear) {
-    setTimeout(function() {
-      setTimeout(function()
-      {
-        $('#hush').fadeOut();
-        hushLock = 0;
-      },timeToFadeOut);
-      $('#'+contentID).animate({
-        'width': 0,'height': 0, 
-        'margin-left': 0, 'margin-top': 0 },
-        timeToDisappear,
-        function() {}
-      );
-    },timeToDisappear);
-  }
   
   var updateMessage = function(data) {
     // Update the message
@@ -126,17 +81,8 @@ $(function() {
     
     messagesUnread += 1;
     document.title = '#' + $('body').data('channel') + ' (' + messagesUnread + ')';
-    
-    // Version checking: if we have a mismatch of our local version and the server version force a refresh.
-    if (data.version)
-    {
-      if (localVersion === undefined)
-      {
-        localVersion = data.version;
-      } else if (localVersion != data.version) {
-        hush('<img onclick="window.location.reload()" src="/images/please_refresh.gif" />', 'refresh', 500, 1000);
-      }
-    }
+
+    checkVersion();
   };
 
   // if the user just landed on this page, get the recent messages
@@ -151,12 +97,7 @@ $(function() {
     
     // Update the user list
     userList = data.user_list;
-    
-    // Update the user count
-    // jcw: Adding one in this call only because we haven't counted our own connection yet.
-    userCount = parseInt(data.connected_clients, 10)+1;
-    $('#info .connected span').text(userCount);
-    
+
     // Keep list sane, compile tab completion, etc.
     keepListSane();
   });
@@ -181,10 +122,6 @@ $(function() {
     messagesUnread = 0;
   });
 
-  $('#help').click(function() {
-    $(this).fadeOut();
-  });
-
   $('form').submit(function(ev) {
     ev.preventDefault();
     var self = $(this);
@@ -202,7 +139,7 @@ $(function() {
         data: self.serialize(),
         success: function(data) {
           $('form input').val('');
-          document.title = 'Noodle Talk';
+          document.title = data.channel;
           messagesUnread = 0;
           isSubmitting = false;
         },
@@ -222,14 +159,22 @@ $(function() {
       userList = data;
       keepListSane();
     });
+
     socket.on('usercount', function (data) {
       userCount = data;
       keepListSane();
     });
+
     socket.on('message', function (data) {
       updateMessage(data);
       updateMedia(data);
     });
+    
+    socket.on('channels', function(data) {
+      channelList = data;
+      updateChannelList(data);
+    });
+    
     socket.emit('join channel', currentChannel);
   });
 
@@ -237,7 +182,6 @@ $(function() {
     var noodlers = $('#noodlers');
     noodlers.html('');
     for (var i=0; i < userList.length; i++) {
-      var currentUser = userList[i].nickname;
       var noodleItem = $('<li><img src=""> <span></span></li>');
 
       noodleItem.find('img').attr('src', userList[i].avatar + "?size=24");
@@ -245,8 +189,19 @@ $(function() {
       noodlers.append(noodleItem);
     };
     if (userList.length < userCount) {
-      noodlers.append('<li>' + (userCount - userList.length) + ' Anonymous</li>');
+      noodlers.append('<li><img src="/images/anon.png"> <span>' +
+        (userCount - userList.length) + ' Anonymous</span></li>');
     }
+  };
+
+  var updateChannelList = function() {
+    var channels = $('#channels');
+    channels.html('');
+    for (var i=0; i < channelList.length; i++) {
+      var channelItem = $('<li><a href="" target="_blank"></a></li>');
+      channelItem.find('a').attr('href', '/about/' + channelList[i]).text(channelList[i]);
+      channels.append(channelItem);
+    };
   };
 
   var keepListSane = function() {
@@ -254,8 +209,12 @@ $(function() {
     socket.tabComplete = new TabComplete(myUserList);
   };
 
-  // close user list
-  $('#userList a.close, form input').click(function() {
-    $('#userList').fadeOut();
+  // close info lists
+  $('.info-block a.close').click(function() {
+    $(this).parent().fadeOut();
+  });
+
+  $('form input').click(function() {
+    $('.info-block').fadeOut();
   });
 });

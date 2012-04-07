@@ -3,7 +3,7 @@ var content = require('../lib/web-remix');
 var messageMaker = require('../lib/message-maker');
 var noodleRedis = require('../lib/noodle-redis');
 
-module.exports = function(client, settings, noodle, app, io) {
+module.exports = function(client, settings, app, io) {
   // Get recent messages
   app.get("/about/:channel/recent", function(req, res) {
     var channel = escape(req.params.channel);
@@ -29,17 +29,18 @@ module.exports = function(client, settings, noodle, app, io) {
 
   // Add new message
   app.post("/about/:channel/message", function(req, res) {
-    noodleRedis.setRecentMessage(client, noodle, req, io, function(err, message) {
+    noodleRedis.setRecentMessage(client, req, io, function(err, message) {
       try {
         var channel = req.params.channel;
-
         noodleRedis.getUserlist(client, channel, function(userErr, userList) {
           try {
-            io.sockets.in(channel).emit('userlist', userList);
-            io.sockets.in(channel).emit('message', message);
-            io.sockets.in(channel).emit('usercount', io.sockets.clients(channel).length);
+            noodleRedis.getChannellist(client, function(err, channels) {
+              io.sockets.emit('channels', channels);
+              io.sockets.in(channel).emit('userlist', userList);
+              io.sockets.in(channel).emit('message', message);
+              io.sockets.in(channel).emit('usercount', io.sockets.clients(channel).length);
+            });
             res.json(message);
-
           } catch(userErr) {
             res.json({ 'status': 500, 'error': userErr });
           }

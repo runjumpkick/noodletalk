@@ -2,7 +2,7 @@ var auth = require('../lib/authenticate');
 var messageMaker = require('../lib/message-maker');
 var noodleRedis = require('../lib/noodle-redis');
 
-module.exports = function(client, settings, noodle, app, io) {
+module.exports = function(client, settings, app, io) {
   // Login
   app.post("/about/:channel/login", function(req, res) {
     auth.verify(req, settings, function(error, email) {
@@ -15,7 +15,7 @@ module.exports = function(client, settings, noodle, app, io) {
         req.session.nickname[channel] = auth.generateRandomNick();
 
         auth.getUserHash(req, req.session.nickname[channel], channel, function(errHash, userHash) {
-          messageMaker.getMessage(client, noodle, channel, req, io, "joined", function(err, message) {
+          messageMaker.getMessage(client, channel, req, io, "joined", function(err, message) {
             try {
               noodleRedis.getUserlist(client, channel, function(errUser, userList) {
                 try {

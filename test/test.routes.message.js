@@ -43,7 +43,7 @@ describe('message', function() {
               email: 'test@test.org'
             }
           };
-          messageMaker.getMessage(client, noodle, channel, req, io, 'nick', function(err, message) {
+          messageMaker.getMessage(client, channel, req, io, 'nick', function(err, message) {
             req.session.nickname[channel].should.equal(newNick);
           });
         });
@@ -63,7 +63,7 @@ describe('message', function() {
             }
           };
 
-          messageMaker.getMessage(client, noodle, channel, req, io, 'nick', function(err, message) {
+          messageMaker.getMessage(client, channel, req, io, 'nick', function(err, message) {
             message.message.should.equal('<em>oldnick has changed to nick123</em>');
 
             noodleRedis.getUserlist(client, channel, function(errUser, users) {
@@ -97,7 +97,7 @@ describe('message', function() {
             }
           };
 
-          noodleRedis.setRecentMessage(client, noodle, req, io, function(err, message) {
+          noodleRedis.setRecentMessage(client, req, io, function(err, message) {
             message.message.should.equal('');
             req.session.nickname[channel].should.equal('test');
           });
@@ -119,7 +119,7 @@ describe('message', function() {
             }
           };
 
-          messageMaker.getMessage(client, noodle, channel, req, io, 'joined', function(err, message) {
+          messageMaker.getMessage(client, channel, req, io, 'joined', function(err, message) {
             req.session.nickname[channel].should.match(/i_love_ie6.+/);
           });
         });
@@ -140,7 +140,7 @@ describe('message', function() {
             }
           };
 
-          messageMaker.getMessage(client, noodle, channel, req, io, 'activity', function(err, message) {
+          messageMaker.getMessage(client, channel, req, io, 'activity', function(err, message) {
             message.message.should.equal('<em>test is testing</em>');
           });
         });
@@ -161,8 +161,31 @@ describe('message', function() {
             }
           };
 
-          messageMaker.getMessage(client, noodle, channel, req, io, 'joined', function(err, message) {
+          messageMaker.getMessage(client, channel, req, io, 'joined', function(err, message) {
             message.message.should.match(/^[<em>Now introducing,]\w+[<\/em>]/);
+          });
+        });
+      });
+
+      describe('has a channel list', function() {
+        it('adds a new channel to the channel list', function() {
+          var req = { 
+            body: { 
+              message: 'test'
+            },
+            params: {
+              channel: 'noodletalk'
+            },
+            session: {
+              nickname: { 'noodletalk': '' },
+              email: 'test@test.org'
+            }
+          };
+
+          noodleRedis.setRecentMessage(client, req, io, function(err, message) {
+            noodleRedis.getChannellist(client, function(err, channels) {
+              channels.should.include('noodletalk');
+            });
           });
         });
       });
@@ -182,7 +205,7 @@ describe('message', function() {
             }
           };
 
-          messageMaker.getMessage(client, noodle, channel, req, io, 'dummy', function(err, message) {
+          messageMaker.getMessage(client, channel, req, io, 'dummy', function(err, message) {
             message.message.should.equal('');
           });
         });
@@ -201,7 +224,7 @@ describe('message', function() {
             }
           };
 
-          messageMaker.getMessage(client, noodle, channel, req, io, 'dummy', function(err, message) {
+          messageMaker.getMessage(client, channel, req, io, 'dummy', function(err, message) {
             message.message.should.equal('');
           });
         });
