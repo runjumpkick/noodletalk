@@ -1,6 +1,6 @@
 // All functionality that doesn't require backend requests but triggers an action
 var commandIsMatched = false;
-var helpMatcher = /^(\/help)/i;
+var helpMatcher = /^((\/help)|(\/h))/i;
 var clearMatcher = /^(\/clear)/i;
 var usersMatcher = /^(\/users)/i;
 var logoutMatcher = /^(\/logout)/i;
@@ -10,6 +10,7 @@ var leaveMatcher = /^(\/leave|\/part)/i;
 var meMatcher = /^(\/me\s)\w?/i;
 var nickMatcher = /^(\/nick\s)\w?/i;
 var channelMatcher = /^(\/channels)/i;
+var mediaToggleMatcher = /^(\/media\s(off|on))/i;
 var slashMatcher = /^(\/)\w?/i;
 
 var commandMatched = function(matcher) {
@@ -68,6 +69,21 @@ var checkCommands = function(form) {
     hideAllCommands();
     commandIsMatched = true;
     $('#channelList').fadeIn();
+
+  // personal options toggle
+  } else if (commandMatched(mediaToggleMatcher)) {
+    hideAllCommands();
+    commandIsMatched = true;
+    var mediaToggle = form.find('input').val().split(' ')[1];
+
+    $.post('/options', { userOptions: mediaToggle }, function(data) {
+      if (data.options === 'mediaOff') {
+        $('body').data('options', 'mediaOff');
+      } else {
+        $('body').data('options', 'mediaOn');
+      };
+      document.location.href = document.location.href;
+    });
 
   } else if (commandMatched(meMatcher)) {
     // pass

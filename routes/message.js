@@ -12,8 +12,8 @@ module.exports = function(client, settings, app, io) {
 
       channelMessages.generic = messages;
 
-      noodleRedis.getRecentMedia(client, channel, function(err, medias) {
-        channelMessages.medias = medias;
+      noodleRedis.getRecentMedia(client, channel, function(err, media) {
+        channelMessages.media = media;
         noodleRedis.getUserlist(client, channel, function(userErr, userList) {
           io.sockets.in(channel).emit('userlist', userList);
 
@@ -34,7 +34,7 @@ module.exports = function(client, settings, app, io) {
         var channel = req.params.channel;
         noodleRedis.getUserlist(client, channel, function(userErr, userList) {
           try {
-            noodleRedis.getChannellist(client, function(err, channels) {
+            noodleRedis.getChannelList(client, io, function(err, channels) {
               io.sockets.emit('channels', channels);
               io.sockets.in(channel).emit('userlist', userList);
               io.sockets.in(channel).emit('message', message);

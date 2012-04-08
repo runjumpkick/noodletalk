@@ -28,7 +28,7 @@ module.exports = function(client, noodle, app, io) {
     }
     
     noodleRedis.getUserlist(client, channel, function(err, userList) {
-      noodleRedis.getChannellist(client, function(err, channels) {
+      noodleRedis.getChannelList(client, io, function(err, channels) {
         io.sockets.in(channel).emit('userlist', userList);
         io.sockets.emit('channels', channels);
       });
@@ -40,9 +40,23 @@ module.exports = function(client, noodle, app, io) {
   // Change the random font
   app.get("/font", function(req, res) {
     req.session.userFont = Math.floor(Math.random() * 9);
-    io.sockets.broadcast('font', userFont);
+    io.sockets.emit('font', req.session.userFont);
     res.json({
       'font': req.session.userFont
+    });
+  });
+
+  // Set options
+  app.post("/options", function(req, res) {
+    var userOption = req.body.userOptions;
+    if (userOption === 'off') {
+      userOption = 'mediaOff';
+    } else {
+      userOption = 'mediaOn';
+    }
+    req.session.userOptions = userOption;
+    res.json({
+      'options': req.session.userOptions
     });
   });
 

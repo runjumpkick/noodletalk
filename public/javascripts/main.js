@@ -57,7 +57,8 @@ $(function() {
 
         if (nickReference) {
           nickReference = nickReference.replace(/\s/, '');
-          if (nickReference === $('body').data('nick') && !myPost) {
+          // Allow highlighting of a message even if it is to yourself
+          if (nickReference === $('body').data('nick')) {
             highlight = 'nick-highlight';
           }
         }
@@ -91,8 +92,8 @@ $(function() {
     for (var i=0; i < messages.generic.length; i++) {
       updateMessage(messages.generic[i]);
     }
-    for (var i=0; i < messages.medias.length; i++) {
-      updateMedia(messages.medias[i]);
+    for (var i=0; i < messages.media.length; i++) {
+      updateMedia(messages.media[i]);
     }
     
     // Update the user list
@@ -157,6 +158,9 @@ $(function() {
   socket.on('connect', function () {
     socket.on('userlist', function (data) {
       userList = data;
+      for (var i=0; i < userList.length; i++) {
+        myUserList.push(userList[i].nickname.toLowerCase());
+      }
       keepListSane();
     });
 
@@ -182,10 +186,11 @@ $(function() {
     var noodlers = $('#noodlers');
     noodlers.html('');
     for (var i=0; i < userList.length; i++) {
-      var noodleItem = $('<li><img src=""> <span></span></li>');
+      var noodleItem = $('<li><img src=""> <a href="#" title=""></a></li>');
 
       noodleItem.find('img').attr('src', userList[i].avatar + "?size=24");
-      noodleItem.find('span').text(userList[i].nickname);
+      noodleItem.find('a').text(userList[i].nickname);
+      noodleItem.find('a').attr('title', userList[i].nickname);
       noodlers.append(noodleItem);
     };
     if (userList.length < userCount) {
@@ -198,8 +203,10 @@ $(function() {
     var channels = $('#channels');
     channels.html('');
     for (var i=0; i < channelList.length; i++) {
-      var channelItem = $('<li><a href="" target="_blank"></a></li>');
-      channelItem.find('a').attr('href', '/about/' + channelList[i]).text(channelList[i]);
+      var channelItem = $('<li><a href="" target="_blank" title=""></a></li>');
+      channelItem.find('a').attr('href', '/about/' + channelList[i].name).text(channelList[i].name +
+        ' (' + parseInt(channelList[i].userCount, 10) + ')');
+      channelItem.find('a').attr('title', channelList[i].name);
       channels.append(channelItem);
     };
   };
@@ -216,5 +223,11 @@ $(function() {
 
   $('form input').click(function() {
     $('.info-block').fadeOut();
+  });
+
+  // autofill the message with a help command
+  $('#help li').click(function() {
+    $('form input').val($(this).data('action')).focus();
+    hideAllCommands();
   });
 });

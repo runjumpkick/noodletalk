@@ -44,6 +44,7 @@ module.exports = function(client, settings, app, io) {
     req.session.userFont = null;
     req.session.nickname = null;
     req.session.pubKey = null;
+    req.session.userOptions = null;
     res.redirect('/about/' + escape(channel));
   });
 };

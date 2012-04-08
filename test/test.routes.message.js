@@ -141,7 +141,11 @@ describe('message', function() {
           };
 
           messageMaker.getMessage(client, channel, req, io, 'activity', function(err, message) {
-            message.message.should.equal('<em>test is testing</em>');
+            if (message) {
+              message.message.should.equal('<em>test is testing</em>');
+            } else {
+              console.error('Message is undefined');
+            }
           });
         });
       });
@@ -162,7 +166,11 @@ describe('message', function() {
           };
 
           messageMaker.getMessage(client, channel, req, io, 'joined', function(err, message) {
-            message.message.should.match(/^[<em>Now introducing,]\w+[<\/em>]/);
+            if (message) {
+              message.message.should.match(/^[<em>Now introducing,]\w+[<\/em>]/);
+            } else {
+              console.error('Message is undefined');
+            }
           });
         });
       });
@@ -183,8 +191,8 @@ describe('message', function() {
           };
 
           noodleRedis.setRecentMessage(client, req, io, function(err, message) {
-            noodleRedis.getChannellist(client, function(err, channels) {
-              channels.should.include('noodletalk');
+            noodleRedis.getChannelList(client, io, function(err, channels) {
+              channels[0].name.should.equal('noodletalk');
             });
           });
         });

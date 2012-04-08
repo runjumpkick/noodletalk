@@ -7,26 +7,31 @@ describe('web-remix', function() {
     it('returns embed code for a youtu.be short url', function() {
       var subject = webRemix.generate('http://youtu.be/5cazkHAHiPU');
       subject.should.equal(' <iframe width="500" height="281" src="//www.youtube.com/embed/5cazkHAHiPU" ' +
-        'frameborder="0" allowfullscreen></iframe>');
+        'frameborder="0" allowfullscreen></iframe><a href="//www.youtube.com/watch?v=5cazkHAHiPU" ' +
+        'class="media-link" target="_blank">http://www.youtube.com/watch?v=5cazkHAHiPU</a>');
     });
 
     it('returns embed code for a youtube normal url', function() {
       var subject = webRemix.generate('http://www.youtube.com/watch?v=5cazkHAHiPU');
       subject.should.equal(' <iframe width="500" height="281" src="//www.youtube.com/embed/5cazkHAHiPU" ' +
-        'frameborder="0" allowfullscreen></iframe>');
+        'frameborder="0" allowfullscreen></iframe><a href="//www.youtube.com/watch?v=5cazkHAHiPU" ' +
+        'class="media-link" target="_blank">http://www.youtube.com/watch?v=5cazkHAHiPU</a>');
     });
 
     it('returns embed code for a vimeo video url',function() {
       var subject = webRemix.generate('http://vimeo.com/37872583');
       subject.should.equal(' <iframe src="//player.vimeo.com/video/37872583" width="500" height="281" ' +
-        'frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>');
+        'frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>' +
+        '<a href="http://vimeo.com/37872583" class="media-link" target="_blank">http://vimeo.com/37872583</a>');
     });
 
     it('returns image code for an img url', function() {
       var subject = webRemix.generate('http://3.bp.blogspot.com/_K_1LxF4TvhU/S7UUE6PYKiI/AAAAAAAADto/XfpdX2CIxqY/' +
         's400/Riley+the+smiling+dog.jpg');
       subject.should.equal(' <img src="http://3.bp.blogspot.com/_K_1LxF4TvhU/S7UUE6PYKiI/AAAAAAAADto/XfpdX2CIxqY/' +
-        's400/Riley+the+smiling+dog.jpg">');
+        's400/Riley+the+smiling+dog.jpg"><a href="http://3.bp.blogspot.com/_K_1LxF4TvhU/S7UUE6PYKiI/AAAAAAAADto/Xf' +
+        'pdX2CIxqY/s400/Riley+the+smiling+dog.jpg" class="media-link" target="_blank">' +
+        'http://3.bp.blogspot.com/_K_1LxF4TvhU/S7UUE6PYKiI/AAAAAAAADto/XfpdX2CIxqY/s400/Riley+the+smiling+dog.jpg</a>');
     });
 
     it('returns a link for an https url', function() {

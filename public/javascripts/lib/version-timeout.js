@@ -1,3 +1,8 @@
+/* This controls the versioning update for each connected client.
+ * If we update and deploy a newer version of the application,
+ * we send out a notification to all connected users if their current
+ * application version differs from the newer one.
+ */
 var localVersion = undefined;
 var hushLock = 0;
 
@@ -19,13 +24,14 @@ var hush = function(content, contentID, timeToFadeIn, timeToAppear) {
         newElement.attr('class', 'hush');
         $('body').append(newElement);
         $('#'+contentID).animate({
-          'width': 440,'height': 338, 'margin-left': -220, 'margin-top': -184 },
-          timeToAppear,
-          function() {}
-        );
+          'width': '440px',
+          'height': '338px',
+          'margin-left': '-220px',
+          'margin-top': '-184px'
+        }, timeToAppear, function() {});
       },timeToAppear);
       $('#hush').fadeIn();
-    },timeToFadeIn);
+    }, timeToFadeIn);
   }
 }
 
@@ -36,12 +42,12 @@ var unHush = function(contentID, timeToFadeOut, timeToDisappear) {
       hushLock = 0;
     },timeToFadeOut);
     $('#'+contentID).animate({
-      'width': 0,'height': 0, 
-      'margin-left': 0, 'margin-top': 0 },
-      timeToDisappear,
-      function() {}
-    );
-  },timeToDisappear);
+      'width': 0,
+      'height': 0, 
+      'margin-left': 0,
+      'margin-top': 0
+    }, timeToDisappear, function() {});
+  }, timeToDisappear);
 }
 
 // Version checking: if we have a mismatch of our local version and the server version force a refresh.
