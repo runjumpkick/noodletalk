@@ -158,13 +158,8 @@ $(function() {
   socket.on('connect', function () {
     socket.on('userlist', function (data) {
       userList = data;
-      console.log(userList);
-      try {
-        for (var i=0; i < userList.length; i++) {
-          myUserList.push(userList[i].nickname.toLowerCase());
-        }
-      } catch(err) {
-        console.log('Could not get user list');
+      for (var i=0; i < userList.length; i++) {
+        myUserList.push(userList[i].nickname.toLowerCase());
       }
       keepListSane();
     });
