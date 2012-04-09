@@ -158,8 +158,10 @@ $(function() {
   socket.on('connect', function () {
     socket.on('userlist', function (data) {
       userList = data;
-      for (var i=0; i < userList.length; i++) {
-        myUserList.push(userList[i].nickname.toLowerCase());
+      if (userList) {
+        for (var i=0; i < userList.length; i++) {
+          myUserList.push(userList[i].nickname.toLowerCase());
+        }
       }
       keepListSane();
     });
