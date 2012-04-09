@@ -10,10 +10,10 @@ module.exports = function(client, settings, app, io) {
     noodleRedis.getRecentMessages(client, channel, function(err, messages) {
       var channelMessages = {};
 
-      channelMessages.generic = messages;
+      channelMessages.generic = messages || {};
 
       noodleRedis.getRecentMedia(client, channel, function(err, media) {
-        channelMessages.media = media;
+        channelMessages.media = media || {};
         noodleRedis.getUserlist(client, channel, function(userErr, userList) {
           io.sockets.in(channel).emit('userlist', userList);
 
