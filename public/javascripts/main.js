@@ -158,7 +158,7 @@ $(function() {
   socket.on('connect', function () {
     socket.on('userlist', function (data) {
       userList = data;
-      if (userList) {
+      if (userList.length > 0) {
         for (var i=0; i < userList.length; i++) {
           myUserList.push(userList[i].nickname.toLowerCase());
         }
