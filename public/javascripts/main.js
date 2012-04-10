@@ -13,6 +13,7 @@ $(function() {
   var mediaIframeMatcher = /<iframe\s.+><\/iframe>/i;
   var mediaVideoMatcher = /<video\s.+>.+<\/video>/i;
   var mediaAudioMatcher = /<audio\s.+>.+<\/audio>/i;
+  var mediaImageMatcher = /(jpg)|(jpeg)|(png)|(gif)$/i;
   var isSubmitting = false;
 
   var updateMedia = function(data) {
@@ -20,7 +21,8 @@ $(function() {
     var message = $.trim(data.message);
     if(mediaIframeMatcher.exec(message) !== null ||
       mediaVideoMatcher.exec(message) !== null ||
-      mediaAudioMatcher.exec(message) !== null) {
+      mediaAudioMatcher.exec(message) !== null ||
+      mediaImageMatcher.exec(message) !== null) {
       var mediaItem = $('<li class="font' + data.font + '"></li>');
 
       mediaColumn.prepend(mediaItem.html(message));
@@ -213,7 +215,7 @@ $(function() {
 
   var keepListSane = function() {
     updateUserList();
-    socket.tabComplete = new TabComplete(myUserList);
+    new TabComplete(myUserList);
   };
 
   // close info lists
