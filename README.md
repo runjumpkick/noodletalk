@@ -1,10 +1,7 @@
+# NoodleTalk Alpha
+## Donate to help keep our server running! :D
+
 <a href='http://www.pledgie.com/campaigns/17022'><img alt='Click here to lend your support to: Noodle Talk and make a donation at www.pledgie.com !' src='http://www.pledgie.com/campaigns/17022.png?skin_name=chrome' border='0' /></a>
-
-# GODDD noodletalk your shit up.
-# For those about to cook we sautee you.
-# THIS IS JUST ABOUT AS PAINFUL AS A CATTLEPROD TO THE SHOULDER CAN BE!
-
-## John, why are you yelling so much?!
 
 ## Contributing to the Noodle
 
@@ -27,15 +24,33 @@
         var b = 2;
         var c = 3;
 
+* No curly braces on newlines
+    ### No:
+        if (1 === 1)
+        {
+
+        }
+
+    ### Yes:
+        if (1 === 1) {
+
+        }
+
 ## Installation Instructions for those who dare tread the dark path
 
-1. If you are on an older version of node, or don't have it, install it from here http://nodejs.org/
+1. Install brew https://github.com/mxcl/homebrew
 
-2. `curl http://npmjs.org/install.sh | sh`
+2. `brew install redis`
 
-3. `npm install`
+3. `redis-server &`
 
-4. `cp settings.js-local to settings.js`
+4. Install node http://nodejs.org/
+
+5. `curl http://npmjs.org/install.sh | sh`
+
+6. `npm install`
+
+7. `cp settings.js-local to settings.js`
 
 ## Dependencies
 
