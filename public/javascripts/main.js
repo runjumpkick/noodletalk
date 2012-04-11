@@ -13,7 +13,7 @@ $(function() {
   var mediaIframeMatcher = /<iframe\s.+><\/iframe>/i;
   var mediaVideoMatcher = /<video\s.+>.+<\/video>/i;
   var mediaAudioMatcher = /<audio\s.+>.+<\/audio>/i;
-  var mediaImageMatcher = /(jpg)|(jpeg)|(png)|(gif)$/i;
+  var mediaImageMatcher = /(\.jpg)|(\.jpeg)|(\.png)|(\.gif)/i;
   var isSubmitting = false;
 
   var updateMedia = function(data) {
