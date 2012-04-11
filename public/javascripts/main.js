@@ -9,6 +9,7 @@ $(function() {
   var userCount = 0;
   var logLimit = 80;
   var myPost = false;
+  var whoami = $('#whoami');
   var mediaColumn = $('#media ol');
   var mediaIframeMatcher = /<iframe\s.+><\/iframe>/i;
   var mediaVideoMatcher = /<video\s.+>.+<\/video>/i;
@@ -30,6 +31,12 @@ $(function() {
         mediaColumn.find('li:last-child').remove();
       }
     }
+  };
+
+  var updateWhoAmI = function(data) {
+    // Update user's hash
+    whoami.find('h3.nickname').text(data.nickname);
+    whoami.find('h3.avatar').html('<img src="' + data.avatar + '">');
   };
   
   var updateMessage = function(data) {
@@ -97,6 +104,9 @@ $(function() {
     for (var i=0; i < messages.media.length; i++) {
       updateMedia(messages.media[i]);
     }
+
+    $('#whoami h3.avatar').text($('body').data('avatar'));
+    $('#whoami h3.nickname').text($('body').data('nick'));
     
     // Update the user list
     userList = data.user_list;
@@ -125,7 +135,7 @@ $(function() {
     messagesUnread = 0;
   });
 
-  $('form').submit(function(ev) {
+  $('#message form').submit(function(ev) {
     ev.preventDefault();
     var self = $(this);
     
@@ -160,6 +170,7 @@ $(function() {
   socket.on('connect', function () {
     socket.on('userlist', function (data) {
       userList = data;
+      myUserList = [];
       for (var i=0; i < userList.length; i++) {
         myUserList.push(userList[i].nickname.toLowerCase());
       }
@@ -169,6 +180,10 @@ $(function() {
     socket.on('usercount', function (data) {
       userCount = data;
       keepListSane();
+    });
+
+    socket.on('userHash', function (data) {
+      updateWhoAmI(data);
     });
 
     socket.on('message', function (data) {

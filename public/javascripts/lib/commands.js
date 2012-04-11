@@ -11,10 +11,11 @@ var meMatcher = /^(\/me\s)\w?/i;
 var nickMatcher = /^(\/nick\s)\w?/i;
 var channelMatcher = /^(\/channels)/i;
 var mediaToggleMatcher = /^(\/media\s(off|on))/i;
+var whoAmIMatcher = /^(\/whoami)/i;
 var slashMatcher = /^(\/)\w?/i;
 
 var commandMatched = function(matcher) {
-  if ($('form input[name="message"]').val().match(matcher)) {
+  if ($('form input[name="message"]').val().trim().match(matcher)) {
     return true;
   }
   return false;
@@ -85,6 +86,12 @@ var checkCommands = function(form) {
       document.location.href = document.location.href;
     });
 
+  // check your own details on the channel
+  } else if (commandMatched(whoAmIMatcher)) {
+    hideAllCommands();
+    commandIsMatched = true;
+    $('#whoami').fadeIn();
+
   } else if (commandMatched(meMatcher)) {
     // pass
   
@@ -106,6 +113,6 @@ var hideAllCommands = function(options) {
   if (options) {
     $(options).fadeOut();
   } else {
-    $('#help, #userList, #channelList').fadeOut();
+    $('#help, #userList, #channelList, #whoami').fadeOut();
   }
 }

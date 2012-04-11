@@ -33,17 +33,16 @@ module.exports = function(client, settings, app, io) {
       try {
         var channel = req.params.channel;
         noodleRedis.getUserlist(client, channel, function(userErr, userList) {
-          try {
-            noodleRedis.getChannelList(client, io, function(err, channels) {
+          noodleRedis.getChannelList(client, io, function(err, channels) {
+            auth.getUserHash(req, req.session.nickname, channel, function(errUser, userHash) {
               io.sockets.emit('channels', channels);
+              io.sockets.in(channel).emit('userHash', userHash);
               io.sockets.in(channel).emit('userlist', userList);
               io.sockets.in(channel).emit('message', message);
               io.sockets.in(channel).emit('usercount', io.sockets.clients(channel).length);
             });
-            res.json(message);
-          } catch(userErr) {
-            res.json({ 'status': 500, 'error': userErr });
-          }
+          });
+          res.json(message);
         });
 
       } catch(err) {

@@ -28,13 +28,9 @@ module.exports = function(client, noodle, app, io) {
     }
     
     noodleRedis.getUserlist(client, channel, function(err, userList) {
-      noodleRedis.getChannelList(client, io, function(err, channels) {
-        io.sockets.in(channel).emit('userlist', userList);
-        io.sockets.emit('channels', channels);
-      });
+      io.sockets.in(channel).emit('userlist', userList);
+      res.render('index', { title: 'Noodle Talk', channel: channel, nickname: nickname });
     });
-
-    res.render('index', { title: 'Noodle Talk', channel: channel, nickname: nickname });
   });
 
   // Change the random font

@@ -312,7 +312,7 @@ ol li > img {
 #media ol li > img {
     height: auto;
     max-height: 300px;
-    max-width: 500px;
+    max-width: 465px;
     width: auto;
 }
 
@@ -416,6 +416,13 @@ form.font8 input, .font8 {
     left: 20px;
     top: 80px;
     width: 90%;
+}
+
+#whoami.info-block h3.nickname {
+    float: left;
+    font-size: 18px;
+    font-weight: bold;
+    margin-left: 15px;
 }
 
 #help {

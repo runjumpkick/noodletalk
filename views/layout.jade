@@ -48,6 +48,12 @@ html
       h2 Active Channels
       ul#channels
 
+    #whoami.info-block
+      a(class='close') x
+      h2 Who am I on this channel?
+      h3.avatar
+      h3.nickname
+
     #help.info-block
       a(class='close') x
       h2 Noodle Commands
@@ -86,5 +92,8 @@ html
         li(data-action='/leave ')
           h3 /leave or /part
           span= ' closes the current channel window'
+        li(data-action='/whoami')
+          h3 /whoami
+          span= ' shows your current nickname and avatar'
 
     #footer
