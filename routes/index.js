@@ -1,7 +1,8 @@
-module.exports = function(client, noodle, app, io) {
-  var auth = require('../lib/authenticate');
-  var noodleRedis = require('../lib/noodle-redis');
+var auth = require('../lib/authenticate');
+var gravatar = require('gravatar');
+var noodleRedis = require('../lib/noodle-redis');
 
+module.exports = function(client, noodle, app, io) {
   app.get("/", function (req, res) {
     res.redirect('/about/noodletalk');
   });
@@ -29,7 +30,12 @@ module.exports = function(client, noodle, app, io) {
     
     noodleRedis.getUserlist(client, channel, function(err, userList) {
       io.sockets.in(channel).emit('userlist', userList);
-      res.render('index', { title: 'Noodle Talk', channel: channel, nickname: nickname });
+      res.render('index', {
+        title: 'Noodle Talk',
+        channel: channel,
+        nickname: nickname,
+        avatar: gravatar.url(req.session.email, { }, true)
+      });
     });
   });
 

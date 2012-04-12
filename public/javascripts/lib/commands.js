@@ -89,6 +89,8 @@ var checkCommands = function(form) {
   // check your own details on the channel
   } else if (commandMatched(whoAmIMatcher)) {
     hideAllCommands();
+    $('#whoami').find('h3.nickname').text($('body').data('nick'));
+    $('#whoami').find('h3.avatar').html('<img src="' + $('body').data('avatar') + '">');
     commandIsMatched = true;
     $('#whoami').fadeIn();
 

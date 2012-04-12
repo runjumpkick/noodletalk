@@ -9,7 +9,6 @@ $(function() {
   var userCount = 0;
   var logLimit = 80;
   var myPost = false;
-  var whoami = $('#whoami');
   var mediaColumn = $('#media ol');
   var mediaIframeMatcher = /<iframe\s.+><\/iframe>/i;
   var mediaVideoMatcher = /<video\s.+>.+<\/video>/i;
@@ -31,12 +30,6 @@ $(function() {
         mediaColumn.find('li:last-child').remove();
       }
     }
-  };
-
-  var updateWhoAmI = function(data) {
-    // Update user's hash
-    whoami.find('h3.nickname').text(data.nickname);
-    whoami.find('h3.avatar').html('<img src="' + data.avatar + '">');
   };
   
   var updateMessage = function(data) {
@@ -180,10 +173,6 @@ $(function() {
     socket.on('usercount', function (data) {
       userCount = data;
       keepListSane();
-    });
-
-    socket.on('userHash', function (data) {
-      updateWhoAmI(data);
     });
 
     socket.on('message', function (data) {
