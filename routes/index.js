@@ -22,19 +22,22 @@ module.exports = function(client, noodle, app, io) {
     }
 
     if (req.session.email) {
+      gravatar = gravatar.url(req.session.email, { }, true)
       if (!req.session.nickname[channel]) {
         req.session.nickname[channel] = auth.generateRandomNick();
       }
       nickname = req.session.nickname[channel];
+    } else {
+      gravatar = '';
     }
-    
+
     noodleRedis.getUserlist(client, channel, function(err, userList) {
       io.sockets.in(channel).emit('userlist', userList);
       res.render('index', {
         title: 'Noodle Talk',
         channel: channel,
         nickname: nickname,
-        avatar: gravatar.url(req.session.email, { }, true)
+        avatar: ''
       });
     });
   });
