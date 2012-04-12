@@ -3,13 +3,12 @@ var gravatar = require('gravatar');
 var noodleRedis = require('../lib/noodle-redis');
 
 module.exports = function(client, noodle, app, io) {
-  var gravatar = '';
-
   app.get("/", function (req, res) {
     res.redirect('/about/noodletalk');
   });
   
   app.get("/about/:channel?", function(req, res) {
+    var avatar = '';
     // Always push noodletalk in as a default channel if it doesn't
     // already exist.
     client.sadd('channels', 'noodletalk');
@@ -24,7 +23,7 @@ module.exports = function(client, noodle, app, io) {
     }
 
     if (req.session.email) {
-      gravatar = gravatar.url(req.session.email, {}, true)
+      avatar = gravatar.url(req.session.email, {}, true)
       if (!req.session.nickname[channel]) {
         req.session.nickname[channel] = auth.generateRandomNick();
       }
@@ -37,7 +36,7 @@ module.exports = function(client, noodle, app, io) {
         title: 'Noodle Talk',
         channel: channel,
         nickname: nickname,
-        avatar: ''
+        avatar: avatar
       });
     });
   });
