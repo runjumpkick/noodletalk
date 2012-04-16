@@ -155,6 +155,12 @@ h1 {
     float: left;
 }
 
+h2.thread {
+    float: left;
+    margin: 0.5em 0 0 1em;
+    font-size: 80%;
+}
+
 a {
     color: #2e87c6;
     outline: none;
@@ -178,7 +184,7 @@ a {
     top: 10px;
 }
 
-#header a, #header .connected {
+#header a, #header .connected, ol li a.reply {
     background-color: #c6ccba;
     border-radius: 3px;
     box-shadow: #b1ba9e -1px -1px 0px;
@@ -194,11 +200,6 @@ a {
     overflow: hidden;
     padding: 4px 8px 4px 8px;
     white-space: nowrap;
-}
-
-#messages {
-    float: left;
-    width: 60%;
 }
 
 #messages li .media-link {
@@ -334,6 +335,20 @@ ol li a.delete, a.close {
 ol li a.delete:hover, a.close:hover {
     background-color: #da3321;
     color: #fff;
+}
+
+ol li a.reply {
+    display: inline-block;
+    font-size: 12px;
+    margin: 0;
+    text-transform: uppercase;
+    padding: 1px;
+    float: right;
+}
+
+ol li.replied a.reply {
+    border-color: #e2503a;
+    color: #e2503a;
 }
 
 form button {
@@ -494,6 +509,37 @@ form.font8 input, .font8 {
 
 #help h2 {
     letter-spacing: -1px;
+}
+
+#messageList li {
+    font-size: 14pt;
+    float: left;
+    width: 100%;
+    background-color: #aaeeff;
+    height: 18px;
+    border-radius: 5px;
+    padding: 2px;
+}
+
+#messageList li:hover {
+    background-color: #c7f4ff;
+}
+
+#messageList li img {
+    width: 16px;
+    height: 16px;
+}
+
+#messageList li a.close {
+    font-weight: bold;
+    position: relative;
+    width: 10px;
+    height: 10px;
+    line-height: 4px;
+    float: right;
+    background-color: transparent;
+    border-radius: 0px;
+    margin-top: 5px;
 }
 
 .nick-highlight {

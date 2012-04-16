@@ -2,6 +2,7 @@ $(function() {
   var socket = io.connect(location.protocol + '//' + location.hostname +
                (location.port ? ':' + location.port : ''));
   var currentChannel = $('body').data('channel');
+  var myEmailHash = $('body').data('email-hash');
   var messagesUnread = 0;
   var userList = [];
   var channelList = [];
@@ -63,7 +64,12 @@ $(function() {
           }
         }
 
-        var msg = $('<li class="font' + data.font + ' ' + highlight +
+        var mine = '';
+        if (myPost) {
+          mine = 'mine';
+        }
+
+        var msg = $('<li class="font' + data.font + ' ' + highlight + ' ' + mine +
                     '" data-created="' + data.created +
                     '"><img><span class="nick">' + data.nickname + '</span><time>' +
                     getMessageDateTimeString(data) + '</time><p></p>' +
@@ -95,7 +101,7 @@ $(function() {
     for (var i=0; i < messages.media.length; i++) {
       updateMedia(messages.media[i]);
     }
-    
+
     // Update the user list
     userList = data.user_list;
 
@@ -179,6 +185,16 @@ $(function() {
       updateChannelList(data);
     });
     
+    socket.on('private', function (data) {
+      var privateParts = data.privateChannel.split('-');
+      if (myEmailHash === privateParts[1] || myEmailHash === privateParts[2]) {
+        window.open(location.protocol + '//' + location.hostname +
+          (location.port ? ':' + location.port : '') + '/about/' +
+          data.privateChannel, '_blank');
+        window.focus();
+      }
+    });
+
     socket.emit('join channel', currentChannel);
   });
 
@@ -186,7 +202,8 @@ $(function() {
     var noodlers = $('#noodlers');
     noodlers.html('');
     for (var i=0; i < userList.length; i++) {
-      var noodleItem = $('<li><img src=""> <a href="#" title=""></a></li>');
+      var noodleItem = $('<li><img src=""> <a href="/about/private-' +
+        myEmailHash + '-' + userList[i].emailHash + '" title=""></a></li>');
 
       noodleItem.find('img').attr('src', userList[i].avatar + "?size=24");
       noodleItem.find('a').text(userList[i].nickname);
