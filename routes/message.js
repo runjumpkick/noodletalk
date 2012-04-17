@@ -45,6 +45,7 @@ module.exports = function(client, settings, app, io) {
             res.json({ 'status': 500, 'error': userErr });
           }
         });
+
       } catch(err) {
         res.json({ 'status': 500, 'error': userErr });
       }

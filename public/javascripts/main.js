@@ -70,12 +70,7 @@ $(function() {
           }
         }
 
-        var mine = '';
-        if (myPost) {
-          mine = 'mine';
-        }
-
-        var msg = $('<li class="font' + data.font + ' ' + highlight + ' ' + mine +
+        var msg = $('<li class="font' + data.font + ' ' + highlight +
                     '" data-created="' + data.created +
                     '"><img><span class="nick">' + data.nickname + '</span><time>' +
                     getMessageDateTimeString(data) + '</time><p></p>' +

@@ -23,7 +23,6 @@ html
     #hush
     #header
       h1 Noodle Talk
-
       if session.email
         #message
           form(method='post', action='/about/#{channel}/message', autocomplete='off', class='font#{session.userFont}')
