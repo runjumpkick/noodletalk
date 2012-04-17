@@ -3,6 +3,7 @@ $(function() {
                (location.port ? ':' + location.port : ''));
   var currentChannel = $('body').data('channel');
   var myEmailHash = $('body').data('email-hash');
+  var initiatingChats = [];
   var messagesUnread = 0;
   var userList = [];
   var channelList = [];
@@ -14,6 +15,7 @@ $(function() {
   var mediaIframeMatcher = /<iframe\s.+><\/iframe>/i;
   var mediaVideoMatcher = /<video\s.+>.+<\/video>/i;
   var mediaAudioMatcher = /<audio\s.+>.+<\/audio>/i;
+  var mediaImageMatcher = /(\.jpg)|(\.jpeg)|(\.png)|(\.gif)/i;
   var isSubmitting = false;
 
   var updateMedia = function(data) {
@@ -21,7 +23,8 @@ $(function() {
     var message = $.trim(data.message);
     if(mediaIframeMatcher.exec(message) !== null ||
       mediaVideoMatcher.exec(message) !== null ||
-      mediaAudioMatcher.exec(message) !== null) {
+      mediaAudioMatcher.exec(message) !== null ||
+      mediaImageMatcher.exec(message) !== null) {
       var mediaItem = $('<li class="font' + data.font + '"></li>');
 
       mediaColumn.prepend(mediaItem.html(message));
@@ -36,7 +39,10 @@ $(function() {
     var message = $.trim(data.message);
 
     if (message.length > 0 && $('ol li[data-created="' + data.created + '"]').length === 0) {
-      if (data.is_action) {
+      if (data.is_system) {
+        var msg = $('<li class="system"><p></p><a ref="#" class="delete">x</a></li>');
+        msg.find('p').html(message);
+      } else if (data.is_action) {
         var msg = $('<li class="action font' + data.font + '" data-created="' + data.created +
                     '"><p></p><a href="#" class="delete">x</a></li>');
         msg.find('p').html(message);
@@ -102,6 +108,9 @@ $(function() {
       updateMedia(messages.media[i]);
     }
 
+    $('#whoami h3.avatar').text($('body').data('avatar'));
+    $('#whoami h3.nickname').text($('body').data('nick'));
+    
     // Update the user list
     userList = data.user_list;
 
@@ -129,7 +138,7 @@ $(function() {
     messagesUnread = 0;
   });
 
-  $('form').submit(function(ev) {
+  $('#message form').submit(function(ev) {
     ev.preventDefault();
     var self = $(this);
     
@@ -164,6 +173,7 @@ $(function() {
   socket.on('connect', function () {
     socket.on('userlist', function (data) {
       userList = data;
+      myUserList = [];
       for (var i=0; i < userList.length; i++) {
         myUserList.push(userList[i].nickname.toLowerCase());
       }
@@ -186,12 +196,26 @@ $(function() {
     });
     
     socket.on('private', function (data) {
-      var privateParts = data.privateChannel.split('-');
-      if (myEmailHash === privateParts[1] || myEmailHash === privateParts[2]) {
-        window.open(location.protocol + '//' + location.hostname +
-          (location.port ? ':' + location.port : '') + '/about/' +
-          data.privateChannel, '_blank');
-        window.focus();
+      var chatNum = initiatingChats.indexOf(data);
+      if (chatNum > -1) {
+        initiatingChats.splice(chatNum, 1);
+      } else {
+        var privateParts = data.split('-');
+        if (myEmailHash === privateParts[1] || myEmailHash === privateParts[2]) {
+          var hostNick = 'Someone';
+          for (var i=0; i < userList.length; i++) {
+            if (userList[i].emailHash === privateParts[1] || userList[i].emailHash === privateParts[2]) {
+              hostNick = userList[i].nickname;
+            }
+          }
+          var message = {
+            message: hostNick + ' has initiated a private chat with you. ' +
+              '<a href="/about/' + data + '" target="_' + data +
+              '">Click here to join.</a>',
+            is_system: true,
+          };
+          updateMessage(message);
+        }
       }
     });
 
@@ -202,12 +226,32 @@ $(function() {
     var noodlers = $('#noodlers');
     noodlers.html('');
     for (var i=0; i < userList.length; i++) {
-      var noodleItem = $('<li><img src=""> <a href="/about/private-' +
-        myEmailHash + '-' + userList[i].emailHash + '" title=""></a></li>');
-
+      var noodleItem = $('<li><img src=""> <a href="#" title=""></a></li>');
       noodleItem.find('img').attr('src', userList[i].avatar + "?size=24");
       noodleItem.find('a').text(userList[i].nickname);
-      noodleItem.find('a').attr('title', userList[i].nickname);
+      if (myEmailHash !== userList[i].emailHash) {
+        var hashes = [myEmailHash, userList[i].emailHash].sort().join('-');
+        noodleItem.find('a')
+          .attr('href', '/about/private-' + hashes)
+          .attr('target', '_' + hashes)
+          .attr('title', userList[i].nickname)
+          .click(function (e) {
+            var chatHash = $(this).attr('href').replace('/about/', '');
+            socket.emit('private', {
+              channel: currentChannel,
+              privateChannel: chatHash
+            });
+            initiatingChats.push(chatHash);
+            return true;
+          });
+      } else {
+        noodleItem.find('a')
+          .click(function (e) {
+            e.preventDefault();
+            return false;
+          })
+          .attr('title', 'This is you');
+      }
       noodlers.append(noodleItem);
     };
     if (userList.length < userCount) {
@@ -230,7 +274,7 @@ $(function() {
 
   var keepListSane = function() {
     updateUserList();
-    socket.tabComplete = new TabComplete(myUserList);
+    new TabComplete(myUserList);
   };
 
   // close info lists

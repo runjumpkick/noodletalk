@@ -27,6 +27,7 @@ io.sockets.on('connection', function (socket) {
   });
 
   socket.on('private', function (data) {
+    console.log('private: ' + data);
     io.sockets.in(data.channel).emit('private', data.privateChannel);
   });
 });

@@ -1,18 +1,16 @@
 // Autocomplete support
-function TabComplete(myUserList) {
+var TabComplete = function(myUserList) {
   var listIndex = 0;
   var input = $('#message > form > input')[ 0 ];
   var userListIndex = -1;
   var currentCompare;
 
-  function findNext(){
-    for (var i = userListIndex + 1, l = myUserList.length; i < l; ++i) {
-      for (var j = 0; j < myUserList.length; j++) {
-        if (myUserList[j].toLowerCase().indexOf(currentCompare.toLowerCase()) > -1) {
-          userListIndex = i;
-          input.value = myUserList[j].toLowerCase() + ': ';
-          break;
-        }
+  function findNext() {
+    for (var i=0; i < myUserList.length; i ++) {
+      if (myUserList[i].toLowerCase().indexOf(currentCompare.toLowerCase()) > -1) {
+        userListIndex = i;
+        input.value = myUserList[i].toLowerCase() + ': ';
+        break;
       }
     }
   }; //findNext
@@ -26,6 +24,7 @@ function TabComplete(myUserList) {
   if (input) {
     input.addEventListener('keydown', function(e) {
       if (e.keyCode === 9 && !(e.ctrlKey || e.altKey)){
+        console.log('got here')
         e.preventDefault();
 
         if (userListIndex === -1) {

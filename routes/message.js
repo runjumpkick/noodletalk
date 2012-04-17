@@ -39,9 +39,9 @@ module.exports = function(client, settings, app, io) {
               io.sockets.in(channel).emit('userlist', userList);
               io.sockets.in(channel).emit('message', message);
               io.sockets.in(channel).emit('usercount', io.sockets.clients(channel).length);
+              res.json(message);
             });
-            res.json(message);
-          } catch(userErr) {
+          } catch(err) {
             res.json({ 'status': 500, 'error': userErr });
           }
         });

@@ -1,12 +1,14 @@
-module.exports = function(client, noodle, app, io) {
-  var auth = require('../lib/authenticate');
-  var noodleRedis = require('../lib/noodle-redis');
+var auth = require('../lib/authenticate');
+var gravatar = require('gravatar');
+var noodleRedis = require('../lib/noodle-redis');
 
+module.exports = function(client, noodle, app, io) {
   app.get("/", function (req, res) {
     res.redirect('/about/noodletalk');
   });
   
   app.get("/about/:channel?", function(req, res) {
+    var avatar = '';
     // Always push noodletalk in as a default channel if it doesn't
     // already exist.
     client.sadd('channels', 'noodletalk');
@@ -27,20 +29,22 @@ module.exports = function(client, noodle, app, io) {
     }
     
     if (req.session.email) {
+      avatar = gravatar.url(req.session.email, {}, true)
       if (!req.session.nickname[channel]) {
         req.session.nickname[channel] = auth.generateRandomNick();
       }
       nickname = req.session.nickname[channel];
     }
-    
+
     noodleRedis.getUserlist(client, channel, function(err, userList) {
-      noodleRedis.getChannelList(client, io, function(err, channels) {
-        io.sockets.in(channel).emit('userlist', userList);
-        io.sockets.emit('channels', channels);
+      io.sockets.in(channel).emit('userlist', userList);
+      res.render('index', {
+        title: 'Noodle Talk',
+        channel: channel,
+        nickname: nickname,
+        avatar: avatar
       });
     });
-
-    res.render('index', { title: 'Noodle Talk', channel: channel, nickname: nickname });
   });
 
   // Change the random font
