@@ -35,14 +35,19 @@ $(function() {
     }
   };
   
-  var updateMessage = function(data) {
+  var updateMessage = function(data, highlight) {
     // Update the message
+    var highlight = '';
     var message = $.trim(data.message);
+
+    if (data.is_client_only) {
+      highlight = 'nick-highlight';
+    }
 
     if (message.length > 0 && $('ol li[data-created="' + data.created + '"]').length === 0) {
       if (data.is_client_only) {
-        var msg = $('<li class="client" data-created="' + data.created +
-                    '"><p></p><a href="#" class="delete">x</a></li>');
+        var msg = $('<li class="client ' + data.font + ' ' + highlight + '" data-created="' +
+                    data.created + '"><p></p><a href="#" class="delete">x</a></li>');
         msg.find('p').html(message);
       } else if (data.is_action) {
         var msg = $('<li class="action font' + data.font + '" data-created="' + data.created +
@@ -61,7 +66,6 @@ $(function() {
         }
 
       } else {
-        var highlight = '';
         var nickReference = data.message.split(': ')[0];
 
         if (nickReference) {
@@ -201,19 +205,27 @@ $(function() {
           var privateParts = data.split('-');
           if (myEmailHash === privateParts[1] || myEmailHash === privateParts[2]) {
             var hostNick = 'Someone';
-            for (var i=0; i < userList.length; i++) {
-              if (userList[i].emailHash === privateParts[1] || userList[i].emailHash === privateParts[2]) {
+            var hostHash = privateParts[1];
+
+            if (privateParts[1] === myEmailHash) {
+              hostHash = privateParts[2];
+            }
+
+            for (var i = 0; i < userList.length; i ++) {
+              if (hostHash === userList[i].emailHash) {
                 hostNick = userList[i].nickname;
               }
             }
+
             // is_client_only messages are ephemeral UI-generated notifications
             // which don't come directly from the server but are in response to
             // something client-side.
             var message = {
               created: new Date().getTime(),
-              message: hostNick + ' has initiated a private chat with you. ' +
+              font: 'font2',
+              message: hostNick + ' has sent a new private message to you! ' +
                 '<a href="/about/' + data + '" target="_' + data +
-                '">Click here to join.</a>',
+                '">Click here to participate.</a>',
               is_client_only: true,
             };
             updateMessage(message);
@@ -228,7 +240,7 @@ $(function() {
   var updateUserList = function() {
     var noodlers = $('#noodlers');
     noodlers.html('');
-    for (var i=0; i < userList.length; i++) {
+    for (var i=0; i < userList.length; i ++) {
       var noodleItem = $('<li><img src=""> <a href="#" title=""></a></li>');
       noodleItem.find('img').attr('src', userList[i].avatar + "?size=24");
       noodleItem.find('a').text(userList[i].nickname);
@@ -239,6 +251,7 @@ $(function() {
           .attr('href', '/about/private-' + hashes)
           .attr('target', '_' + hashes)
           .attr('title', userList[i].nickname)
+          .attr('userhash', myEmailHash)
           .click(function (e) {
             initiatePrivateChat($(this));
           });
