@@ -24,7 +24,8 @@ $(function() {
     if(mediaIframeMatcher.exec(message) !== null ||
       mediaVideoMatcher.exec(message) !== null ||
       mediaAudioMatcher.exec(message) !== null ||
-      mediaImageMatcher.exec(message) !== null) {
+      (mediaImageMatcher.exec(message) !== null &&
+       message.indexOf('class="emoti"') === -1)) {
       var mediaItem = $('<li class="font' + data.font + '"></li>');
 
       mediaColumn.prepend(mediaItem.html(message));

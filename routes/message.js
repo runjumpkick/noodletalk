@@ -31,7 +31,7 @@ module.exports = function(client, settings, app, io) {
   app.post("/about/:channel/message", function(req, res) {
     noodleRedis.setRecentMessage(client, req, io, function(err, message) {
       try {
-        var channel = req.params.channel;
+        var channel = escape(req.params.channel);
         noodleRedis.getUserlist(client, channel, function(userErr, userList) {
           try {
             noodleRedis.getChannelList(client, io, function(err, channels) {
