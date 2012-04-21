@@ -251,7 +251,6 @@ $(function() {
           .attr('href', '/about/private-' + hashes)
           .attr('target', '_' + hashes)
           .attr('title', userList[i].nickname)
-          .attr('userhash', myEmailHash)
           .click(function (e) {
             initiatePrivateChat($(this));
           });
