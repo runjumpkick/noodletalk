@@ -448,6 +448,10 @@ form.font8 input, .font8 {
     padding: 3px;
 }
 
+#userList > p {
+    margin-bottom: 10px;
+}
+
 #userList li a {
     line-height: 24px;
     overflow: hidden;

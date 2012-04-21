@@ -6,14 +6,14 @@ describe('web-remix', function() {
 
     it('returns embed code for a youtu.be short url', function() {
       var subject = webRemix.generate('http://youtu.be/5cazkHAHiPU');
-      subject.should.equal(' <iframe width="500" height="281" src="//www.youtube.com/embed/5cazkHAHiPU" ' +
+      subject.should.equal(' <iframe width="500" height="281" src="//www.youtube.com/embed/5cazkHAHiPU?wmode=transparent" ' +
         'frameborder="0" allowfullscreen></iframe><a href="//www.youtube.com/watch?v=5cazkHAHiPU" ' +
         'class="media-link" target="_blank">http://www.youtube.com/watch?v=5cazkHAHiPU</a>');
     });
 
     it('returns embed code for a youtube normal url', function() {
       var subject = webRemix.generate('http://www.youtube.com/watch?v=5cazkHAHiPU');
-      subject.should.equal(' <iframe width="500" height="281" src="//www.youtube.com/embed/5cazkHAHiPU" ' +
+      subject.should.equal(' <iframe width="500" height="281" src="//www.youtube.com/embed/5cazkHAHiPU?wmode=transparent" ' +
         'frameborder="0" allowfullscreen></iframe><a href="//www.youtube.com/watch?v=5cazkHAHiPU" ' +
         'class="media-link" target="_blank">http://www.youtube.com/watch?v=5cazkHAHiPU</a>');
     });
