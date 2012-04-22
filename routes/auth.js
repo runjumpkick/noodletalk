@@ -16,7 +16,7 @@ module.exports = function(client, settings, app, io) {
 
         auth.getUserHash(req, req.session.nickname[channel], channel, function(errHash, userHash) {
           req.session.emailHash = userHash.emailHash;
-          messageMaker.getMessage(client, channel, req, io, "joined", function(err, message) {
+          messageMaker.getMessage(client, channel, req, io, 'joined', function(err, message) {
             try {
               noodleRedis.getUserlist(client, channel, function(errUser, userList) {
                 try {

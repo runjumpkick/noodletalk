@@ -94,7 +94,7 @@ $(function() {
     }
     
     messagesUnread += 1;
-    document.title = '#' + $('body').data('channel') + ' (' + messagesUnread + ')';
+    document.title = '(' + messagesUnread + ') #' + $('body').data('channel');
 
     checkVersion();
   };

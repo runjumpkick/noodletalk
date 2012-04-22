@@ -6,7 +6,6 @@ var messageMaker = require('../lib/message-maker');
 var app = express.createServer();
 var io = require('socket.io').listen(app);
 var content = require('../lib/web-remix');
-var userList = { 'noodletalk': new Array() };
 var noodle = require('../package');
 var recentMessages = {};
 var channel = 'noodletalk';
@@ -31,7 +30,7 @@ describe('message', function() {
 
         it('sets the session nickname', function() {
           var newNick = 'nick';
-          var req = { 
+          var req = {
             body: { 
               message: '/nick ' + newNick
             },
@@ -40,17 +39,19 @@ describe('message', function() {
             },
             session: {
               nickname: { 'noodletalk': 'oldnick' },
-              email: 'test@test.org'
+              email: 'test@test.org',
+              emailHash: '12345'
             }
           };
           messageMaker.getMessage(client, channel, req, io, 'nick', function(err, message) {
+            message.message.should.equal('<em>oldnick has changed to nick</em>');
             req.session.nickname[channel].should.equal(newNick);
           });
         });
 
         it('updates the userList', function() {
           var newNick = 'nick123';
-          var req = { 
+          var req = {
             body: { 
               message: '/nick ' + newNick
             },
@@ -59,7 +60,8 @@ describe('message', function() {
             },
             session: {
               nickname: { 'noodletalk': 'oldnick' },
-              email: 'test@test.org'
+              email: 'test@test.org',
+              emailHash: '12345'
             }
           };
 
@@ -93,7 +95,8 @@ describe('message', function() {
             },
             session: {
               nickname: { 'noodletalk': 'test' },
-              email: 'test@test.org'
+              email: 'test@test.org',
+              emailHash: '12345'
             }
           };
 
@@ -115,7 +118,8 @@ describe('message', function() {
             },
             session: {
               nickname: { 'noodletalk': '' },
-              email: 'test@test.org'
+              email: 'test@test.org',
+              emailHash: '12345'
             }
           };
 
@@ -136,7 +140,8 @@ describe('message', function() {
             },
             session: {
               nickname: { 'noodletalk': 'test' },
-              email: 'test@test.org'
+              email: 'test@test.org',
+              emailHash: '12345'
             }
           };
 
@@ -161,7 +166,8 @@ describe('message', function() {
             },
             session: {
               nickname: { 'noodletalk': '' },
-              email: 'test@test.org'
+              email: 'test@test.org',
+              emailHash: '12345'
             }
           };
 
@@ -186,7 +192,8 @@ describe('message', function() {
             },
             session: {
               nickname: { 'noodletalk': '' },
-              email: 'test@test.org'
+              email: 'test@test.org',
+              emailHash: '12345'
             }
           };
 
@@ -209,7 +216,8 @@ describe('message', function() {
             },
             session: {
               nickname: { 'noodletalk': 'test' },
-              email: 'test@test.org'
+              email: 'test@test.org',
+              emailHash: '12345'
             }
           };
 
@@ -228,7 +236,8 @@ describe('message', function() {
             },
             session: {
               nickname: { 'noodletalk': 'test' },
-              email: 'test@test.org'
+              email: 'test@test.org',
+              emailHash: '12345'
             }
           };
 
@@ -237,8 +246,6 @@ describe('message', function() {
           });
         });
       });
-
     });
-    //describe('has no request body');
   });
 });
