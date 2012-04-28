@@ -13,24 +13,28 @@ $(function() {
   var myPost = false;
   var mediaColumn = $('#media ol');
   var mediaIframeMatcher = /<iframe\s.+><\/iframe>/i;
+  var mediaObjectMatcher = /<object\s.+><\/object>/i;
   var mediaVideoMatcher = /<video\s.+>.+<\/video>/i;
   var mediaAudioMatcher = /<audio\s.+>.+<\/audio>/i;
   var mediaImageMatcher = /(\.jpg)|(\.jpeg)|(\.png)|(\.gif)/i;
   var isSubmitting = false;
 
   var updateMedia = function(data) {
-    // Update the media
     var message = $.trim(data.message);
+    // Update the media
     if(mediaIframeMatcher.exec(message) !== null ||
+      mediaObjectMatcher.exec(message) !== null ||
       mediaVideoMatcher.exec(message) !== null ||
       mediaAudioMatcher.exec(message) !== null ||
       (mediaImageMatcher.exec(message) !== null &&
-       message.indexOf('class="emoti"') === -1)) {
-      var mediaItem = $('<li class="font' + data.font + '"></li>');
+      message.indexOf('class="emoti"') === -1)) {
+      var mediaItem = $('<li class="font' + data.font + '" data-created="' + data.created + '"></li>');
 
-      mediaColumn.prepend(mediaItem.html(message));
-      if(mediaColumn.find('li').length > 3) {
-        mediaColumn.find('li:last-child').remove();
+      if (mediaColumn.find('li[data-created="' + data.created + '"').length === 0) {
+        mediaColumn.prepend(mediaItem.html(message));
+        if (mediaColumn.find('li').length > 3) {
+          mediaColumn.find('li:last-child').remove();
+        }
       }
     }
   };

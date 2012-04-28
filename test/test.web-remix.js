@@ -29,6 +29,21 @@ describe('web-remix', function() {
       });
     });
 
+    it('returns embed code for a mixcloud audio url', function() {
+      webRemix.generate('http://www.mixcloud.com/LuckyMe/25-jamie-vexd-sunday-walkman-mix/', function(err, subject) {
+        subject.should.equal(' <object width="440" height="251"><param name="movie" value="http://www.mixcloud.' +
+        'com/media/swf/player/mixcloudLoader.swf?feed=http%3A//www.mixcloud.com/LuckyMe/25-jamie-vexd-sunday-' +
+        'walkman-mix/&embed_type=widget_standard"></param><param name="allowFullScreen" value="false"></param>' +
+        '<param name="wmode" value="opaque"></param><param name="allowscriptaccess" value="always"></param>' +
+        '<embed src="http://www.mixcloud.com/media/swf/player/mixcloudLoader.swf?feed=http%3A//www.mixcloud.com' +
+        '/LuckyMe/25-jamie-vexd-sunday-walkman-mix/&embed_type=widget_standard" type="application/x-shockwave-' +
+        'flash" wmode="opaque" allowscriptaccess="always" allowfullscreen="true" width="440" height="251"></embed>' +
+        '</object><div style="clear:both; height:3px;"><div style="clear:both; height:3px;"></div></div><a href="' +
+        'http%3A//www.mixcloud.com/LuckyMe/25-jamie-vexd-sunday-walkman-mix/" class="media-link" target="_blank">' +
+        'http%3A//www.mixcloud.com/LuckyMe/25-jamie-vexd-sunday-walkman-mix/</a>');
+      });
+    });
+
     it('returns oembed code for a soundcloud url', function() {
       var soundcloudLink = 'http://soundcloud.com/oembed?format=json&url=http//soundcloud.com/track';
       var scope = nock().get(soundcloudLink).reply(200, { html: '<iframe src="http://w.soundcloud.com/player/?url=http%3A' +

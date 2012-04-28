@@ -249,7 +249,7 @@ ol li span.nick {
     top: -5px;
 }
 
-ol li iframe, ol li audio, ol li video {
+ol li iframe, ol li audio, ol li video, ol li object {
     clear: both;
     display: block;
     float: left;
@@ -257,6 +257,7 @@ ol li iframe, ol li audio, ol li video {
 }
 
 body[data-options="mediaOff"] #messages li p iframe,
+body[data-options="mediaOff"] #messages li p object,
 body[data-options="mediaOff"] #messages li p img,
 body[data-options="mediaOff"] #messages li p audio,
 body[data-options="mediaOff"] #messages li p video {
@@ -283,13 +284,15 @@ body[data-options="mediaOff"] #messages li .media-link {
     width: 97%;
 }
 
-#messages ol li video, #messages ol li iframe {
+#messages ol li video, #messages ol li iframe, #messages ol li object {
     height: 85px;
+    overflow: hidden;
     width: 100px;
 }
 
-#media ol li video, #media ol li iframe {
+#media ol li video, #media ol li iframe, #media ol li object {
     height: 253px;
+    overflow: hidden;
     width: 450px;
 }
 
@@ -557,7 +560,7 @@ form.font8 input, .font8 {
     #messages {
         width: 100%;
     }
-    #messages ol li video, #messages ol li iframe {
+    #messages ol li video, #messages ol li iframe, #messages ol li object {
         height: 281px;
         width: 500px;
     }
@@ -592,7 +595,7 @@ form.font8 input, .font8 {
 }
 
 @media only screen and (max-width: 620px) {
-    #messages ol li video, #messages ol li iframe {
+    #messages ol li video, #messages ol li iframe, #messages ol li object {
         height: 163px;
         width: 290px;
     }
@@ -619,7 +622,7 @@ form.font8 input, .font8 {
 }
 
 @media only screen and (max-width: 350px) {
-    #messages ol li video, #messages ol li iframe {
+    #messages ol li video, #messages ol li iframe, #messages ol li object {
         height: 151px;
         width: 270px;
     }
