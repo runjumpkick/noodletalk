@@ -1,6 +1,4 @@
 var express = require('express');
-var assert = require('should');
-var sinon = require('sinon');
 var messages = require('../routes/message');
 var messageMaker = require('../lib/message-maker');
 var app = express.createServer();
