@@ -11,7 +11,6 @@ $(function() {
   var userCount = 0;
   var logLimit = 80;
   var myPost = false;
-  var mediaColumn = $('#media ol');
   var mediaIframeMatcher = /<iframe\s.+><\/iframe>/i;
   var mediaObjectMatcher = /<object\s.+><\/object>/i;
   var mediaVideoMatcher = /<video\s.+>.+<\/video>/i;
@@ -20,6 +19,7 @@ $(function() {
   var isSubmitting = false;
 
   var updateMedia = function(data) {
+    var mediaColumn = $('#media ol');
     var message = $.trim(data.message);
     // Update the media
     if(mediaIframeMatcher.exec(message) !== null ||
