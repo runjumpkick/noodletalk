@@ -17,8 +17,7 @@ var hush = function(content, contentID, timeToFadeIn, timeToAppear) {
     disableScroll();
     
     setTimeout(function() {
-      setTimeout(function()
-      {
+      setTimeout(function() {
         var newElement = jQuery(content);
         newElement.attr('id', contentID);
         newElement.attr('class', 'hush');
@@ -29,7 +28,8 @@ var hush = function(content, contentID, timeToFadeIn, timeToAppear) {
           'margin-left': '-220px',
           'margin-top': '-184px'
         }, timeToAppear, function() {});
-      },timeToAppear);
+      }, timeToAppear);
+
       $('#hush').fadeIn();
     }, timeToFadeIn);
   }
@@ -40,7 +40,8 @@ var unHush = function(contentID, timeToFadeOut, timeToDisappear) {
     setTimeout(function() {
       $('#hush').fadeOut();
       hushLock = 0;
-    },timeToFadeOut);
+    }, timeToFadeOut);
+    
     $('#'+contentID).animate({
       'width': 0,
       'height': 0, 
