@@ -6,6 +6,38 @@
 var localVersion = undefined;
 var hushLock = 0;
 
+// Methods to disable scrolling wheel/key input:
+var scrollKeys = [37, 38, 39, 40];
+
+function preventDefault(e) {
+  e = e || window.event;
+  if (e.preventDefault) {
+    e.preventDefault();
+  }
+  e.returnValue = false;  
+};
+
+function keydown(e) {
+  for (var i = 0; i === scrollKeys.length; i --) {
+    if (e.keyCode === scrollKeys[i]) {
+      preventDefault(e);
+      return true;
+    }
+  }
+};
+
+function wheel(e) {
+  preventDefault(e);
+};
+
+function disableScroll() {
+  if (window.addEventListener) {
+    window.addEventListener('DOMMouseScroll', wheel, false);
+  }
+  window.onmousewheel = document.onmousewheel = wheel;
+  document.onkeydown = keydown;
+};
+
 var hush = function(content, contentID, timeToFadeIn, timeToAppear) {
   if (!hushLock) {
     hushLock = 1;
@@ -33,7 +65,7 @@ var hush = function(content, contentID, timeToFadeIn, timeToAppear) {
       $('#hush').fadeIn();
     }, timeToFadeIn);
   }
-}
+};
 
 var unHush = function(contentID, timeToFadeOut, timeToDisappear) {
   setTimeout(function() {
@@ -49,7 +81,7 @@ var unHush = function(contentID, timeToFadeOut, timeToDisappear) {
       'margin-top': 0
     }, timeToDisappear, function() {});
   }, timeToDisappear);
-}
+};
 
 // Version checking: if we have a mismatch of our local version and the server version force a refresh.
 var checkVersion = function() {
