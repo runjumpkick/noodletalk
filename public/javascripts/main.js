@@ -15,7 +15,7 @@ $(function() {
   var mediaObjectMatcher = /<object\s.+><\/object>/i;
   var mediaVideoMatcher = /<video\s.+>.+<\/video>/i;
   var mediaAudioMatcher = /<audio\s.+>.+<\/audio>/i;
-  var mediaImageMatcher = /\.((jpg)|(jpeg)|(png)|(gif))<\/a>$/i;
+  var mediaImageMatcher = /\.((jpg)|(jpeg)|(png)|(gif))<\/a>/i;
   var isSubmitting = false;
 
   var updateMedia = function(data) {
