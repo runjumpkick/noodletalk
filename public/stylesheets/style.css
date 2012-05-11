@@ -318,7 +318,6 @@ ol li > img {
 
 #media ol li > img {
     height: auto;
-    max-height: 300px;
     max-width: 465px;
     width: auto;
 }
@@ -575,7 +574,6 @@ form.font8 input, .font8 {
         width: 97%;
     }
     ol li p img {
-        max-height: 300px;
         max-width: 100%;
     }
     body[data-options="mediaOff"] #messages ol li audio {
@@ -607,7 +605,6 @@ form.font8 input, .font8 {
         width: 97%;
     }
     ol li p img {
-        max-height: 300px;
         max-width: 100%;
     }
     form input {
