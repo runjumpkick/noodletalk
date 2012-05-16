@@ -1,0 +1,14 @@
+{
+    "version": "0.2.3",
+    "name": "Noodletalk",
+    "default_locale": "en-US",
+    "icons": {
+        "72": "/images/apple-touch-icon-ipad.png"
+    },
+    "description": "A little chat with big dreams",
+    "launch_path": "/",
+    "developer": {
+      "url": "http://splash.noodletalk.org",
+      "name": "Edna Piranha and friends"
+    }
+}
