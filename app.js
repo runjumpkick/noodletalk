@@ -6,6 +6,7 @@ var app = express.createServer();
 var settings = require('./settings')(app, configurations, express);
 var redis = require("redis");
 var client = redis.createClient();
+var mime = require('mime');
 
 client.select(settings.app.set('redisnoodle'), function(errDb, res) {
   console.log('PROD/DEV database connection status: ', res);

@@ -76,4 +76,26 @@ module.exports = function(client, noodle, app, io) {
       'version': noodle.version
     });
   });
+
+  // App manifest
+  app.get('/noodletalk.webapp', function(req, res) {
+    var webapp = {
+      "version": "0.2.5",
+      "name": "Noodletalk",
+      "default_locale": "en-US",
+      "icons": {
+        "72": "/images/apple-touch-icon-ipad.png"
+      },
+      "description": "A little chat with big dreams",
+      "launch_path": "/",
+      "developer": {
+        "url": "http://splash.noodletalk.org",
+        "name": "Edna Piranha and friends"
+      }
+    };
+
+    res.header('Content-Type', 'application/x-web-app-manifest+json');
+    res.send(JSON.stringify(webapp));
+    res.end();
+  });
 };
