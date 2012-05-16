@@ -80,7 +80,7 @@ module.exports = function(client, noodle, app, io) {
   // App manifest
   app.get('/noodletalk.webapp', function(req, res) {
     var webapp = {
-      "version": "0.2.5",
+      "version": "0.2.6",
       "name": "Noodletalk",
       "default_locale": "en-US",
       "icons": {

@@ -57,11 +57,11 @@ $(function() {
     if (message.length > 0 && $('ol li[data-created="' + data.created + '"]').length === 0) {
       if (data.is_client_only) {
         var msg = $('<li class="client ' + data.font + ' ' + highlight + '" data-created="' +
-                    data.created + '"><p></p><a href="#" class="delete">x</a></li>');
+                    data.created + '"><p></p></li>');
         msg.find('p').html(message);
       } else if (data.is_action) {
         var msg = $('<li class="action font' + data.font + '" data-created="' + data.created +
-                    '"><p></p><a href="#" class="delete">x</a></li>');
+                    '"><p></p></li>');
         msg.find('p').html(message);
 
         // if this is a nick change, set the nick in the dom for the user
@@ -88,8 +88,7 @@ $(function() {
         var msg = $('<li class="font' + data.font + ' ' + highlight +
           '" data-created="' + data.created +
           '"><img><span class="nick">' + data.nickname + '</span><time>' +
-          getMessageDateTimeString(data) + '</time><p></p>' +
-          '<a href="#" class="delete">x</a></li>');
+          getMessageDateTimeString(data) + '</time><p></p></li>');
         msg.find('img').attr('src', data.gravatar);
         msg.find('p').html(message);
       }
@@ -146,7 +145,7 @@ $(function() {
     return false;
   });
 
-  $(window).focus(function() {
+  $(window, 'input').focus(function() {
     clearUnreadMessages();
   });
 
