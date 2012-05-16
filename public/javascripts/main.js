@@ -18,6 +18,11 @@ $(function() {
   var mediaImageMatcher = /\.((jpg)|(jpeg)|(png)|(gif))<\/a>/i;
   var isSubmitting = false;
 
+  var clearUnreadMessages = function() {
+    document.title = '#' + currentChannel;
+    messagesUnread = 0;
+  };
+
   var updateMedia = function(data) {
     var mediaColumn = $('#media ol');
     var message = $.trim(data.message);
@@ -67,7 +72,6 @@ $(function() {
           // The user list clears out every hour so let's remove the user's old name from the list
           // if they succesfully updated
           myUserList = userList;
-          myPost = false;
         }
 
       } else {
@@ -88,7 +92,6 @@ $(function() {
           '<a href="#" class="delete">x</a></li>');
         msg.find('img').attr('src', data.gravatar);
         msg.find('p').html(message);
-        myPost = false;
       }
 
       // Apply log limiter
@@ -97,10 +100,14 @@ $(function() {
       // Add new message
       $('body #messages ol').prepend(msg);
     }
-    
-    messagesUnread += 1;
-    document.title = '(' + messagesUnread + ') #' + $('body').data('channel');
 
+    if (myPost) {
+      clearUnreadMessages();
+    } else {
+      messagesUnread += 1;
+      document.title = '(' + messagesUnread + ') #' + $('body').data('channel');
+    }
+    myPost = false;
     checkVersion();
   };
 
@@ -139,9 +146,8 @@ $(function() {
     return false;
   });
 
-  $('form input').focus(function() {
-    document.title = '#' + $('body').data('channel');
-    messagesUnread = 0;
+  $(window).focus(function() {
+    clearUnreadMessages();
   });
 
   $('#message form').submit(function(ev) {
@@ -161,8 +167,7 @@ $(function() {
         data: self.serialize(),
         success: function(data) {
           $('form input').val('');
-          document.title = data.channel;
-          messagesUnread = 0;
+          clearUnreadMessages();
           isSubmitting = false;
         },
         dataType: 'json'
