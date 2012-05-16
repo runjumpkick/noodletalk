@@ -28,11 +28,12 @@ $(function() {
       mediaAudioMatcher.exec(message) !== null ||
       (mediaImageMatcher.exec(message) !== null &&
       message.indexOf('class="emoti"') === -1)) {
-      var mediaItem = $('<li class="font' + data.font + '" data-created="' + data.created + '"></li>');
+      var mediaItem = $('<li class="font' + data.font + '" data-created="' +
+        data.created +'"></li>');
 
       if (mediaColumn.find('li[data-created="' + data.created + '"').length === 0) {
-        mediaColumn.prepend(mediaItem.html(message));
-        if (mediaColumn.find('li').length > 3) {
+        mediaColumn.prepend(mediaItem.html(message + '<a href="#" class="delete">x</a>'));
+        if (mediaColumn.find('li').length > 5) {
           mediaColumn.find('li:last-child').remove();
         }
       }
