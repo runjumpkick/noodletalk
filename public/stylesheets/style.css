@@ -610,9 +610,9 @@ form.font8 input, .font8 {
     .info-block li {
         width: 260px;
     }
-    #userList, #help {
+    #userList, #help, #channelList {
         left: 20px;
-        top: 130px;
+        top: 120px;
     }
 }
 
