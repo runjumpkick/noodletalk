@@ -44,11 +44,11 @@ $(function() {
       }
     }
   };
-  
+
   var updateMessage = function(data, highlight) {
     // Update the message
-    var highlight = '';
     var message = $.trim(data.message);
+    var msg = '';
 
     if (data.is_client_only) {
       highlight = 'nick-highlight';
@@ -56,12 +56,12 @@ $(function() {
 
     if (message.length > 0 && $('ol li[data-created="' + data.created + '"]').length === 0) {
       if (data.is_client_only) {
-        var msg = $('<li class="client ' + data.font + ' ' + highlight + '" data-created="' +
+        msg = $('<li class="client ' + data.font + ' ' + highlight + '" data-created="' +
                     data.created + '"><p></p></li>');
         msg.find('p').html(message);
       } else if (data.is_action) {
-        var msg = $('<li class="action font' + data.font + '" data-created="' + data.created +
-                    '"><p></p></li>');
+        msg = $('<li class="action font' + data.font + '" data-created="' + data.created +
+                '"><p></p></li>');
         msg.find('p').html(message);
 
         // if this is a nick change, set the nick in the dom for the user
@@ -85,7 +85,7 @@ $(function() {
           }
         }
 
-        var msg = $('<li class="font' + data.font + ' ' + highlight +
+        msg = $('<li class="font' + data.font + ' ' + highlight +
           '" data-created="' + data.created +
           '"><img><span class="nick">' + data.nickname + '</span><time>' +
           getMessageDateTimeString(data) + '</time><p></p></li>');
@@ -116,13 +116,13 @@ $(function() {
     for (var i=0; i < messages.generic.length; i++) {
       updateMessage(messages.generic[i]);
     }
-    for (var i=0; i < messages.media.length; i++) {
-      updateMedia(messages.media[i]);
+    for (var j = 0; j < messages.media.length; j++) {
+      updateMedia(messages.media[j]);
     }
 
     $('#whoami h3.avatar').text($('body').data('avatar'));
     $('#whoami h3.nickname').text($('body').data('nick'));
-    
+
     // Update the user list
     userList = data.user_list;
 
@@ -152,7 +152,7 @@ $(function() {
   $('#message form').submit(function(ev) {
     ev.preventDefault();
     var self = $(this);
-    
+
     checkCommands(self);
 
     if(!commandIsMatched && !isSubmitting) {
@@ -199,12 +199,12 @@ $(function() {
       updateMessage(data);
       updateMedia(data);
     });
-    
+
     socket.on('channels', function(data) {
       channelList = data;
       updateChannelList(data);
     });
-    
+
     socket.on('private', function (data) {
       if (data) {
         var chatNum = initiatingChats.indexOf(data);
@@ -235,7 +235,7 @@ $(function() {
               message: hostNick + ' has sent a new private message to you! ' +
                 '<a href="/about/' + data + '" target="_' + data +
                 '">Click here to participate.</a>',
-              is_client_only: true,
+              is_client_only: true
             };
             updateMessage(message);
           }
@@ -272,7 +272,7 @@ $(function() {
           .attr('title', 'This is you');
       }
       noodlers.append(noodleItem);
-    };
+    }
     if (userList.length < userCount) {
       noodlers.append('<li><img src="/images/anon.png"> <span>' +
         (userCount - userList.length) + ' Anonymous</span></li>');
@@ -288,7 +288,7 @@ $(function() {
         ' (' + parseInt(channelList[i].userCount, 10) + ')');
       channelItem.find('a').attr('title', channelList[i].name);
       channels.append(channelItem);
-    };
+    }
   };
 
   var keepListSane = function() {
