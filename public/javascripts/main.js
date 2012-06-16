@@ -98,6 +98,9 @@ $(function() {
 
       // Add new message
       $('body #messages ol').prepend(msg);
+
+      // Add media if relevant
+      updateMedia(data);
     }
 
     if (myPost) {
@@ -197,7 +200,6 @@ $(function() {
 
     socket.on('message', function (data) {
       updateMessage(data);
-      updateMedia(data);
     });
 
     socket.on('channels', function(data) {
