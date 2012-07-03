@@ -3,9 +3,9 @@ var content = require('../lib/web-remix');
 var messageMaker = require('../lib/message-maker');
 var noodleRedis = require('../lib/noodle-redis');
 
-module.exports = function(client, settings, app, io) {
+module.exports = function(client, nconf, app, io) {
   // Get recent messages
-  app.get("/about/:channel/recent", function(req, res) {
+  app.get('/about/:channel/recent', function(req, res) {
     var channel = escape(req.params.channel);
     noodleRedis.getRecentMessages(client, channel, function(err, messages) {
       var channelMessages = {};
@@ -28,7 +28,7 @@ module.exports = function(client, settings, app, io) {
   });
 
   // Add new message
-  app.post("/about/:channel/message", function(req, res) {
+  app.post('/about/:channel/message', function(req, res) {
     noodleRedis.setRecentMessage(client, req, io, function(err, message) {
       try {
         var channel = escape(req.params.channel);

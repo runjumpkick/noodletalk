@@ -2,12 +2,12 @@ var auth = require('../lib/authenticate');
 var gravatar = require('gravatar');
 var noodleRedis = require('../lib/noodle-redis');
 
-module.exports = function(client, noodle, app, io) {
-  app.get("/", function (req, res) {
+module.exports = function(client, noodle, nconf, app, io) {
+  app.get('/', function (req, res) {
     res.redirect('/about/noodletalk');
   });
   
-  app.get("/about/:channel?", function(req, res) {
+  app.get('/about/:channel?', function(req, res) {
     var avatar = '';
     // Always push noodletalk in as a default channel if it doesn't
     // already exist.
@@ -48,7 +48,7 @@ module.exports = function(client, noodle, app, io) {
   });
 
   // Change the random font
-  app.get("/font", function(req, res) {
+  app.get('/font', function(req, res) {
     req.session.userFont = Math.floor(Math.random() * 9);
     io.sockets.emit('font', req.session.userFont);
     res.json({
@@ -57,13 +57,14 @@ module.exports = function(client, noodle, app, io) {
   });
 
   // Set options
-  app.post("/options", function(req, res) {
+  app.post('/options', function(req, res) {
     var userOption = req.body.userOptions;
+    var userOption = 'mediaOn';
+
     if (userOption === 'off') {
       userOption = 'mediaOff';
-    } else {
-      userOption = 'mediaOn';
     }
+
     req.session.userOptions = userOption;
     res.json({
       'options': req.session.userOptions
@@ -71,31 +72,9 @@ module.exports = function(client, noodle, app, io) {
   });
 
   // Request the current version number
-  app.get("/version", function(req, res) {
+  app.get('/version', function(req, res) {
     res.json({
       'version': noodle.version
     });
-  });
-
-  // App manifest
-  app.get('/noodletalk.webapp', function(req, res) {
-    var webapp = {
-      "version": "0.2.6",
-      "name": "Noodletalk",
-      "default_locale": "en-US",
-      "icons": {
-        "72": "/images/apple-touch-icon-ipad.png"
-      },
-      "description": "A little chat with big dreams",
-      "launch_path": "/",
-      "developer": {
-        "url": "http://splash.noodletalk.org",
-        "name": "Edna Piranha and friends"
-      }
-    };
-
-    res.header('Content-Type', 'application/x-web-app-manifest+json');
-    res.send(JSON.stringify(webapp));
-    res.end();
   });
 };

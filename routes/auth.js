@@ -2,10 +2,10 @@ var auth = require('../lib/authenticate');
 var messageMaker = require('../lib/message-maker');
 var noodleRedis = require('../lib/noodle-redis');
 
-module.exports = function(client, settings, app, io) {
+module.exports = function(client, nconf, app, io) {
   // Login
-  app.post("/about/:channel/login", function(req, res) {
-    auth.verify(req, settings, function(error, email) {
+  app.post('/about/:channel/login', function(req, res) {
+    auth.verify(req, nconf, function(error, email) {
       var channel = escape(req.params.channel);
 
       if(email) {

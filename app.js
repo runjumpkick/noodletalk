@@ -3,12 +3,14 @@ var noodle = require('./package');
 var express = require('express');
 var configurations = module.exports;
 var app = express.createServer();
-var settings = require('./settings')(app, configurations, express);
 var redis = require("redis");
 var client = redis.createClient();
-var mime = require('mime');
+var nconf = require('nconf');
+var settings = require('./settings')(app, configurations, express);
 
-client.select(settings.app.set('redisnoodle'), function(errDb, res) {
+nconf.argv().env().file({ file: 'local.json' });
+
+client.select(app.set('redisnoodle'), function(errDb, res) {
   console.log('PROD/DEV database connection status: ', res);
 });
 
@@ -33,8 +35,8 @@ io.sockets.on('connection', function (socket) {
 });
 
 // routes
-require("./routes")(client, noodle, app, io);
-require("./routes/message")(client, settings, app, io);
-require("./routes/auth")(client, settings, app, io);
+require("./routes")(client, noodle, nconf, app, io);
+require("./routes/message")(client, nconf, app, io);
+require("./routes/auth")(client, nconf, app, io);
 
-app.listen(settings.options.port);
+app.listen(process.env.PORT || nconf.get('port'));

@@ -38,7 +38,7 @@ $(function() {
 
       if (mediaColumn.find('li[data-created="' + data.created + '"').length === 0) {
         mediaColumn.prepend(mediaItem.html(message + '<a href="#" class="delete">x</a>'));
-        if (mediaColumn.find('li').length > 5) {
+        if (mediaColumn.find('li').length > 7) {
           mediaColumn.find('li:last-child').remove();
         }
       }
