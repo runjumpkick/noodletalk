@@ -1,16 +1,12 @@
 var assert = require('should');
 var auth = require('../lib/authenticate');
 var nock = require('nock');
+var nconf = require('nconf');
 
-var settings = {};
-settings.options = {
-  domain: 'http://localhost',
-  port: 3000,
-  authUrl: 'https://browserid.org'
-};
+nconf.argv().env().file({ file: 'test/test.json' });
 
-var authUrl = settings.options.authUrl + '/verify';
-var siteUrl = settings.options.domain + ':' + settings.options.port;
+var authUrl = nconf.get('domain') + '/verify';
+var siteUrl = nconf.get('domain') + ':' + nconf.get('port');
 var qs = { assertion: '1a2b3c', audience: siteUrl };
 
 describe('login', function() {

@@ -9,11 +9,12 @@ var recentMessages = {};
 var channel = 'noodletalk';
 var redis = require("redis");
 var client = redis.createClient();
-var configurations = module.exports;
-var settings = require('../settings')(app, configurations, express);
 var noodleRedis = require('../lib/noodle-redis');
+var nconf = require('nconf');
 
-client.select(settings.app.set('redisnoodle'), function(errDb, res) {
+nconf.argv().env().file({ file: './test.json' });
+
+client.select(app.set('redisnoodle'), function(errDb, res) {
   console.log('TEST database connection status: ', res);
 });
 
@@ -26,7 +27,7 @@ describe('message', function() {
     describe('has a request body', function() {
       describe('has a nickname change', function() {
 
-        it('sets the session nickname', function() {
+        it('sets the session nickname', function(done) {
           var newNick = 'nick';
           var req = {
             body: { 
@@ -44,10 +45,11 @@ describe('message', function() {
           messageMaker.getMessage(client, channel, req, io, 'nick', function(err, message) {
             message.message.should.equal('<em>oldnick has changed to nick</em>');
             req.session.nickname[channel].should.equal(newNick);
+            done();
           });
         });
 
-        it('updates the userList', function() {
+        it('updates the userList', function(done) {
           var newNick = 'nick123';
           var req = {
             body: { 
@@ -76,6 +78,7 @@ describe('message', function() {
                   }
                 }
                 u.should.equal(true);
+                done();
               });
             });
           });
@@ -83,7 +86,7 @@ describe('message', function() {
       });
       
       describe('has no nickname change', function() {
-        it('should not change the nickname', function() {
+        it('should not change the nickname', function(done) {
           var req = { 
             body: { 
               message: '/nick'
@@ -101,12 +104,13 @@ describe('message', function() {
           noodleRedis.setRecentMessage(client, req, io, function(err, message) {
             message.message.should.equal('');
             req.session.nickname[channel].should.equal('test');
+            done();
           });
         });
       });
 
       describe('has no request session nickname', function() {
-        it('sets the nickname to i_love_ie6xxxxxxx', function() {
+        it('sets the nickname to i_love_ie6xxxxxxx', function(done) {
           var req = { 
             body: { 
               message: 'test'
@@ -123,12 +127,13 @@ describe('message', function() {
 
           messageMaker.getMessage(client, channel, req, io, 'joined', function(err, message) {
             req.session.nickname[channel].should.match(/i_love_ie6.+/);
+            done();
           });
         });
       });
 
       describe('has a /me', function() {
-        it('sets the status of the user', function() {
+        it('sets the status of the user', function(done) {
           var req = { 
             body: { 
               message: '/me is testing'
@@ -149,12 +154,13 @@ describe('message', function() {
             } else {
               console.error('Message is undefined');
             }
+            done();
           });
         });
       });
 
       describe('has a /join', function() {
-        it('sets the join message for the user', function() {
+        it('sets the join message for the user', function(done) {
           var req = { 
             body: { 
               message: ''
@@ -175,12 +181,13 @@ describe('message', function() {
             } else {
               console.error('Message is undefined');
             }
+            done();
           });
         });
       });
 
       describe('has a channel list', function() {
-        it('adds a new channel to the channel list', function() {
+        it('adds a new channel to the channel list', function(done) {
           var req = { 
             body: { 
               message: 'test'
@@ -199,12 +206,13 @@ describe('message', function() {
             noodleRedis.getChannelList(client, io, function(err, channels) {
               channels[0].name.should.equal('noodletalk');
             });
+            done();
           });
         });
       });
 
       describe('has no change', function() {
-        it('ensures no message is broadcasted on a single command', function() {
+        it('ensures no message is broadcasted on a single command', function(done) {
           var req = { 
             body: { 
               message: '/blah'
@@ -221,10 +229,11 @@ describe('message', function() {
 
           messageMaker.getMessage(client, channel, req, io, 'dummy', function(err, message) {
             message.message.should.equal('');
+            done();
           });
         });
 
-        it('ensures no message is broadcasted on a command with trailing text', function() {
+        it('ensures no message is broadcasted on a command with trailing text', function(done) {
           var req = { 
             body: { 
               message: '/blah test'
@@ -241,6 +250,7 @@ describe('message', function() {
 
           messageMaker.getMessage(client, channel, req, io, 'dummy', function(err, message) {
             message.message.should.equal('');
+            done();
           });
         });
       });
