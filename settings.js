@@ -1,13 +1,9 @@
 // Module dependencies.
 module.exports = function(app, configurations, express) {
   var clientSessions = require('client-sessions');
+  var nconf = require('nconf');
 
-  var options = { 
-    domain: 'http://localhost',
-    port: 3000,
-    authPort: 3000,
-    authUrl: 'https://browserid.org'
-  };
+  nconf.argv().env().file({ file: 'local.json' });
 
   // Configuration
 
@@ -18,8 +14,8 @@ module.exports = function(app, configurations, express) {
     app.use(express.methodOverride());
     app.use(express.static(__dirname + '/public'));
     app.use(clientSessions({
-      cookieName: 'session_noodletalk',
-      secret: 'secret', // MUST be set
+      cookieName: nconf.get('session_cookie'),
+      secret: nconf.get('session_secret'), // MUST be set
       // true session duration:
       // will expire after duration (ms)
       // from last session.reset() or
@@ -29,7 +25,7 @@ module.exports = function(app, configurations, express) {
     app.use(app.router);
   });
 
-  app.configure('development, test', function(){
+  app.configure('development, test', function() {
     app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
   });
 
@@ -37,7 +33,11 @@ module.exports = function(app, configurations, express) {
     app.set('redisnoodle', 5);
   });
 
-  app.configure('production', function(){
+  app.configure('test', function() {
+    app.set('redisnoodle', 4);
+  });
+
+  app.configure('production', function() {
     app.use(express.errorHandler());
     app.set('redisnoodle', 0);
   });
@@ -48,8 +48,5 @@ module.exports = function(app, configurations, express) {
     }
   });
 
-  configurations.app = app;
-  configurations.options = options;
-
-  return configurations;
+  return app;
 };
