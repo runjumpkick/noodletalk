@@ -48,8 +48,8 @@ describe('web-remix', function() {
     });
 
     it('returns oembed code for a soundcloud url', function(done) {
-      var soundcloudLink = 'http://soundcloud.com/oembed?format=json&url=http//soundcloud.com/track';
-      var scope = nock().get(soundcloudLink).reply(200, { html: '<iframe src="http://w.soundcloud.com/player/?url=http%3A' +
+      var scope = nock('soundcloud.com').get('/oembed?format=json&url=http//soundcloud.com/track').reply(200,
+          { html: '<iframe src="http://w.soundcloud.com/player/?url=http%3A' +
           '%2F%2Fapi.soundcloud.com%2Fplaylists%2F723408&amp;show_artwork=true" frameborder="no" height="450" ' +
           'scrolling="no" width="100%"></iframe><a class="media-link" target="_blank"' +
           'href="http://soundcloud.com/skeptical/sets/tracks-576/">http://soundcloud.com/skeptical/sets' +

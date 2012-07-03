@@ -30,11 +30,16 @@ module.exports = function(client, nconf, app, io) {
   // Add new message
   app.post('/about/:channel/message', function(req, res) {
     noodleRedis.setRecentMessage(client, req, io, function(err, message) {
+      if (err) {
+        return callback(err);
+      }
+
       try {
         var channel = escape(req.params.channel);
+
         noodleRedis.getUserlist(client, channel, function(userErr, userList) {
           try {
-            noodleRedis.getChannelList(client, io, function(err, channels) {
+            noodleRedis.getChannelList(client, io, function(errList, channels) {
               io.sockets.emit('channels', channels);
               io.sockets.in(channel).emit('userlist', userList);
               io.sockets.in(channel).emit('message', message);
@@ -42,7 +47,7 @@ module.exports = function(client, nconf, app, io) {
               res.json(message);
             });
           } catch(err) {
-            res.json({ 'status': 500, 'error': userErr });
+            res.json({ 'status': 500, 'error': errList });
           }
         });
 

@@ -12,7 +12,7 @@ var client = redis.createClient();
 var noodleRedis = require('../lib/noodle-redis');
 var nconf = require('nconf');
 
-nconf.argv().env().file({ file: './test.json' });
+nconf.argv().env().file({ file: 'test/local-test.json' });
 
 client.select(app.set('redisnoodle'), function(errDb, res) {
   console.log('TEST database connection status: ', res);

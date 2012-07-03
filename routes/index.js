@@ -13,7 +13,7 @@ module.exports = function(client, noodle, nconf, app, io) {
     // already exist.
     client.sadd('channels', 'noodletalk');
 
-    var channel = escape(req.params.channel);
+    var channel = escape(req.params.channel.replace(/\s/, ''));
     var nickname = '';
 
     if (!channel) {
@@ -22,6 +22,7 @@ module.exports = function(client, noodle, nconf, app, io) {
       // If a user's session email hash does not match the one in the private conversation, the
       // user receives a forbidden response.
       var privateParts = channel.split('-');
+
       if (req.session.emailHash !== privateParts[1] && req.session.emailHash !== privateParts[2]) {
         res.send(403);
       }
@@ -37,6 +38,8 @@ module.exports = function(client, noodle, nconf, app, io) {
     }
 
     noodleRedis.getUserlist(client, channel, function(err, userList) {
+      // TODO: add 500 page redirect on err
+
       io.sockets.in(channel).emit('userlist', userList);
       res.render('index', {
         title: 'Noodle Talk',

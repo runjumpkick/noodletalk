@@ -26,6 +26,7 @@ $(function() {
   var updateMedia = function(data) {
     var mediaColumn = $('#media ol');
     var message = $.trim(data.message);
+ 
     // Update the media
     if(mediaIframeMatcher.exec(message) !== null ||
       mediaObjectMatcher.exec(message) !== null ||
@@ -119,9 +120,6 @@ $(function() {
     for (var i=0; i < messages.generic.length; i++) {
       updateMessage(messages.generic[i]);
     }
-    for (var j = 0; j < messages.media.length; j++) {
-      updateMedia(messages.media[j]);
-    }
 
     $('#whoami h3.avatar').text($('body').data('avatar'));
     $('#whoami h3.nickname').text($('body').data('nick'));
@@ -163,6 +161,7 @@ $(function() {
       isSubmitting = true;
       myPost = true;
       hideAllCommands();
+
       $.ajax({
         type: 'POST',
         url: self.attr('action'),
