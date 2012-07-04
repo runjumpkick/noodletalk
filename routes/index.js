@@ -63,9 +63,6 @@ module.exports = function(client, noodle, nconf, app, io) {
     });
   });
 
-  // Get the user profile
-  app.get('/profile/:emailHash?')
-
   // Set options
   app.post('/options', function(req, res) {
     var userOption = req.body.userOptions;
@@ -85,6 +82,21 @@ module.exports = function(client, noodle, nconf, app, io) {
   app.get('/version', function(req, res) {
     res.json({
       'version': noodle.version
+    });
+  });
+
+  // Get the user profile
+  app.get('/profile/:email?', function(req, res) {
+    var channel = 'profile-' + req.params.email;
+    var user = {};
+
+    auth.getUserHash(req, req.params.email, channel, false, function(err, userHash) {
+      res.render('profile', {
+        title: 'Noodle Talk Profile',
+        channel: channel,
+        nickname: req.params.email,
+        avatar: userHash.avatar
+      });
     });
   });
 };

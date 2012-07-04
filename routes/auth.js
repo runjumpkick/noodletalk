@@ -14,7 +14,7 @@ module.exports = function(client, nconf, app, io) {
         req.session.nickname = {};
         req.session.nickname[channel] = auth.generateRandomNick();
 
-        auth.getUserHash(req, req.session.nickname[channel], channel, function(errHash, userHash) {
+        auth.getUserHash(req, req.session.nickname[channel], channel, true, function(errHash, userHash) {
           req.session.emailHash = userHash.emailHash;
           messageMaker.getMessage(client, channel, req, io, 'joined', function(err, message) {
             try {

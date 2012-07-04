@@ -4,5 +4,8 @@
     "authPort": 3000,
     "authUrl": "https://browserid.org",
     "session_secret": "secret",
-    "session_cookie": "session_noodletalk"
+    "session_cookie": "session_noodletalk",
+    "redis_dev": 1,
+    "redis_test": 2,
+    "redis_prod": 0
 }

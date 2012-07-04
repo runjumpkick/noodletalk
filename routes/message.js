@@ -30,10 +30,6 @@ module.exports = function(client, nconf, app, io) {
   // Add new message
   app.post('/about/:channel/message', function(req, res) {
     noodleRedis.setRecentMessage(client, req, io, function(err, message) {
-      if (err) {
-        return callback(err);
-      }
-
       try {
         var channel = escape(req.params.channel);
 

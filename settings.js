@@ -13,6 +13,9 @@ module.exports = function(app, configurations, express) {
     app.use(express.bodyParser());
     app.use(express.methodOverride());
     app.use(express.static(__dirname + '/public'));
+    if (!process.env.NODE_ENV) {
+      app.use(express.logger('dev'));
+    }
     app.use(clientSessions({
       cookieName: nconf.get('session_cookie'),
       secret: nconf.get('session_secret'), // MUST be set
@@ -23,6 +26,15 @@ module.exports = function(app, configurations, express) {
       duration: 24 * 60 * 60 * 1000 * 21, // 3 weeks
     }));
     app.use(app.router);
+    app.use(function(req, res, next){
+      res.status(404);
+      res.render('404', { url: req.url, layout: 'error_layout.jade' });
+      return;
+    });
+    app.use(function(err, req, res, next){
+      res.status(err.status || 500);
+      res.render('500', { error: err, layout: 'error_layout.jade' });
+    });
   });
 
   app.configure('development, test', function() {
@@ -30,16 +42,16 @@ module.exports = function(app, configurations, express) {
   });
 
   app.configure('development', function() {
-    app.set('redisnoodle', 5);
+    app.set('redisnoodle', nconf.get('redis_dev'));
   });
 
   app.configure('test', function() {
-    app.set('redisnoodle', 4);
+    app.set('redisnoodle', nconf.get('redis_test'));
   });
 
   app.configure('production', function() {
     app.use(express.errorHandler());
-    app.set('redisnoodle', 0);
+    app.set('redisnoodle', nconf.get('redis_prod'));
   });
 
   app.dynamicHelpers({

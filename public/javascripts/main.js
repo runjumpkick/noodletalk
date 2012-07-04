@@ -88,8 +88,8 @@ $(function() {
 
         msg = $('<li class="font' + data.font + ' ' + highlight +
           '" data-created="' + data.created +
-          '"><img class="avatar"><span class="nick">' + data.nickname + '</span><time>' +
-          getMessageDateTimeString(data) + '</time><p></p></li>');
+          '"><a href="/profile/' + data.gravatar.split('/')[4] + '"><img class="avatar"><span class="nick">' +
+          data.nickname + '</span></a><time>' + getMessageDateTimeString(data) + '</time><p></p></li>');
         msg.find('img').attr('src', data.gravatar);
         msg.find('p').html(message);
       }

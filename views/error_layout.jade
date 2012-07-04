@@ -1,0 +1,23 @@
+!!! 5
+html
+  head
+    title Noodle Oopsy
+    meta(content='width=device-width, height=device-height, user-scalable=no, initial-scale=0.9, maximum-scale=0.9, minimum-scale=0.9', name='viewport')
+    meta(content='yes', name='apple-mobile-web-app-capable')
+    meta(content='chrome=1', http-equiv='X-UA-Compatible')
+    link(rel='shortcut icon', href='/images/favicon.png')
+    link(rel='apple-touch-icon', sizes='72x72' href="/images/apple-touch-icon-ipad.png')
+    link(rel='apple-touch-icon', href='/images/apple-touch-icon-iphone4.png')
+    link(rel='stylesheet', href='/stylesheets/style.css')
+
+  body
+    #header
+      p Noodle Talk Oopsy!
+
+      div#info
+        if !session.email
+          a(href='#', id='login') Log in
+          form(method='post', action='/about/#{channel}/login', id='login-form')
+            input(type='hidden', name='bid_assertion', value='1')
+
+    != body
