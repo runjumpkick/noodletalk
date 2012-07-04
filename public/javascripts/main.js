@@ -39,7 +39,7 @@ $(function() {
 
       if (mediaColumn.find('li[data-created="' + data.created + '"').length === 0) {
         mediaColumn.prepend(mediaItem.html(message + '<a href="#" class="delete">x</a>'));
-        if (mediaColumn.find('li').length > 7) {
+        if (mediaColumn.find('li').length > 10) {
           mediaColumn.find('li:last-child').remove();
         }
       }
@@ -88,7 +88,7 @@ $(function() {
 
         msg = $('<li class="font' + data.font + ' ' + highlight +
           '" data-created="' + data.created +
-          '"><img><span class="nick">' + data.nickname + '</span><time>' +
+          '"><img class="avatar"><span class="nick">' + data.nickname + '</span><time>' +
           getMessageDateTimeString(data) + '</time><p></p></li>');
         msg.find('img').attr('src', data.gravatar);
         msg.find('p').html(message);

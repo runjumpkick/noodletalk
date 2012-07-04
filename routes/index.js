@@ -13,6 +13,10 @@ module.exports = function(client, noodle, nconf, app, io) {
     // already exist.
     client.sadd('channels', 'noodletalk');
 
+    if (!req.params.channel) {
+      res.redirect('/about/noodletalk');
+    }
+
     var channel = escape(req.params.channel.replace(/\s/, ''));
     var nickname = '';
 
@@ -58,6 +62,9 @@ module.exports = function(client, noodle, nconf, app, io) {
       'font': req.session.userFont
     });
   });
+
+  // Get the user profile
+  app.get('/profile/:emailHash?')
 
   // Set options
   app.post('/options', function(req, res) {

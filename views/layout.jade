@@ -10,14 +10,6 @@ html
     link(rel='apple-touch-icon', href='/images/apple-touch-icon-iphone4.png')
     link(rel='app-manifest', href='https://noodletalk.org/noodletalk.webapp')
     link(rel='stylesheet', href='/stylesheets/style.css')
-    script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js')
-    script(src='https://browserid.org/include.js', type='text/javascript')
-    script(src='/socket.io/socket.io.js')
-    script(src='/javascripts/lib/tab-complete.js')
-    script(src='/javascripts/lib/time-format.js')
-    script(src='/javascripts/lib/version-timeout.js')
-    script(src='/javascripts/lib/commands.js')
-    script(src='/javascripts/main.js')
 
   body(data-nick=nickname, data-channel=channel, data-options=session.userOptions,
        data-avatar=avatar, data-email-hash=session.emailHash)
@@ -31,7 +23,6 @@ html
             button(type='submit') add
 
       div#info
-        a(href='https://github.com/ednapiranha/noodletalk', target='_blank') Github
         if !session.email
           a(href='#', id='login') Log in
           form(method='post', action='/about/#{channel}/login', id='login-form')
@@ -99,3 +90,11 @@ html
           span= ' shows your current nickname and avatar'
 
     #footer
+      script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js')
+      script(src='https://browserid.org/include.js', type='text/javascript')
+      script(src='/socket.io/socket.io.js')
+      script(src='/javascripts/lib/tab-complete.js')
+      script(src='/javascripts/lib/time-format.js')
+      script(src='/javascripts/lib/version-timeout.js')
+      script(src='/javascripts/lib/commands.js')
+      script(src='/javascripts/main.js')

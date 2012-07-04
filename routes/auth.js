@@ -40,13 +40,8 @@ module.exports = function(client, nconf, app, io) {
   app.get("/about/:channel/logout", function(req, res) {
     var channel = req.params.channel;
     
-    // Adios:
-    req.session.email = null;
-    req.session.emailHash = null;
-    req.session.userFont = null;
-    req.session.nickname = null;
-    req.session.pubKey = null;
-    req.session.userOptions = null;
+    req.session.destroy();
+
     res.redirect('/about/' + escape(channel));
   });
 };
