@@ -35,13 +35,10 @@ module.exports = function(client, nconf, app, io) {
 
         noodleRedis.getUserlist(client, channel, function(userErr, userList) {
           try {
-            noodleRedis.getChannelList(client, io, function(errList, channels) {
-              io.sockets.emit('channels', channels);
-              io.sockets.in(channel).emit('userlist', userList);
-              io.sockets.in(channel).emit('message', message);
-              io.sockets.in(channel).emit('usercount', io.sockets.clients(channel).length);
-              res.json(message);
-            });
+            io.sockets.in(channel).emit('userlist', userList);
+            io.sockets.in(channel).emit('message', message);
+            io.sockets.in(channel).emit('usercount', io.sockets.clients(channel).length);
+            res.json(message);
           } catch(err) {
             res.json({ 'status': 500, 'error': errList });
           }

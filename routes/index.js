@@ -1,6 +1,7 @@
 var auth = require('../lib/authenticate');
 var gravatar = require('gravatar');
 var noodleRedis = require('../lib/noodle-redis');
+var crypto = require('crypto');
 
 module.exports = function(client, noodle, nconf, app, io) {
   app.get('/', function (req, res) {
@@ -91,12 +92,24 @@ module.exports = function(client, noodle, nconf, app, io) {
     var user = {};
 
     auth.getUserHash(req, req.params.email, channel, false, function(err, userHash) {
+      var placeholder = 'Send a message to this user';
+
+      if (req.session.email && crypto.createHash('md5').update(req.session.email).digest("hex") === userHash.nickname) {
+        placeholder = 'Send a message to yourself';
+      }
+
       res.render('profile', {
         title: 'Noodle Talk Profile',
-        channel: channel,
-        nickname: req.params.email,
-        avatar: userHash.avatar
+        channel: 'profile-' + userHash.nickname,
+        nickname: userHash.nickname,
+        avatar: userHash.avatar,
+        placeholder: placeholder
       });
     });
+  });
+
+  // Post a message to a user or yourself
+  app.post('/message', function(req, res) {
+
   });
 };

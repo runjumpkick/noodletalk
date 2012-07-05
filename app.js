@@ -1,4 +1,5 @@
-"use strict";
+'use strict';
+
 var noodle = require('./package');
 var express = require('express');
 var configurations = module.exports;
@@ -19,8 +20,8 @@ client.set('channels:noodletalk', 'noodletalk');
 
 var io = require('socket.io').listen(app);
 
-io.configure(function() { 
-  io.set('transports', ['xhr-polling']); 
+io.configure(function() {
+  io.set('transports', ['xhr-polling']);
   io.set('polling duration', 10);
 });
 

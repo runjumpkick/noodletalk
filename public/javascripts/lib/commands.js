@@ -65,12 +65,6 @@ var checkCommands = function(form) {
     commandIsMatched = true;
     window.close();
 
-  // channel listing
-  } else if (commandMatched(channelMatcher)) {
-    hideAllCommands();
-    commandIsMatched = true;
-    $('#channelList').fadeIn();
-
   // personal options toggle
   } else if (commandMatched(mediaToggleMatcher)) {
     hideAllCommands();
@@ -115,6 +109,6 @@ var hideAllCommands = function(options) {
   if (options) {
     $(options).fadeOut();
   } else {
-    $('#help, #userList, #channelList, #whoami').fadeOut();
+    $('#help, #userList, #whoami').fadeOut();
   }
 }

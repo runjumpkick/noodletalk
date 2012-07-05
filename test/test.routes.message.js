@@ -186,31 +186,6 @@ describe('message', function() {
         });
       });
 
-      describe('has a channel list', function() {
-        it('adds a new channel to the channel list', function(done) {
-          var req = { 
-            body: { 
-              message: 'test'
-            },
-            params: {
-              channel: 'noodletalk'
-            },
-            session: {
-              nickname: { 'noodletalk': '' },
-              email: 'test@test.org',
-              emailHash: '12345'
-            }
-          };
-
-          noodleRedis.setRecentMessage(client, req, io, function(err, message) {
-            noodleRedis.getChannelList(client, io, function(err, channels) {
-              channels[0].name.should.equal('noodletalk');
-            });
-            done();
-          });
-        });
-      });
-
       describe('has no change', function() {
         it('ensures no message is broadcasted on a single command', function(done) {
           var req = { 

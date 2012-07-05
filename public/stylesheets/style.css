@@ -345,7 +345,7 @@ form input {
     box-shadow: #ccc -1px -1px 0px;
     color: #606060;
     font-size: 20px;
-    margin: 5px 0px 0px 0px;
+    margin: 3px 0px 0px 0px;
     padding: 5px;
     width: 85%;
 }
@@ -430,7 +430,7 @@ form.font8 input, .font8 {
     width: 280px;
 }
 
-#userList li, #channelList li {
+#userList li {
     background-color: #aaeeff;
     padding: 3px;
 }
@@ -445,13 +445,12 @@ form.font8 input, .font8 {
     text-overflow: ellipsis;
 }
 
-#channelList li a, #channelList li span,
 #userList li a, #userList li span {
     display: block;
     font-size: 14px;
 }
 
-#userList li:hover, #channelList li:hover {
+#userList li:hover {
     background-color: #c7f4ff;
 }
 
@@ -508,6 +507,32 @@ form.font8 input, .font8 {
 
 .nick-highlight time {
     color: #397170;
+}
+
+#profile img, #profile h2 {
+    float: left;
+}
+
+#profile h2 {
+    color: #aaa;
+    font-family: 'BebasNeueRegular';
+    font-size: 20px;
+    padding-left: 10px;
+}
+
+body.error h1 {
+    background-image: none;
+    color: #888;
+    font-family: 'BebasNeueRegular';
+    font-size: 20px;
+    text-indent: 0px;
+    width: 100%;
+}
+
+body.error h2 {
+    color: #222;
+    font-family: 'BebasNeueRegular';
+    font-size: 50px;
 }
 
 @media only screen and (min-width: 1100px) and (max-width: 1350px) {
@@ -597,7 +622,7 @@ form.font8 input, .font8 {
     .info-block li {
         width: 260px;
     }
-    #userList, #help, #channelList {
+    #userList, #help {
         left: 20px;
         top: 120px;
     }
@@ -609,6 +634,7 @@ form.font8 input, .font8 {
         width: 270px;
     }
     body[data-options="mediaOff"] #messages ol li {
+        min-width: 340px;
         width: 97%;
     }
     .info-block li {
@@ -617,5 +643,4 @@ form.font8 input, .font8 {
     #info {
         right: 0px;
     }
-
 }

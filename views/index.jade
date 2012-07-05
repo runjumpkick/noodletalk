@@ -26,11 +26,6 @@ block header
   p Click on a user to initiate a private chat.
   ul#noodlers
 
-#channelList.info-block
-  a(class='close') x
-  h2 Active Channels
-  ul#channels
-
 #whoami.info-block
   a(class='close') x
   h2 Who am I on this channel?
@@ -42,9 +37,6 @@ block header
   h2 Noodle Commands
 
   ul
-    li(data-action='/channels')
-      h3 /channels
-      span= ' lists all active channels'
     li(data-action='/clear')
       h3 /clear
       span= ' removes messages from your screen'

@@ -1,1 +1,21 @@
-img(src='#{avatar}')
+block header
+  #header
+    a(href='/')
+      h1 Noodle Talk
+    if session.email
+      #message
+        form(method='post', action='/about/#{channel}/message', autocomplete='off', class='font#{session.userFont}')
+          input(type='text', name='message', placeholder='#{placeholder}')
+          button(type='submit') add
+
+    div#info
+      if !session.email
+        a(href='#', id='login') Log in
+        form(method='post', action='/about/#{channel}/login', id='login-form')
+          input(type='hidden', name='bid_assertion', value='1')
+
+#profile
+
+  img(src='#{avatar}')
+
+  h2= nickname

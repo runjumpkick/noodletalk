@@ -6,7 +6,6 @@ $(function() {
   var initiatingChats = [];
   var messagesUnread = 0;
   var userList = [];
-  var channelList = [];
   var myUserList = [];
   var userCount = 0;
   var logLimit = 80;
@@ -201,11 +200,6 @@ $(function() {
       updateMessage(data);
     });
 
-    socket.on('channels', function(data) {
-      channelList = data;
-      updateChannelList(data);
-    });
-
     socket.on('private', function (data) {
       if (data) {
         var chatNum = initiatingChats.indexOf(data);
@@ -277,18 +271,6 @@ $(function() {
     if (userList.length < userCount) {
       noodlers.append('<li><img src="/images/anon.png"> <span>' +
         (userCount - userList.length) + ' Anonymous</span></li>');
-    }
-  };
-
-  var updateChannelList = function() {
-    var channels = $('#channels');
-    channels.html('');
-    for (var i=0; i < channelList.length; i++) {
-      var channelItem = $('<li><a href="" target="_blank" title=""></a></li>');
-      channelItem.find('a').attr('href', '/about/' + channelList[i].name).text(channelList[i].name +
-        ' (' + parseInt(channelList[i].userCount, 10) + ')');
-      channelItem.find('a').attr('title', channelList[i].name);
-      channels.append(channelItem);
     }
   };
 
