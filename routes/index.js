@@ -1,3 +1,5 @@
+'use strict';
+
 var auth = require('../lib/authenticate');
 var gravatar = require('gravatar');
 var noodleRedis = require('../lib/noodle-redis');
@@ -7,7 +9,7 @@ module.exports = function(client, noodle, nconf, app, io) {
   app.get('/', function (req, res) {
     res.redirect('/about/noodletalk');
   });
-  
+
   app.get('/about/:channel?', function(req, res) {
     var avatar = '';
     // Always push noodletalk in as a default channel if it doesn't
@@ -28,14 +30,17 @@ module.exports = function(client, noodle, nconf, app, io) {
       // user receives a forbidden response.
       var privateParts = channel.split('-');
 
+      // rearrange by sort if someone tries to change the hash order
+      channel = [privateParts[1], privateParts[2]].sort().join('-');
+
       if (req.session.emailHash !== privateParts[1] && req.session.emailHash !== privateParts[2]) {
         res.send(403);
       }
       noodleRedis.setChannel(client, channel);
     }
-    
+
     if (req.session.email) {
-      avatar = gravatar.url(req.session.email, {}, true)
+      avatar = gravatar.url(req.session.email, {}, true);
       if (!req.session.nickname[channel]) {
         req.session.nickname[channel] = auth.generateRandomNick();
       }
@@ -66,7 +71,6 @@ module.exports = function(client, noodle, nconf, app, io) {
 
   // Set options
   app.post('/options', function(req, res) {
-    var userOption = req.body.userOptions;
     var userOption = 'mediaOn';
 
     if (userOption === 'off') {
@@ -89,13 +93,22 @@ module.exports = function(client, noodle, nconf, app, io) {
   // Get the user profile
   app.get('/profile/:email?', function(req, res) {
     var channel = 'profile-' + req.params.email;
+    var placeholder = 'Send a private message to this user';
+    var formLink;
     var user = {};
 
     auth.getUserHash(req, req.params.email, channel, false, function(err, userHash) {
-      var placeholder = 'Send a message to this user';
+      var emailHash;
 
-      if (req.session.email && crypto.createHash('md5').update(req.session.email).digest("hex") === userHash.nickname) {
-        placeholder = 'Send a message to yourself';
+      if (req.session.email) {
+        emailHash = crypto.createHash('md5').update(req.session.email).digest("hex");
+        var userHashes = [emailHash, userHash.nickname].sort().join('-');
+        formLink = 'private-' + userHashes;
+
+        if (emailHash === userHash.nickname) {
+          placeholder = 'Write a public message';
+          formLink = channel;
+        }
       }
 
       res.render('profile', {
@@ -103,13 +116,9 @@ module.exports = function(client, noodle, nconf, app, io) {
         channel: 'profile-' + userHash.nickname,
         nickname: userHash.nickname,
         avatar: userHash.avatar,
-        placeholder: placeholder
+        placeholder: placeholder,
+        formLink: formLink
       });
     });
-  });
-
-  // Post a message to a user or yourself
-  app.post('/message', function(req, res) {
-
   });
 };

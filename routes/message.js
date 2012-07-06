@@ -1,3 +1,5 @@
+'use strict';
+
 var auth = require('../lib/authenticate');
 var content = require('../lib/web-remix');
 var messageMaker = require('../lib/message-maker');

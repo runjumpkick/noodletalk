@@ -1,3 +1,5 @@
+'use strict';
+
 var auth = require('../lib/authenticate');
 var messageMaker = require('../lib/message-maker');
 var noodleRedis = require('../lib/noodle-redis');
@@ -38,10 +40,10 @@ module.exports = function(client, nconf, app, io) {
 
   // Logout
   app.get("/about/:channel/logout", function(req, res) {
-    var channel = req.params.channel;
-    
-    req.session.destroy();
-
-    res.redirect('/about/' + escape(channel));
+    var channel = escape(req.params.channel);
+    console.log(channel)
+    req.session.reset();
+    console.log('got here')
+    res.redirect('/');
   });
 };

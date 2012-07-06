@@ -4,7 +4,7 @@ block header
       h1 Noodle Talk
     if session.email
       #message
-        form(method='post', action='/about/#{channel}/message', autocomplete='off', class='font#{session.userFont}')
+        form(method='post', action='/about/#{formLink}/message', autocomplete='off', class='font#{session.userFont}')
           input(type='text', name='message', placeholder='#{placeholder}')
           button(type='submit') add
 
@@ -19,3 +19,9 @@ block header
   img(src='#{avatar}')
 
   h2= nickname
+
+#messages
+  ol
+
+#media
+  ol

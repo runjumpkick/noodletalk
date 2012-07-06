@@ -180,7 +180,7 @@ a {
 
 #messages {
     float: left;
-    width: 60%;
+    width: 62.7%;
 }
 
 #messages li .media-link {
@@ -204,7 +204,7 @@ ol {
     width: 100%;
 }
 
-ol li {
+ol li, #profile {
     background-color: #f1f1f1;
     border-radius: 3px;
     box-shadow: #ccc -1px -1px 0px;
@@ -214,7 +214,7 @@ ol li {
     overflow: hidden;
     padding: 8px;
     position: relative;
-    width: 97%;
+    width: 97.5%;
 }
 
 ol li span.nick {
@@ -513,6 +513,10 @@ form.font8 input, .font8 {
     float: left;
 }
 
+#profile img {
+    border-radius: 3px;
+}
+
 #profile h2 {
     color: #aaa;
     font-family: 'BebasNeueRegular';
@@ -522,10 +526,11 @@ form.font8 input, .font8 {
 
 body.error h1 {
     background-image: none;
-    color: #888;
-    font-family: 'BebasNeueRegular';
-    font-size: 20px;
+    color: #bbb;
+    font-family: 'GoudyBookletter1911Regular';
+    font-size: 25px;
     text-indent: 0px;
+    text-shadow: #fff 1px 1px 0px;
     width: 100%;
 }
 
@@ -535,12 +540,16 @@ body.error h2 {
     font-size: 50px;
 }
 
+body.error .arrow {
+    font-size: 50px;
+    padding-right: 5px;
+}
+
 @media only screen and (min-width: 1100px) and (max-width: 1350px) {
     #messages {
         margin-right: 5px;
-        width: 53%;
+        width: 57%;
     }
-
     body[data-options="mediaOff"] #messages {
         width: 97%;
     }
@@ -555,7 +564,6 @@ body.error h2 {
         margin-right: 10px;
         width: 45%;
     }
-
     body[data-options="mediaOff"] #messages {
         width: 97%;
     }
