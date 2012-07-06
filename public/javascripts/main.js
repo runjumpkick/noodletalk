@@ -202,39 +202,7 @@ $(function() {
 
     socket.on('private', function (data) {
       if (data) {
-        var chatNum = initiatingChats.indexOf(data);
-        if (chatNum > -1) {
-          initiatingChats.splice(chatNum, 1);
-        } else {
-          var privateParts = data.split('-');
-          if (myEmailHash === privateParts[1] || myEmailHash === privateParts[2]) {
-            var hostNick = 'Someone';
-            var hostHash = privateParts[1];
-
-            if (privateParts[1] === myEmailHash) {
-              hostHash = privateParts[2];
-            }
-
-            for (var i = 0; i < userList.length; i ++) {
-              if (hostHash === userList[i].emailHash) {
-                hostNick = userList[i].nickname;
-              }
-            }
-
-            // is_client_only messages are ephemeral UI-generated notifications
-            // which don't come directly from the server but are in response to
-            // something client-side.
-            var message = {
-              created: new Date().getTime(),
-              font: 'font2',
-              message: hostNick + ' has sent a new private message to you! ' +
-                '<a href="/about/' + data + '" target="_' + data +
-                '">Click here to participate.</a>',
-              is_client_only: true
-            };
-            updateMessage(message);
-          }
-        }
+        updateMessage(message);
       }
     });
 
@@ -244,28 +212,10 @@ $(function() {
   var updateUserList = function() {
     var noodlers = $('#noodlers');
     noodlers.html('');
+
     for (var i=0; i < userList.length; i ++) {
-      var noodleItem = $('<li><img src=""> <a href="#" title=""></a></li>');
-      noodleItem.find('img').attr('src', userList[i].avatar + "?size=24");
-      noodleItem.find('a').text(userList[i].nickname);
-      if (myEmailHash !== userList[i].emailHash) {
-        var hashes = [myEmailHash, userList[i].emailHash].sort().join('-');
-        noodleItem.find('a')
-          .addClass('other')
-          .attr('href', '/about/private-' + hashes)
-          .attr('target', '_' + hashes)
-          .attr('title', userList[i].nickname)
-          .click(function (e) {
-            initiatePrivateChat($(this));
-          });
-      } else {
-        noodleItem.find('a')
-          .click(function (e) {
-            e.preventDefault();
-            return false;
-          })
-          .attr('title', 'This is you');
-      }
+      var noodleItem = $('<li><img src=""> <a href="/profile/' + userList[i].avatar.split('/')[4] +
+        '" title="" src="' + userList[i].avatar + '?size=24">' + userList[i].nickname + '</a></li>');
       noodlers.append(noodleItem);
     }
     if (userList.length < userCount) {
@@ -293,15 +243,4 @@ $(function() {
     $('form input').val($(this).data('action')).focus();
     hideAllCommands();
   });
-
-  // Clicking another user in the user list initiates a private chat.
-  var initiatePrivateChat = function (l) {
-    var chatHash = $(l).attr('href').replace('/about/', '');
-    socket.emit('private', {
-      channel: currentChannel,
-      privateChannel: chatHash
-    });
-    initiatingChats.push(chatHash);
-    return true;
-  };
 });

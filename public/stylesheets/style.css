@@ -634,6 +634,12 @@ body.error .arrow {
         left: 20px;
         top: 120px;
     }
+    ol li span.nick {
+        display: block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: 145px;
+    }
 }
 
 @media only screen and (max-width: 350px) {
@@ -650,5 +656,11 @@ body.error .arrow {
     }
     #info {
         right: 0px;
+    }
+    ol li span.nick {
+        display: block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: 130px;
     }
 }

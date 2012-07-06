@@ -103,7 +103,7 @@ module.exports = function(client, noodle, nconf, app, io) {
       if (req.session.email) {
         emailHash = crypto.createHash('md5').update(req.session.email).digest("hex");
         var userHashes = [emailHash, userHash.nickname].sort().join('-');
-        formLink = 'private-' + userHashes;
+        formLink = userHashes;
 
         if (emailHash === userHash.nickname) {
           placeholder = 'Write a public message';
