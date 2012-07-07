@@ -292,13 +292,13 @@ ol li time {
 ol li img.avatar {
     float: left;
     height: 35px;
+    margin-bottom: 5px;
     width: 35px;
 }
 
 ol li p {
     clear: both;
     float: left;
-    margin-top: 10px;
 }
 
 #media ol li > img {
@@ -314,6 +314,10 @@ ol li p em {
 
 ol li p img {
     max-width: 50px;
+}
+
+ol li p .avatar.join {
+    margin-right: 10px;
 }
 
 ol li a.delete, a.close {
@@ -351,7 +355,7 @@ form input {
 }
 
 form input , ol li {
-    font-family: 'LeagueGothicRegular';
+    font-family: 'CPMono_v07Plain';
     font-size: 17px;
 }
 
@@ -403,13 +407,6 @@ form.font8 input, .font8 {
     left: 8px;
     top: 60px;
     width: 90%;
-}
-
-#whoami.info-block h3.nickname {
-    float: left;
-    font-size: 18px;
-    font-weight: bold;
-    margin-left: 15px;
 }
 
 #help {

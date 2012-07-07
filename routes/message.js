@@ -19,7 +19,7 @@ module.exports = function(client, nconf, app, io) {
 
         noodleRedis.getUserlist(client, channel, function(userErr, userList) {
           io.sockets.in(channel).emit('userlist', userList);
-          //console.log(channelMessages)
+
           res.json({
             'messages': channelMessages,
             'connected_clients': io.sockets.clients(channel).length,
