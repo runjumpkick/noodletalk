@@ -14,11 +14,12 @@ block header
         form(method='post', action='/about/#{channel}/login', id='login-form')
           input(type='hidden', name='bid_assertion', value='1')
 
-#messages
-  ol
+.wrapper
+  #messages
+    ol
 
-#media
-  ol
+  #media
+    ol
 
 #userList.info-block
   a(class='close') x
