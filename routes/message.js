@@ -16,9 +16,10 @@ module.exports = function(client, nconf, app, io) {
 
       noodleRedis.getRecentMedia(client, channel, function(err, media) {
         channelMessages.media = media || {};
+
         noodleRedis.getUserlist(client, channel, function(userErr, userList) {
           io.sockets.in(channel).emit('userlist', userList);
-
+          //console.log(channelMessages)
           res.json({
             'messages': channelMessages,
             'connected_clients': io.sockets.clients(channel).length,
@@ -41,13 +42,13 @@ module.exports = function(client, nconf, app, io) {
             io.sockets.in(channel).emit('message', message);
             io.sockets.in(channel).emit('usercount', io.sockets.clients(channel).length);
             res.json(message);
-          } catch(err) {
-            res.json({ 'status': 500, 'error': errList });
+          } catch(userErr) {
+            res.json({ 'status': 500, 'error': userErr });
           }
         });
 
       } catch(err) {
-        res.json({ 'status': 500, 'error': userErr });
+        res.json({ 'status': 500, 'error': err });
       }
     });
   });

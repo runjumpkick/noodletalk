@@ -1,3 +1,5 @@
+'use strict';
+
 // All functionality that doesn't require backend requests but triggers an action
 var commandIsMatched = false;
 var helpMatcher = /^((\/help)|(\/h))/i;
@@ -19,7 +21,7 @@ var commandMatched = function(matcher) {
     return true;
   }
   return false;
-}
+};
 
 var checkCommands = function(form) {
   // if this is a help trigger, open up the help window
@@ -38,7 +40,7 @@ var checkCommands = function(form) {
     hideAllCommands();
     $('#userList').fadeIn();
     commandIsMatched = true;
-  
+
   // if this is a logout trigger, log the user out
   } else if(commandMatched(logoutMatcher)) {
     commandIsMatched = true;
@@ -76,7 +78,7 @@ var checkCommands = function(form) {
         $('body').data('options', 'mediaOff');
       } else {
         $('body').data('options', 'mediaOn');
-      };
+      }
       document.location.href = document.location.href;
     });
 
@@ -90,7 +92,7 @@ var checkCommands = function(form) {
 
   } else if (commandMatched(meMatcher)) {
     // pass
-  
+
   } else if (commandMatched(nickMatcher)) {
     // pass
 
@@ -111,4 +113,4 @@ var hideAllCommands = function(options) {
   } else {
     $('#help, #userList, #whoami').fadeOut();
   }
-}
+};

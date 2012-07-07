@@ -27,7 +27,7 @@ client.select(app.set('redisnoodle'), function(errDb, res) {
 
 describe('index', function() {
   before(function(done) {
-    app.listen().on('listening', function () {;
+    app.listen().on('listening', function () {
       addr = app.address();
       done();
     });

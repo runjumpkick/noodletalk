@@ -91,7 +91,7 @@ describe('web-remix', function() {
           'pdX2CIxqY/s400/Riley+the+smiling+dog.jpg" class="media-link" target="_blank">' +
           'http://3.bp.blogspot.com/_K_1LxF4TvhU/S7UUE6PYKiI/AAAAAAAADto/XfpdX2CIxqY/s400/Riley+the+smiling+dog.jpg</a>');
       });
-    }); 
+    });
 
     it('returns a link for an https url', function(done) {
       webRemix.generate('https://example.com', function(err, subject) {
@@ -171,21 +171,21 @@ describe('web-remix', function() {
 
         it('returns an empty string the parameter is empty after stripping spaces', function(done) {
           var subject = webRemix.getNickName('/nick          ');
-          subject.should.be.null;
+          subject.length.should.equal(0);
           done();
         });
       });
 
       it('returns an empty string when /nick parameter is null', function(done) {
         var subject = webRemix.getNickName('/nick');
-        subject.should.be.null;
+        subject.length.should.equal(0);
         done();
       });
     });
 
     it('returns an empty string have no /nick', function(done) {
       var subject = webRemix.getNickName('testtest');
-      subject.should.be.null;
+      subject.length.should.equal(0);
       done();
     });
   });

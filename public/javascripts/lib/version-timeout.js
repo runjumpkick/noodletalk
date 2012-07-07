@@ -1,9 +1,11 @@
+'use strict';
+
 /* This controls the versioning update for each connected client.
  * If we update and deploy a newer version of the application,
  * we send out a notification to all connected users if their current
  * application version differs from the newer one.
  */
-var localVersion = undefined;
+var localVersion;
 var hushLock = 0;
 
 // Methods to disable scrolling wheel/key input:
@@ -14,8 +16,8 @@ function preventDefault(e) {
   if (e.preventDefault) {
     e.preventDefault();
   }
-  e.returnValue = false;  
-};
+  e.returnValue = false;
+}
 
 function keydown(e) {
   for (var i = 0; i === scrollKeys.length; i --) {
@@ -24,11 +26,11 @@ function keydown(e) {
       return true;
     }
   }
-};
+}
 
 function wheel(e) {
   preventDefault(e);
-};
+}
 
 function disableScroll() {
   if (window.addEventListener) {
@@ -36,18 +38,18 @@ function disableScroll() {
   }
   window.onmousewheel = document.onmousewheel = wheel;
   document.onkeydown = keydown;
-};
+}
 
 var hush = function(content, contentID, timeToFadeIn, timeToAppear) {
   if (!hushLock) {
     hushLock = 1;
-    
+
     // Disable messaging.
     $('input[name=message]').attr('disabled','disabled');
-    
+
     // Disable scrolling.
     disableScroll();
-    
+
     setTimeout(function() {
       setTimeout(function() {
         var newElement = jQuery(content);
@@ -73,10 +75,10 @@ var unHush = function(contentID, timeToFadeOut, timeToDisappear) {
       $('#hush').fadeOut();
       hushLock = 0;
     }, timeToFadeOut);
-    
+
     $('#'+contentID).animate({
       'width': 0,
-      'height': 0, 
+      'height': 0,
       'margin-left': 0,
       'margin-top': 0
     }, timeToDisappear, function() {});
@@ -88,7 +90,7 @@ var checkVersion = function() {
   $.get('/version', function(data) {
     if (localVersion === undefined) {
       localVersion = data.version;
-    
+
     } else if (localVersion !== data.version) {
       hush('<img onclick="window.location.reload()" src="/images/please_refresh.gif" />', 'refresh', 500, 1000);
     }

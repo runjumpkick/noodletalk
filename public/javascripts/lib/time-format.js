@@ -1,14 +1,16 @@
+'use strict';
+
 // Date formatting functions
 var padTimeDigit = function(digit) {
   if (digit < 10) {
     return '0' + digit;
   }
   return digit;
-}
+};
 
 var buildTimeString = function(hours, mins, secs) {
   return padTimeDigit(hours) + ':' + padTimeDigit(mins) + ':' + padTimeDigit(secs);
-}
+};
 
 var getMessageDateTimeString = function(data) {
   var serverTime = new Date(data.raw_time);

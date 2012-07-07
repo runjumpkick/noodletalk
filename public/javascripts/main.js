@@ -1,6 +1,8 @@
+'use strict';
+
 $(function() {
   var socket = io.connect(location.protocol + '//' + location.hostname +
-               (location.port ? ':' + location.port : ''));
+    (location.port ? ':' + location.port : ''));
   var currentChannel = $('body').data('channel');
   var myEmailHash = $('body').data('email-hash');
   var initiatingChats = [];

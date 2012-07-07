@@ -1,3 +1,5 @@
+'use strict';
+
 // Autocomplete support
 var TabComplete = function(myUserList) {
   var listIndex = 0;
@@ -13,7 +15,7 @@ var TabComplete = function(myUserList) {
         break;
       }
     }
-  };
+  }
 
   this.reset = function() {
     userListIndex = 0;

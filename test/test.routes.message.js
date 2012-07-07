@@ -30,7 +30,7 @@ describe('message', function() {
         it('sets the session nickname', function(done) {
           var newNick = 'nick';
           var req = {
-            body: { 
+            body: {
               message: '/nick ' + newNick
             },
             params: {
@@ -52,7 +52,7 @@ describe('message', function() {
         it('updates the userList', function(done) {
           var newNick = 'nick123';
           var req = {
-            body: { 
+            body: {
               message: '/nick ' + newNick
             },
             params: {
@@ -84,11 +84,11 @@ describe('message', function() {
           });
         });
       });
-      
+
       describe('has no nickname change', function() {
         it('should not change the nickname', function(done) {
-          var req = { 
-            body: { 
+          var req = {
+            body: {
               message: '/nick'
             },
             params: {
@@ -111,8 +111,8 @@ describe('message', function() {
 
       describe('has no request session nickname', function() {
         it('sets the nickname to i_love_ie6xxxxxxx', function(done) {
-          var req = { 
-            body: { 
+          var req = {
+            body: {
               message: 'test'
             },
             params: {
@@ -134,8 +134,8 @@ describe('message', function() {
 
       describe('has a /me', function() {
         it('sets the status of the user', function(done) {
-          var req = { 
-            body: { 
+          var req = {
+            body: {
               message: '/me is testing'
             },
             params: {
@@ -161,8 +161,8 @@ describe('message', function() {
 
       describe('has a /join', function() {
         it('sets the join message for the user', function(done) {
-          var req = { 
-            body: { 
+          var req = {
+            body: {
               message: ''
             },
             params: {
@@ -188,8 +188,8 @@ describe('message', function() {
 
       describe('has no change', function() {
         it('ensures no message is broadcasted on a single command', function(done) {
-          var req = { 
-            body: { 
+          var req = {
+            body: {
               message: '/blah'
             },
             params: {
@@ -209,8 +209,8 @@ describe('message', function() {
         });
 
         it('ensures no message is broadcasted on a command with trailing text', function(done) {
-          var req = { 
-            body: { 
+          var req = {
+            body: {
               message: '/blah test'
             },
             params: {
