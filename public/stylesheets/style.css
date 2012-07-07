@@ -162,10 +162,6 @@ a {
 }
 
 #header {
-    margin-bottom: 10px;
-}
-
-#header {
     clear: both;
     float: left;
     position: relative;
@@ -291,9 +287,14 @@ ol li time {
 
 ol li img.avatar {
     float: left;
-    height: 35px;
+    height: 20px;
     margin-bottom: 5px;
-    width: 35px;
+    width: 20px;
+}
+
+ol li img.avatar:hover {
+    height: 40px;
+    width: 40px;
 }
 
 ol li p {
@@ -354,12 +355,7 @@ form input {
     width: 85%;
 }
 
-form input , ol li {
-    font-family: 'CPMono_v07Plain';
-    font-size: 17px;
-}
-
-form.font2 input, .font2 {
+form input , ol li, form.font1, .font1, form.font2, .font2 {
     font-family: 'CPMono_v07Plain';
     font-size: 15px;
 }
@@ -392,110 +388,59 @@ form.font8 input, .font8 {
 }
 
 .info-block {
-    background-color: #8fe4f9;
+    background-color: #fff;
     border-radius: 3px;
-    box-shadow: #60bdd4 1px 1px 0px;
-    color: #274850;
+    color: #666;
     display: none;
-    font-family: 'CPMono_v07Plain', monospace;
-    font-size: 11px;
-    max-width: 80%;
+    font-family: 'BebasNeueRegular';
+    font-size: 15px;
+    max-width: 72.5%;
     opacity: .98;
     overflow: hidden;
-    padding: 20px;
+    padding: 10px;
     position: absolute;
     left: 8px;
-    top: 60px;
-    width: 90%;
-}
-
-#help {
-    background-color: #fff286;
-    box-shadow: #929328 1px 1px 0px;
-    color: #706124;
+    top: 55px;
+    width: 72.5%;
 }
 
 .info-block li {
+    background-color: #f1f1f1;
     border-radius: 3px;
+    box-shadow: #ccc -1px -1px 0px;
     cursor: pointer;
     float: left;
     margin: 0px 0px 5px 5px;
     overflow: hidden;
-    padding: 3px 5px 3px 5px;
+    padding: 5px;
     text-overflow: ellipsis;
     white-space: nowrap;
     width: 280px;
 }
 
-#userList li {
-    background-color: #aaeeff;
-    padding: 3px;
+.info-block li:hover, .info-block li:hover span, .info-block li:hover a {
+    background-color: #45c2c1;
+    color: #fff;
 }
 
-#userList > p {
-    margin-bottom: 10px;
-}
-
-#userList li a {
-    line-height: 24px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-#userList li a, #userList li span {
-    display: block;
-    font-size: 14px;
-}
-
-#userList li:hover {
-    background-color: #c7f4ff;
-}
-
-#help li:hover {
-    background-color: #fffad3;
-}
-
-#userList li img {
+.info-block li img {
+    border-radius: 3px;
     margin-right: 10px;
 }
 
-#help li {
-    background-color: #fff7b5;
-    margin-bottom: 5px;
+.info-block li a {
+    color: #e35f07;
 }
 
 .info-block span, .info-block img {
     color: #e35f07;
     display: block;
     float: left;
-    padding-right: 5px;
 }
 
 .info-block h2 {
     font-size: 20px;
     margin-bottom: 10px;
-}
-
-#help li {
-    height: 45px;
-}
-
-#help li h3 {
-    clear: both;
-    display: block;
-    float: left;
-    font-size: 17px;
-    width: 100%;
-}
-
-#help li span {
-    clear: both;
-    display: block;
-    float: left;
-}
-
-#help h2 {
-    letter-spacing: -1px;
 }
 
 .nick-highlight {
@@ -619,17 +564,10 @@ body.error .arrow {
         max-width: 100%;
     }
     form input {
-        clear: both;
-        float: left;
-        margin: 10px 0px 0px 0px;
-        width: 98%;
+        width: 80%;
     }
     .info-block li {
         width: 260px;
-    }
-    #userList, #help {
-        left: 20px;
-        top: 120px;
     }
     ol li span.nick {
         display: block;
@@ -640,24 +578,17 @@ body.error .arrow {
 }
 
 @media only screen and (max-width: 350px) {
+    #messages {
+        width: 310px;
+    }
     #messages ol li video, #messages ol li iframe, #messages ol li object {
         height: 151px;
-        width: 270px;
+        width: 265px;
+    }
+    form input {
+        width: 77%;
     }
     body[data-options="mediaOff"] #messages ol li {
-        min-width: 340px;
-        width: 97%;
-    }
-    .info-block li {
-        width: 260px;
-    }
-    #info {
-        right: 0px;
-    }
-    ol li span.nick {
-        display: block;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        width: 130px;
+        min-width: 330px;
     }
 }

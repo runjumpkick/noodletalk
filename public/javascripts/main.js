@@ -27,7 +27,7 @@ $(function() {
   var updateMedia = function(data) {
     var mediaColumn = $('#media ol');
     var message = $.trim(data.message);
- 
+
     // Update the media
     if(mediaIframeMatcher.exec(message) !== null ||
       mediaObjectMatcher.exec(message) !== null ||
@@ -122,9 +122,6 @@ $(function() {
       updateMessage(messages.generic[i]);
     }
 
-    $('#whoami h3.avatar').text($('body').data('avatar'));
-    $('#whoami h3.nickname').text($('body').data('nick'));
-
     // Update the user list
     userList = data.user_list;
 
@@ -216,8 +213,9 @@ $(function() {
     noodlers.html('');
 
     for (var i=0; i < userList.length; i ++) {
-      var noodleItem = $('<li><img src=""> <a href="/profile/' + userList[i].avatar.split('/')[4] +
-        '" title="" src="' + userList[i].avatar + '?size=24">' + userList[i].nickname + '</a></li>');
+      var noodleItem = $('<li><img src="' + userList[i].avatar + '?size=45"> <a href="/profile/' +
+        userList[i].avatar.split('/')[4] + '" title="" src="' + userList[i].avatar +
+        '?size=24">' + userList[i].nickname + '</a></li>');
       noodlers.append(noodleItem);
     }
     if (userList.length < userCount) {

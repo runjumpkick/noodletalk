@@ -8,12 +8,10 @@ var usersMatcher = /^(\/users)/i;
 var logoutMatcher = /^(\/logout)/i;
 var fontMatcher = /^(\/font)/i;
 var joinMatcher = /^(\/((join)|(j)))/i;
-var leaveMatcher = /^(\/leave|\/part)/i;
 var meMatcher = /^(\/me\s)\w?/i;
 var nickMatcher = /^(\/nick\s)\w?/i;
 var channelMatcher = /^(\/channels)/i;
 var mediaToggleMatcher = /^(\/media\s(off|on))/i;
-var whoAmIMatcher = /^(\/whoami)/i;
 var slashMatcher = /^(\/)\w?/i;
 
 var commandMatched = function(matcher) {
@@ -61,12 +59,6 @@ var checkCommands = function(form) {
     var channel = $('form input[name="message"]').val().replace(/^\/((join)|(j)) #?/, '');
     window.open('/about/' + escape(channel.toLowerCase()), '_blank');
 
-  // leave a channel
-  } else if (commandMatched(leaveMatcher)) {
-    hideAllCommands();
-    commandIsMatched = true;
-    window.close();
-
   // personal options toggle
   } else if (commandMatched(mediaToggleMatcher)) {
     hideAllCommands();
@@ -81,14 +73,6 @@ var checkCommands = function(form) {
       }
       document.location.href = document.location.href;
     });
-
-  // check your own details on the channel
-  } else if (commandMatched(whoAmIMatcher)) {
-    hideAllCommands();
-    $('#whoami').find('h3.nickname').text($('body').data('nick'));
-    $('#whoami').find('h3.avatar').html('<img src="' + $('body').data('avatar') + '">');
-    commandIsMatched = true;
-    $('#whoami').fadeIn();
 
   } else if (commandMatched(meMatcher)) {
     // pass
@@ -111,6 +95,6 @@ var hideAllCommands = function(options) {
   if (options) {
     $(options).fadeOut();
   } else {
-    $('#help, #userList, #whoami').fadeOut();
+    $('#help, #userList').fadeOut();
   }
 };
