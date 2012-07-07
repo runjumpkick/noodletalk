@@ -263,7 +263,6 @@ body[data-options="mediaOff"] #messages li .media-link {
 
 #messages ol li video, #messages ol li iframe, #messages ol li object {
     height: 85px;
-    padding-top: 20px;
     overflow: hidden;
     width: 100px;
 }
