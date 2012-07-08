@@ -413,7 +413,7 @@ form.font8 input, .font8 {
     border-radius: 3px;
     box-shadow: #ccc -1px -1px 0px;
     color: #666;
- 
+    display: none;
     font-family: 'BebasNeueRegular';
     font-size: 15px;
     opacity: .98;
