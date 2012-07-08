@@ -1,4 +1,5 @@
-block header
+.wrapper
+  block header
   #header
     a(href='/')
       h1 Noodle Talk
@@ -14,50 +15,15 @@ block header
         form(method='post', action='/about/#{channel}/login', id='login-form')
           input(type='hidden', name='bid_assertion', value='1')
 
-.wrapper
   #messages
     ol
 
   #media
     ol
 
-#userList.info-block
-  a(class='close') x
-  h2 Active Noodlers
-  ul#noodlers
+  #userList.info-block
+    a(class='close') x
+    h2 Active Noodlers
+    ul#noodlers
 
-#help.info-block
-  a(class='close') x
-  h2 Noodle Commands
-
-  ul
-    li(data-action='/clear')
-      h3 /clear
-      span= ' removes messages from your screen'
-    li(data-action='/font')
-      h3 /font
-      span= ' changes to a new random font'
-    li(data-action='/help')
-      h3 /help or /h
-      span= ' displays all available commands'
-    li(data-action='/logout')
-      h3 /logout
-      span= ' log out of the site'
-    li(data-action='/media ')
-      h3 /media on|off
-      span= ' disable/enable media'
-    li(data-action='/nick ')
-      h3 /nick your_nick
-      span= ' changes your nickname'
-    li(data-action='/me ')
-      h3 /me your message here
-      span= ' set an action item from your message'
-    li(data-action='/users')
-      h3 /users
-      span= ' displays the current list of users'
-    li(data-action='/join ')
-      h3 /join or /j #channel
-      span= ' opens #channel in a new window'
-    li(data-action='/leave ')
-      h3 /leave or /part
-      span= ' closes the current channel window'
+  include _help

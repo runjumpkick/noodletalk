@@ -73,7 +73,7 @@ module.exports = function(client, noodle, nconf, app, io) {
   app.post('/options', function(req, res) {
     var userOption = 'mediaOn';
 
-    if (userOption === 'off') {
+    if (req.body.userOptions === 'off') {
       userOption = 'mediaOff';
     }
 

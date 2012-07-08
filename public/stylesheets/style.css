@@ -214,9 +214,9 @@ ol li, #profile {
 }
 
 ol li span.nick {
-    color: #222;
+    color: #888;
     font-family: 'BebasNeueRegular', sans-serif;
-    font-size: 18px;
+    font-size: 15px;
     left: 55px;
     position: absolute;
     top: 5px;
@@ -227,6 +227,10 @@ ol li iframe, ol li audio, ol li video, ol li object {
     display: block;
     float: left;
     margin: 10px;
+}
+
+body[data-options="mediaOff"] #messages {
+    width: 1319px;
 }
 
 body[data-options="mediaOff"] #messages li p iframe,
@@ -243,6 +247,17 @@ body[data-options="mediaOff"] #media {
 
 body[data-options="mediaOff"] #messages li .media-link {
     display: block;
+}
+
+.wrapper {
+    margin: 0 auto;
+    position: relative;
+    width: 1300px;
+}
+
+#messages {
+    margin-right: 1px;
+    width: 815px;
 }
 
 #messages ol li {
@@ -360,7 +375,7 @@ form input {
 
 form input , ol li, form.font1, .font1, form.font2, .font2 {
     font-family: 'CPMono_v07Plain';
-    font-size: 15px;
+    font-size: 13px;
 }
 
 form.font3 input, .font3 {
@@ -370,6 +385,7 @@ form.font3 input, .font3 {
 
 form.font4 input, .font4 {
     font-family: 'GoudyBookletter1911Regular';
+    font-size: 16px;
 }
 
 form.font5 input, .font5 {
@@ -379,6 +395,7 @@ form.font5 input, .font5 {
 
 form.font6 input, .font6 {
     font-family: 'CabinSketchRegular';
+    font-size: 16px;
 }
 
 form.font7 input, .font7 {
@@ -388,23 +405,24 @@ form.font7 input, .font7 {
 
 form.font8 input, .font8 {
     font-family: 'CamboRegular';
+    font-size: 14px;
 }
 
 .info-block {
     background-color: #fff;
     border-radius: 3px;
+    box-shadow: #ccc -1px -1px 0px;
     color: #666;
-    display: none;
+ 
     font-family: 'BebasNeueRegular';
     font-size: 15px;
-    max-width: 72.5%;
     opacity: .98;
     overflow: hidden;
     padding: 10px;
     position: absolute;
     left: 8px;
     top: 55px;
-    width: 72.5%;
+    width: 1185px;
 }
 
 .info-block li {
@@ -454,6 +472,10 @@ form.font8 input, .font8 {
     color: #397170;
 }
 
+#profile {
+    width: 1285px;
+}
+
 #profile img, #profile h2 {
     float: left;
 }
@@ -500,13 +522,14 @@ body.error .arrow {
 
 @media only screen and (min-width: 1000px) and (max-width: 1350px) {
     .wrapper {
-        clear: both;
-        float: left;
         width: 1000px;
     }
     #messages {
         margin-right: 10px;
         width: 500px;
+    }
+    .info-block {
+        width: 890px;
     }
     #media {
         width: 480px;
@@ -515,11 +538,10 @@ body.error .arrow {
         width: 979px;
     }
     body[data-options="mediaOff"] #messages {
-        width: 97%;
+        width: 1005px;
     }
-
     form input {
-        width: 84%;
+        width: 800px;
     }
 }
 
@@ -531,6 +553,9 @@ body.error .arrow {
         margin-right: 15px;
         width: 325px;
     }
+    .info-block {
+        width: 595px;
+    }
     #profile {
         width: 810px;
     }
@@ -538,11 +563,16 @@ body.error .arrow {
         width: 480px;
     }
     body[data-options="mediaOff"] #messages {
-        width: 97%;
+        width: 831px;
     }
-
     form input {
-        width: 770px;
+        width: 680px;
+    }
+    ol li span.nick {
+        display: block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: 152px;
     }
 }
 
@@ -551,7 +581,14 @@ body.error .arrow {
         width: 641px;
     }
     form input {
-        width: 72%;
+        width: 400px;
+    }
+    #messages ol li video, #messages ol li iframe, #messages ol li object {
+        height: 338px;
+        width: 600px;
+    }
+    .info-block {
+        width: 595px;
     }
     #messages ol li p img {
         width: 100%;
@@ -562,8 +599,11 @@ body.error .arrow {
     #profile {
         width: 625px;
     }
+    body[data-options="mediaOff"] #messages {
+        width: 642px;
+    }
     form input {
-        width: 585px;
+        width: 495px;
     }
     #media {
         display: none;
@@ -574,11 +614,17 @@ body.error .arrow {
 }
 
 @media only screen and (min-width: 361px) and (max-width: 640px) {
+    .wrapper {
+        width: 361px;
+    }
     #messages {
         width: 349px;
     }
     #profile {
         width: 340px;
+    }
+    .info-block {
+        width: 280px;
     }
     #messages ol li video, #messages ol li iframe, #messages ol li object {
         height: 180px;
@@ -590,16 +636,15 @@ body.error .arrow {
     #media {
         display: none;
     }
-    body[data-options="mediaOff"] #messages ol li {
-        width: 97%;
-    }
     ol li p img {
         max-width: 100%;
     }
-    form input {
-        width: 293px;
+    body[data-options="mediaOff"] #messages {
+        width: 350px;
     }
-
+    form input {
+        width: 240px;
+    }
     #profile h2 {
         overflow: hidden;
         text-overflow: ellipsis;
@@ -612,22 +657,28 @@ body.error .arrow {
         display: block;
         overflow: hidden;
         text-overflow: ellipsis;
-        width: 145px;
+        width: 175px;
     }
 }
 
 @media only screen and (max-width: 360px) {
     .wrapper {
-        width: 320px;
+        width: 310px;
     }
-    #messages {
-        width: 300px;
+    #messages, body[data-options="mediaOff"] #messages {
+        width: 310px;
     }
     #profile {
         width: 300px;
     }
     #media {
         display: none;
+    }
+    .info-block {
+        width: 280px;
+    }
+    .info-block li {
+        width: 260px;
     }
     #messages ol li p img {
         max-width: 100%;
@@ -645,13 +696,10 @@ body.error .arrow {
     form input {
         width: 240px;
     }
-    body[data-options="mediaOff"] #messages ol li {
-        min-width: 310px;
-    }
     ol li span.nick {
         display: block;
         overflow: hidden;
         text-overflow: ellipsis;
-        width: 145px;
+        width: 132px;
     }
 }

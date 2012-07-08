@@ -1,4 +1,5 @@
-block header
+.wrapper.profile
+  block header
   #header
     a(href='/')
       h1 Noodle Talk
@@ -14,15 +15,16 @@ block header
         form(method='post', action='/about/#{channel}/login', id='login-form')
           input(type='hidden', name='bid_assertion', value='1')
 
-#profile
+  #profile
 
-  img(src='#{avatar}')
+    img(src='#{avatar}')
 
-  h2= nickname
+    h2= nickname
 
-.wrapper.profile
   #messages
     ol
 
   #media
     ol
+
+  include _help

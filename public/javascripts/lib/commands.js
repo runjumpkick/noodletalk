@@ -10,7 +10,6 @@ var fontMatcher = /^(\/font)/i;
 var joinMatcher = /^(\/((join)|(j)))/i;
 var meMatcher = /^(\/me\s)\w?/i;
 var nickMatcher = /^(\/nick\s)\w?/i;
-var channelMatcher = /^(\/channels)/i;
 var mediaToggleMatcher = /^(\/media\s(off|on))/i;
 var slashMatcher = /^(\/)\w?/i;
 
