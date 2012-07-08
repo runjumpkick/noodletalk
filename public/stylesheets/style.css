@@ -663,10 +663,10 @@ body.error .arrow {
 
 @media only screen and (max-width: 360px) {
     .wrapper {
-        width: 310px;
+        width: 300px;
     }
     #messages, body[data-options="mediaOff"] #messages {
-        width: 310px;
+        width: 300px;
     }
     #profile {
         width: 300px;
