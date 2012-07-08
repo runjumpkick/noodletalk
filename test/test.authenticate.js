@@ -4,6 +4,8 @@ var nock = require('nock');
 var should = require('should');
 var nconf = require('nconf');
 var querystring = require('querystring');
+var redis = require("redis");
+var client = redis.createClient();
 
 nconf.argv().env().file({ file: 'test/local-test.json' });
 
@@ -62,7 +64,7 @@ describe('rss', function() {
     it('generates an rss key', function(done) {
       var emailHash = '12345abc';
 
-      auth.generateRSSKey(emailHash, function(err, rssKey) {
+      auth.generateRSSKey(client, emailHash, function(err, rssKey) {
         should.exist(rssKey);
         done();
       });

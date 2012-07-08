@@ -37,7 +37,7 @@ describe('web-remix', function() {
           'com/media/swf/player/mixcloudLoader.swf?feed=http%3A//www.mixcloud.com/LuckyMe/25-jamie-vexd-sunday-' +
           'walkman-mix/&embed_type=widget_standard"></param><param name="allowFullScreen" value="false"></param>' +
           '<param name="wmode" value="opaque"></param><param name="allowscriptaccess" value="always"></param>' +
-          '<embed src="http://www.mixcloud.com/media/swf/player/mixcloudLoader.swf?feed=http%3A//www.mixcloud.com' +
+          '<embed src="//www.mixcloud.com/media/swf/player/mixcloudLoader.swf?feed=http%3A//www.mixcloud.com' +
           '/LuckyMe/25-jamie-vexd-sunday-walkman-mix/&embed_type=widget_standard" type="application/x-shockwave-' +
           'flash" wmode="opaque" allowscriptaccess="always" allowfullscreen="true" width="440" height="251"></embed>' +
           '</object><div style="clear:both; height:3px;"><div style="clear:both; height:3px;"></div></div><a href="' +
@@ -49,14 +49,14 @@ describe('web-remix', function() {
 
     it('returns oembed code for a soundcloud url', function(done) {
       var scope = nock('soundcloud.com').get('/oembed?format=json&url=http//soundcloud.com/track').reply(200,
-          { html: '<iframe src="http://w.soundcloud.com/player/?url=http%3A' +
+          { html: '<iframe src="//w.soundcloud.com/player/?url=http%3A' +
           '%2F%2Fapi.soundcloud.com%2Fplaylists%2F723408&amp;show_artwork=true" frameborder="no" height="450" ' +
           'scrolling="no" width="100%"></iframe><a class="media-link" target="_blank"' +
           'href="http://soundcloud.com/skeptical/sets/tracks-576/">http://soundcloud.com/skeptical/sets' +
           '/tracks-576/</a>' });
       webRemix.generate('http://soundcloud.com/skeptical/sets/tracks-576/', function(err, subject) {
         subject.should.equal(' <iframe width="100%" height="450" scrolling="no" frameborder="no" ' +
-          'src="http://w.soundcloud.com/player/?url=http%3A%2F%2Fapi.soundcloud.com%2Fplaylists%2F723408&show_artwork=true">' +
+          'src="//w.soundcloud.com/player/?url=http%3A%2F%2Fapi.soundcloud.com%2Fplaylists%2F723408&show_artwork=true">' +
           '</iframe><a href="http://soundcloud.com/skeptical/sets/tracks-576/" class="media-link" target="_blank">' +
           'http://soundcloud.com/skeptical/sets/tracks-576/</a>');
         done();
@@ -66,7 +66,7 @@ describe('web-remix', function() {
     it('returns embed code for a rd.io short url', function(done) {
       webRemix.generate('http://rd.io/i/QVME9DdeW1GL', function(err, subject) {
         subject.should.equal(' <iframe class="rdio" width="450" height="80" ' +
-          'src="http://rd.io/i/QVME9DdeW1GL" ' +
+          'src="//rd.io/i/QVME9DdeW1GL" ' +
           'frameborder="0"></iframe><a href="http://rd.io/x/QVME9DdeW1GL" ' +
           'class="media-link" target="_blank">http://rd.io/x/QVME9DdeW1GL</a>');
         done();
@@ -76,7 +76,7 @@ describe('web-remix', function() {
     it('returns embed code for a rdio normal url', function(done) {
       webRemix.generate('http://rdio.com/x/QVME9DdeW1GL', function(err, subject) {
         subject.should.equal(' <iframe class="rdio" width="450" height="80" ' +
-          'src="http://rd.io/i/QVME9DdeW1GL" ' +
+          'src="//rd.io/i/QVME9DdeW1GL" ' +
           'frameborder="0"></iframe><a href="http://rd.io/x/QVME9DdeW1GL" ' +
           'class="media-link" target="_blank">http://rd.io/x/QVME9DdeW1GL</a>');
         done();

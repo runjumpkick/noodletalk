@@ -3,7 +3,6 @@
 // All functionality that doesn't require backend requests but triggers an action
 var commandIsMatched = false;
 var helpMatcher = /^((\/help)|(\/h))/i;
-var clearMatcher = /^(\/clear)/i;
 var usersMatcher = /^(\/users)/i;
 var logoutMatcher = /^(\/logout)/i;
 var fontMatcher = /^(\/font)/i;
@@ -25,11 +24,6 @@ var checkCommands = function(form) {
   if (commandMatched(helpMatcher)) {
     hideAllCommands();
     $('#help').fadeIn();
-    commandIsMatched = true;
-
-  // if this is a clear trigger, clear all messages
-  } else if (commandMatched(clearMatcher)) {
-    $('ol li').remove();
     commandIsMatched = true;
 
   // if this is a users trigger, display the user list
