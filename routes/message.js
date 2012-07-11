@@ -9,7 +9,7 @@ module.exports = function(client, nconf, app, io) {
   // Get recent messages
   app.get('/about/:channel/recent', function(req, res) {
     var channel = escape(req.params.channel);
-    noodleRedis.getRecentMessages(client, channel, req, function(err, messages) {
+    noodleRedis.getRecentMessages(client, channel, function(err, messages) {
       if (err) {
         res.send(403);
       }

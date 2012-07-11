@@ -184,7 +184,7 @@ $(function() {
     socket.on('userlist', function (data) {
       userList = data;
       myUserList = [];
-      for (var i=0; i < userList.length; i++) {
+      for (var i=0; i < userList.length; i ++) {
         myUserList.push(userList[i].nickname.toLowerCase());
       }
       keepListSane();
@@ -213,9 +213,9 @@ $(function() {
     noodlers.html('');
 
     for (var i=0; i < userList.length; i ++) {
-      var noodleItem = $('<li><img src="' + userList[i].avatar + '?size=45"> <a href="/profile/' +
+      var noodleItem = $('<li><a href="/profile/' +
         userList[i].avatar.split('/')[4] + '" title="" src="' + userList[i].avatar +
-        '?size=24">' + userList[i].nickname + '</a></li>');
+        '?size=24"><img src="' + userList[i].avatar + '?size=45">' + userList[i].nickname + '</a></li>');
       noodlers.append(noodleItem);
     }
     if (userList.length < userCount) {

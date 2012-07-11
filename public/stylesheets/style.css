@@ -450,7 +450,11 @@ form.font8 input, .font8 {
 }
 
 .info-block li a {
+    clear: both;
     color: #e35f07;
+    display: block;
+    float: left;
+    width: 100%;
 }
 
 .info-block span, .info-block img {

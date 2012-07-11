@@ -96,6 +96,8 @@ module.exports = function(client, noodle, nconf, app, io) {
     var placeholder = 'Send a private message to this user';
     var formLink;
     var user = {};
+    var isActivated = false;
+    var isProfile = true;
 
     auth.getUserHash(req, req.params.email, channel, false, function(err, userHash) {
       var emailHash;
@@ -107,6 +109,7 @@ module.exports = function(client, noodle, nconf, app, io) {
 
         if (emailHash === userHash.nickname) {
           placeholder = 'Write a public message';
+          isActivated = true;
           formLink = channel;
         }
       }
@@ -117,7 +120,9 @@ module.exports = function(client, noodle, nconf, app, io) {
         nickname: userHash.nickname,
         avatar: userHash.avatar,
         placeholder: placeholder,
-        formLink: formLink
+        formLink: formLink,
+        isActivated: isActivated,
+        isProfile: isProfile
       });
     });
   });
