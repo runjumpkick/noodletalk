@@ -97,7 +97,6 @@ module.exports = function(client, noodle, nconf, app, io) {
     var formLink;
     var user = {};
     var isActivated = false;
-    var isProfile = true;
 
     auth.getUserHash(req, req.params.email, channel, false, function(err, userHash) {
       var emailHash;
@@ -121,8 +120,7 @@ module.exports = function(client, noodle, nconf, app, io) {
         avatar: userHash.avatar,
         placeholder: placeholder,
         formLink: formLink,
-        isActivated: isActivated,
-        isProfile: isProfile
+        isActivated: isActivated
       });
     });
   });
