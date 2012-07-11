@@ -11,6 +11,7 @@ $(function() {
   var myUserList = [];
   var userCount = 0;
   var logLimit = 80;
+  var mediaLimit = 10;
   var myPost = false;
   var mediaIframeMatcher = /<iframe\s.+><\/iframe>/i;
   var mediaObjectMatcher = /<object\s.+><\/object>/i;
@@ -40,7 +41,7 @@ $(function() {
 
       if (mediaColumn.find('li[data-created="' + data.created + '"').length === 0) {
         mediaColumn.prepend(mediaItem.html(message + '<a href="#" class="delete">x</a>'));
-        if (mediaColumn.find('li').length > 10) {
+        if (mediaColumn.find('li').length > mediaLimit) {
           mediaColumn.find('li:last-child').remove();
         }
       }
