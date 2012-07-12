@@ -9,7 +9,7 @@
           input(type='text', name='message', placeholder='#{placeholder}')
           button(type='submit') add
 
-    if isOwner
+    if !isOwner
       #visitor-actions
         a(href='/about/private-#{formLink}', target='_blank') View your private messages with this user
 
