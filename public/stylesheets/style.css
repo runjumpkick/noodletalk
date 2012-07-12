@@ -168,6 +168,11 @@ a {
     width: 100%;
 }
 
+#visitor-actions {
+    font-size: 12px;
+    padding: 10px 0px 10px 0px;
+}
+
 #info {
     position: absolute;
     right: 20px;

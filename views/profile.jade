@@ -3,11 +3,15 @@
   #header
     a(href='/')
       h1 Noodle Talk
-    if session.email && isActivated
+    if session.email
       #message
         form(method='post', action='/about/#{formLink}/message', autocomplete='off', class='font#{session.userFont}')
           input(type='text', name='message', placeholder='#{placeholder}')
           button(type='submit') add
+
+    if isOwner
+      #visitor-actions
+        a(href='/about/private-#{formLink}', target='_blank') View your private messages with this user
 
     div#info
       if !session.email

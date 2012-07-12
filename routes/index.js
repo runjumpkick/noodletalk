@@ -12,9 +12,6 @@ module.exports = function(client, noodle, nconf, app, io) {
 
   app.get('/about/:channel?', function(req, res) {
     var avatar = '';
-    // Always push noodletalk in as a default channel if it doesn't
-    // already exist.
-    client.sadd('channels', 'noodletalk');
 
     if (!req.params.channel) {
       res.redirect('/about/noodletalk');
@@ -36,7 +33,6 @@ module.exports = function(client, noodle, nconf, app, io) {
       if (req.session.emailHash !== privateParts[1] && req.session.emailHash !== privateParts[2]) {
         res.send(403);
       }
-      noodleRedis.setChannel(client, channel);
     }
 
     if (req.session.email) {
@@ -48,8 +44,6 @@ module.exports = function(client, noodle, nconf, app, io) {
     }
 
     noodleRedis.getUserlist(client, channel, function(err, userList) {
-      // TODO: add 500 page redirect on err
-
       io.sockets.in(channel).emit('userlist', userList);
       res.render('index', {
         title: 'Noodle Talk',
@@ -96,8 +90,8 @@ module.exports = function(client, noodle, nconf, app, io) {
     var placeholder = 'Send a private message to this user';
     var formLink;
     var user = {};
-    var isActivated = false;
-
+    var isOwner = false;
+    
     auth.getUserHash(req, req.params.email, channel, false, function(err, userHash) {
       var emailHash;
 
@@ -108,11 +102,11 @@ module.exports = function(client, noodle, nconf, app, io) {
 
         if (emailHash === userHash.nickname) {
           placeholder = 'Write a public message';
-          isActivated = true;
+          isOwner = true;
           formLink = channel;
         }
       }
-
+      
       res.render('profile', {
         title: 'Noodle Talk Profile',
         channel: 'profile-' + userHash.nickname,
@@ -120,7 +114,7 @@ module.exports = function(client, noodle, nconf, app, io) {
         avatar: userHash.avatar,
         placeholder: placeholder,
         formLink: formLink,
-        isActivated: isActivated
+        isOwner: isOwner
       });
     });
   });
