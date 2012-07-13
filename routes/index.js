@@ -28,7 +28,7 @@ module.exports = function(client, noodle, nconf, app, io) {
       var privateParts = channel.split('-');
 
       // rearrange by sort if someone tries to change the hash order
-      channel = [privateParts[1], privateParts[2]].sort().join('-');
+      channel = 'private-' + [privateParts[1], privateParts[2]].sort().join('-');
 
       if (req.session.emailHash !== privateParts[1] && req.session.emailHash !== privateParts[2]) {
         res.send(403);
@@ -98,7 +98,7 @@ module.exports = function(client, noodle, nconf, app, io) {
       if (req.session.email) {
         emailHash = crypto.createHash('md5').update(req.session.email).digest("hex");
         var userHashes = [emailHash, userHash.nickname].sort().join('-');
-        formLink = userHashes;
+        formLink = 'private-' + userHashes;
 
         if (emailHash === userHash.nickname) {
           placeholder = 'Write a public message';

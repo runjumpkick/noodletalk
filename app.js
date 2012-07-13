@@ -35,10 +35,19 @@ io.sockets.on('connection', function(socket) {
   });
 });
 
+var isLoggedIn = function(req, res, next) {
+  if (req.session.email) {
+    next();
+  } else {
+    err.status = 403;
+    next(new Error('not allowed!'));
+  }
+}
+
 // routes
 require('./routes')(client, noodle, nconf, app, io);
-require('./routes/message')(client, nconf, app, io);
-require('./routes/auth')(client, nconf, app, io);
+require('./routes/message')(client, nconf, app, io, isLoggedIn);
+require('./routes/auth')(client, nconf, app, io, isLoggedIn);
 
 app.get('/404', function(req, res, next){
   next();

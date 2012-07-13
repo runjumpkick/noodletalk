@@ -16,7 +16,8 @@
     "socket.io": "0.9.6",
     "hiredis": "0.1.14",
     "redis": "0.7.2",
-    "nconf": "git://github.com/flatiron/nconf.git"
+    "nconf": "git://github.com/flatiron/nconf.git",
+    "rss": "*"
   },
   "devDependencies": {
     "mocha": "1.2.2",

@@ -234,7 +234,7 @@ ol li iframe, ol li audio, ol li video, ol li object {
     margin: 10px;
 }
 
-body[data-options="mediaOff"] #messages {
+body[data-options="mediaOff"] #messages, .wrapper.long #messages {
     width: 1319px;
 }
 
@@ -541,7 +541,7 @@ body.error .arrow {
     #profile {
         width: 979px;
     }
-    body[data-options="mediaOff"] #messages {
+    body[data-options="mediaOff"] #messages, .wrapper.long #messages {
         width: 1005px;
     }
     form input {
@@ -566,7 +566,7 @@ body.error .arrow {
     #media {
         width: 480px;
     }
-    body[data-options="mediaOff"] #messages {
+    body[data-options="mediaOff"] #messages, .wrapper.long #messages {
         width: 831px;
     }
     form input {
@@ -603,7 +603,7 @@ body.error .arrow {
     #profile {
         width: 625px;
     }
-    body[data-options="mediaOff"] #messages {
+    body[data-options="mediaOff"] #messages, .wrapper.long #messages {
         width: 642px;
     }
     form input {
@@ -643,7 +643,7 @@ body.error .arrow {
     ol li p img {
         max-width: 100%;
     }
-    body[data-options="mediaOff"] #messages {
+    body[data-options="mediaOff"] #messages, .wrapper.long #messages {
         width: 350px;
     }
     form input {
@@ -669,7 +669,7 @@ body.error .arrow {
     .wrapper {
         width: 300px;
     }
-    #messages, body[data-options="mediaOff"] #messages {
+    #messages, body[data-options="mediaOff"] #messages, .wrapper.long #messages {
         width: 300px;
     }
     #profile {

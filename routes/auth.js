@@ -4,7 +4,7 @@ var auth = require('../lib/authenticate');
 var messageMaker = require('../lib/message-maker');
 var noodleRedis = require('../lib/noodle-redis');
 
-module.exports = function(client, nconf, app, io) {
+module.exports = function(client, nconf, app, io, isLoggedIn) {
   // Login
   app.post('/about/:channel/login', function(req, res) {
     auth.verify(req, nconf, function(error, email) {
@@ -39,11 +39,9 @@ module.exports = function(client, nconf, app, io) {
   });
 
   // Logout
-  app.get("/about/:channel/logout", function(req, res) {
+  app.get("/about/:channel/logout", isLoggedIn, function(req, res) {
     var channel = escape(req.params.channel);
-    console.log(channel)
     req.session.reset();
-    console.log('got here')
     res.redirect('/');
   });
 };

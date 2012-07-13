@@ -6,7 +6,6 @@ $(function() {
   var currentChannel = $('body').data('channel');
   var myEmailHash = $('body').data('email-hash');
   var initiatingChats = [];
-  var messagesUnread = 0;
   var userList = [];
   var myUserList = [];
   var userCount = 0;
@@ -22,7 +21,6 @@ $(function() {
 
   var clearUnreadMessages = function() {
     document.title = '#' + currentChannel;
-    messagesUnread = 0;
   };
 
   var updateMedia = function(data) {
@@ -30,11 +28,11 @@ $(function() {
     var message = $.trim(data.message);
 
     // Update the media
-    if(mediaIframeMatcher.exec(message) !== null ||
-      mediaObjectMatcher.exec(message) !== null ||
-      mediaVideoMatcher.exec(message) !== null ||
-      mediaAudioMatcher.exec(message) !== null ||
-      (mediaImageMatcher.exec(message) !== null &&
+    if(message.match(mediaIframeMatcher) ||
+      message.match(mediaObjectMatcher) ||
+      message.match(mediaVideoMatcher) ||
+      message.match(mediaAudioMatcher) ||
+      (message.match(mediaImageMatcher) &&
       message.indexOf('class="emoti"') === -1)) {
       var mediaItem = $('<li class="font' + data.font + '" data-created="' +
         data.created +'"></li>');
@@ -109,8 +107,7 @@ $(function() {
     if (myPost) {
       clearUnreadMessages();
     } else {
-      messagesUnread += 1;
-      document.title = '(' + messagesUnread + ') #' + $('body').data('channel');
+      document.title = ' * #' + $('body').data('channel');
     }
     myPost = false;
     checkVersion();
@@ -119,7 +116,7 @@ $(function() {
   // if the user just landed on this page, get the recent messages
   $.get('/about/' + $('body').data('channel') + '/recent', function(data) {
     var messages = data.messages;
-    for (var i=0; i < messages.generic.length; i++) {
+    for (var i=0; i < messages.generic.length; i ++) {
       updateMessage(messages.generic[i]);
     }
 
@@ -128,6 +125,14 @@ $(function() {
 
     // Keep list sane, compile tab completion, etc.
     keepListSane();
+  });
+
+  // if the user just landed on this page, get the recent notifications
+  $.get('/notifications/recent', function(data) {
+    var messages = data.messages;
+    for (var i=0; i < messages.generic.length; i ++) {
+      updateMessage(messages.generic[i]);
+    }
   });
 
   $('#login').click(function() {
