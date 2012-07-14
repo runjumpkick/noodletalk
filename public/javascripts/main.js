@@ -10,7 +10,7 @@ $(function() {
   var myUserList = [];
   var userCount = 0;
   var logLimit = 80;
-  var mediaLimit = 10;
+  var mediaLimit = 5;
   var myPost = false;
   var mediaIframeMatcher = /<iframe\s.+><\/iframe>/i;
   var mediaObjectMatcher = /<object\s.+><\/object>/i;

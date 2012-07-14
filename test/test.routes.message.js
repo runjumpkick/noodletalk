@@ -11,14 +11,34 @@ var redis = require("redis");
 var client = redis.createClient();
 var noodleRedis = require('../lib/noodle-redis');
 var nconf = require('nconf');
+var auth = require('../lib/authenticate');
+var http = require('http');
+var addr = null;
 
 nconf.argv().env().file({ file: 'test/local-test.json' });
+
+var isLoggedIn = function(req, res, next) {
+  if (req.session.email) {
+    next();
+  } else {
+    err.status = 403;
+    next(new Error('not allowed!'));
+  }
+}
+
+require('../routes/message')(client, nconf, app, io, isLoggedIn);
 
 client.select(app.set('redisnoodle'), function(errDb, res) {
   console.log('TEST database connection status: ', res);
 });
 
 describe('message', function() {
+  before(function(done) {
+    app.listen().on('listening', function () {
+      addr = app.address();
+      done();
+    });
+  });
   after(function() {
     client.flushdb();
     console.log('cleared test database');
@@ -227,6 +247,40 @@ describe('message', function() {
             message.message.should.equal('');
             done();
           });
+        });
+      });
+    });
+  });
+
+  describe('request for a notification feed not including this user', function() {
+    it('should return a 403 Forbidden', function(done) {
+      http.get({
+        host: addr.address,
+        port: addr.port,
+        headers: {
+          "Content-Type": "text/xml"
+        },
+        path: '/notifications/12345abc/12345.xml'
+      }, function (res) {
+        res.statusCode.should.equal(403);
+        done();
+      });
+    });
+  });
+
+  describe('request for a notification feed including this user', function() {
+    it('should render the notification rss', function(done) {
+      client.get('privateFeedKey:12345abc', function(err, rssKey) {
+        http.get({
+          host: addr.address,
+          port: addr.port,
+          headers: {
+            "Content-Type": "text/xml"
+          },
+          path: '/notifications/12345abc/' + rssKey + '.xml'
+        }, function (res) {
+          res.statusCode.should.equal(200);
+          done();
         });
       });
     });

@@ -91,31 +91,48 @@ module.exports = function(client, noodle, nconf, app, io) {
     var formLink;
     var user = {};
     var isOwner = false;
-    
+
     auth.getUserHash(req, req.params.email, channel, false, function(err, userHash) {
       var emailHash;
-
-      if (req.session.email) {
-        emailHash = crypto.createHash('md5').update(req.session.email).digest("hex");
-        var userHashes = [emailHash, userHash.nickname].sort().join('-');
-        formLink = 'private-' + userHashes;
-
-        if (emailHash === userHash.nickname) {
-          placeholder = 'Write a public message';
-          isOwner = true;
-          formLink = channel;
-        }
-      }
-      
-      res.render('profile', {
+      var templateVars = {
         title: 'Noodle Talk Profile',
         channel: 'profile-' + userHash.nickname,
         nickname: userHash.nickname,
         avatar: userHash.avatar,
-        placeholder: placeholder,
-        formLink: formLink,
-        isOwner: isOwner
-      });
+        placeholder: '',
+        formLink: '',
+        isOwner: isOwner,
+        rssKey: ''
+      };
+
+      if (req.session.email) {
+        emailHash = crypto.createHash('md5').update(req.session.email).digest("hex");
+        var userHashes = [emailHash, userHash.nickname].sort().join('-');
+        templateVars.formLink = 'private-' + userHashes;
+
+        if (emailHash === userHash.nickname) {
+          templateVars.placeholder = 'Write a public message';
+          templateVars.isOwner = true;
+          templateVars.formLink = channel;
+
+          client.get('privateFeedKey:' + emailHash, function(errRss, rssKey) {
+            if (errRss || !rssKey) {
+              console.info('RSS Key missing ... generating one');
+              auth.generateRSSKey(client, emailHash, function(errGenRss, newRssKey) {
+                templateVars.rssKey = newRssKey;
+                res.render('profile', templateVars);
+              });
+            } else {
+              templateVars.rssKey = rssKey;
+              res.render('profile', templateVars);
+            }
+          });
+        } else {
+          res.render('profile', templateVars);
+        }
+      } else {
+        res.render('profile', templateVars);
+      }
     });
   });
 };

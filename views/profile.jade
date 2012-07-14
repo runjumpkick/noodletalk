@@ -3,7 +3,7 @@
   #header
     a(href='/')
       h1 Noodle Talk
-    
+
     if session.email
       #message
         form(method='post', action='/about/#{formLink}/message', autocomplete='off', class='font#{session.userFont}')
@@ -12,7 +12,7 @@
 
     if !isOwner
       #visitor-actions
-        a(href='/about/private-#{formLink}', target='_blank') View your private messages with this user
+        a(href='/about/#{formLink}', target='_blank') View your private messages with this user
 
     div#info
       if !session.email
@@ -25,6 +25,9 @@
     img(src='#{avatar}')
 
     h2= nickname
+
+    if isOwner
+      a(href='/notifications/#{session.emailHash}/#{rssKey}.xml') Private RSS Feed
 
   #messages
     ol

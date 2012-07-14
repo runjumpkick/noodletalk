@@ -14,6 +14,7 @@ var http = require('http');
 var nock = require('nock');
 var addr = null;
 var nconf = require('nconf');
+var auth = require('../lib/authenticate');
 
 nconf.argv().env().file({ file: 'test/local-test.json' });
 

@@ -15,9 +15,6 @@ client.select(app.set('redisnoodle'), function(errDb, res) {
   console.log(process.env.NODE_ENV || 'dev' + ' database connection status: ', res);
 });
 
-// Always set noodletalk as an available channel and never expire it
-client.set('channels:noodletalk', 'noodletalk');
-
 var io = require('socket.io').listen(app);
 
 io.configure(function() {

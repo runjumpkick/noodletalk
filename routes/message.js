@@ -30,43 +30,8 @@ module.exports = function(client, nconf, app, io, isLoggedIn) {
     });
   });
 
-  app.get('/notifications', function(req, res) {
-    var channel = 'notifications-' + req.session.emailHash;
-    
-    auth.getUserHash(req, req.session.email, 'notifications', true, function(err, userHash) {
-      res.render('notifications', {
-        title: 'Noodle Talk Notifications',
-        channel: channel,
-        nickname: userHash.nickname,
-        avatar: userHash.avatar
-      });
-    });
-  });
-
-  // Get the recent notifications
-  app.get('/notifications/recent', isLoggedIn, function(req, res) {
-    var channel = 'notifications-' + req.session.emailHash;
-
-    noodleRedis.getRecentNotifications(client, req, function(err, messages) {
-      if (err) {
-        res.send(403);
-      }
-
-      var channelMessages = {};
-
-      channelMessages.generic = messages || {};
-      channelMessages.media = {};
-      
-      res.json({
-        'messages': channelMessages,
-        'connected_clients': io.sockets.clients(channel).length,
-        'user_list': []
-      });
-    });
-  });
-
   // Get the private RSS feed
-  app.get('/notifications/rss/:rsskey', function(req, res) {
+  app.get('/notifications/:email/:rsskey.:format', function(req, res) {
     var rssKey = escape(req.params.rsskey);
 
     noodleRedis.getRecentNotifications(client, req, function(err, messages) {
@@ -74,27 +39,34 @@ module.exports = function(client, nconf, app, io, isLoggedIn) {
         res.send(403);
       }
 
-      var feed = new RSS({
-        title: 'Noodletalk Notifications',
-        description: 'Private message notifications',
-        feed_url: 'https://noodletalk.org/notifications/' + rssKey + '/rss.xml',
-        site_url: 'https://noodletalk.org',
-        image_url: 'https://noodletalk.org/logo.png',
-        author: 'Edna Piranha'
-      });
-
-      messages.forEach(function(message, counter) {
-        feed.item({
-          title:  'New message from ' + message.avatar,
-          description: message.message.slice(0, 100),
-          url: 'https://noodletalk.org/notifications',
-          date: message.created
+      try {
+        var feed = new RSS({
+          title: 'Noodletalk Notifications',
+          description: 'Private message notifications',
+          feed_url: 'https://noodletalk.org/notifications/' + rssKey + '.xml',
+          site_url: 'https://noodletalk.org',
+          image_url: 'https://noodletalk.org/logo.png',
+          author: 'Edna Piranha'
         });
-      });
 
-      res.header('Content-Type', 'text/rss');
+        messages.forEach(function(message) {
+          var messageSummary = '<img src="' + message.gravatar + '"><p>' +
+            message.message.slice(0, 100) + ' ...</p>';
 
-      res.xml(feed.xml());
+          feed.item({
+            title:  'New message from ' + message.nickname,
+            description: messageSummary,
+            url: 'https://noodletalk.org/about/' + message.channel,
+            date: message.created
+          });
+        });
+
+        res.header('Content-Type', 'text/xml');
+
+        res.send(feed.xml());
+      } catch(errXml) {
+        res.send(403);
+      }
     });
   });
 
