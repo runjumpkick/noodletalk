@@ -27,7 +27,8 @@
     h2= nickname
 
     if isOwner
-      a(href='/notifications/#{session.emailHash}/#{rssKey}.xml') Private RSS Feed
+      a(href='/notifications/#{session.emailHash}/#{rssKey}.xml', title='Notifications RSS Feed', class='rss')
+        img(src='/images/rss.png')
 
   #messages
     ol
