@@ -43,9 +43,9 @@ module.exports = function(client, nconf, app, io, isLoggedIn) {
         var feed = new RSS({
           title: 'Noodletalk Notifications',
           description: 'Private message notifications',
-          feed_url: 'https://noodletalk.org/notifications/' + rssKey + '.xml',
-          site_url: 'https://noodletalk.org',
-          image_url: 'https://noodletalk.org/logo.png',
+          feed_url: nconf.get('domain') + '/notifications/' + rssKey + '.xml',
+          site_url: nconf.get('domain'),
+          image_url: nconf.get('domain') + '/logo.png',
           author: 'Edna Piranha'
         });
 
@@ -56,7 +56,7 @@ module.exports = function(client, nconf, app, io, isLoggedIn) {
           feed.item({
             title:  'New message from ' + message.nickname,
             description: messageSummary,
-            url: 'https://noodletalk.org/about/' + message.channel,
+            url: nconf.get('domain') + '/about/' + message.channel,
             date: message.created
           });
         });
