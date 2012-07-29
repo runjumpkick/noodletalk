@@ -22,17 +22,6 @@ module.exports = function(client, noodle, nconf, app, io) {
 
     if (!channel) {
       res.redirect('/about/noodletalk');
-    } else if (channel.match(/^private-[a-f0-9]{32}-[a-f0-9]{32}$/i)) {
-      // If a user's session email hash does not match the one in the private conversation, the
-      // user receives a forbidden response.
-      var privateParts = channel.split('-');
-
-      // rearrange by sort if someone tries to change the hash order
-      channel = 'private-' + [privateParts[1], privateParts[2]].sort().join('-');
-
-      if (req.session.emailHash !== privateParts[1] && req.session.emailHash !== privateParts[2]) {
-        res.send(403);
-      }
     }
 
     if (req.session.email) {
@@ -81,58 +70,6 @@ module.exports = function(client, noodle, nconf, app, io) {
   app.get('/version', function(req, res) {
     res.json({
       'version': noodle.version
-    });
-  });
-
-  // Get the user profile
-  app.get('/profile/:email?', function(req, res) {
-    var channel = 'profile-' + req.params.email;
-    var placeholder = 'Send a private message to this user';
-    var formLink;
-    var user = {};
-    var isOwner = false;
-
-    auth.getUserHash(req, req.params.email, channel, false, function(err, userHash) {
-      var emailHash;
-      var templateVars = {
-        title: 'Noodle Talk Profile',
-        channel: 'profile-' + userHash.nickname,
-        nickname: userHash.nickname,
-        avatar: userHash.avatar,
-        placeholder: '',
-        formLink: '',
-        isOwner: isOwner,
-        rssKey: ''
-      };
-
-      if (req.session.email) {
-        emailHash = crypto.createHash('md5').update(req.session.email).digest("hex");
-        var userHashes = [emailHash, userHash.nickname].sort().join('-');
-        templateVars.formLink = 'private-' + userHashes;
-
-        if (emailHash === userHash.nickname) {
-          templateVars.placeholder = 'Write a public message';
-          templateVars.isOwner = true;
-          templateVars.formLink = channel;
-
-          client.get('privateFeedKey:' + emailHash, function(errRss, rssKey) {
-            if (errRss || !rssKey) {
-              console.info('RSS Key missing ... generating one');
-              auth.generateRSSKey(client, emailHash, function(errGenRss, newRssKey) {
-                templateVars.rssKey = newRssKey;
-                res.render('profile', templateVars);
-              });
-            } else {
-              templateVars.rssKey = rssKey;
-              res.render('profile', templateVars);
-            }
-          });
-        } else {
-          res.render('profile', templateVars);
-        }
-      } else {
-        res.render('profile', templateVars);
-      }
     });
   });
 };

@@ -4,7 +4,6 @@ var auth = require('../lib/authenticate');
 var content = require('../lib/web-remix');
 var messageMaker = require('../lib/message-maker');
 var noodleRedis = require('../lib/noodle-redis');
-var RSS = require('rss');
 
 module.exports = function(client, nconf, app, io, isLoggedIn) {
   // Get recent messages
@@ -12,60 +11,21 @@ module.exports = function(client, nconf, app, io, isLoggedIn) {
     var channel = escape(req.params.channel);
     noodleRedis.getRecentMessages(client, channel, function(err, messages) {
       if (err) {
-        res.send(403);
-      }
+        res.json({ 'status': 500, 'error': userErr });
 
-      var channelMessages = {};
+      } else {
+        var channelMessages = {};
 
-      channelMessages.generic = messages || {};
-      channelMessages.media = {};
+        channelMessages.generic = messages || {};
+        channelMessages.media = {};
 
-      io.sockets.in(channel).emit('userlist', []);
+        io.sockets.in(channel).emit('userlist', []);
 
-      res.json({
-        'messages': channelMessages,
-        'connected_clients': io.sockets.clients(channel).length,
-        'user_list': []
-      });
-    });
-  });
-
-  // Get the private RSS feed
-  app.get('/notifications/:email/:rsskey.:format', function(req, res) {
-    var rssKey = escape(req.params.rsskey);
-
-    noodleRedis.getRecentNotifications(client, req, function(err, messages) {
-      if (err) {
-        res.send(403);
-      }
-
-      try {
-        var feed = new RSS({
-          title: 'Noodletalk Notifications',
-          description: 'Private message notifications',
-          feed_url: nconf.get('domain') + '/notifications/' + rssKey + '.xml',
-          site_url: nconf.get('domain'),
-          image_url: nconf.get('domain') + '/logo.png',
-          author: 'Edna Piranha'
+        res.json({
+          'messages': channelMessages,
+          'connected_clients': io.sockets.clients(channel).length,
+          'user_list': []
         });
-
-        messages.forEach(function(message) {
-          var messageSummary = '<img src="' + message.gravatar + '"><p>' +
-            message.message.slice(0, 100) + ' ...</p>';
-
-          feed.item({
-            title:  'New message from ' + message.nickname,
-            description: messageSummary,
-            url: nconf.get('domain') + '/about/' + message.channel,
-            date: message.created
-          });
-        });
-
-        res.header('Content-Type', 'text/xml');
-
-        res.send(feed.xml());
-      } catch(errXml) {
-        res.send(403);
       }
     });
   });
@@ -73,7 +33,10 @@ module.exports = function(client, nconf, app, io, isLoggedIn) {
   // Add new message
   app.post('/about/:channel/message', isLoggedIn, function(req, res) {
     noodleRedis.setRecentMessage(client, req, io, function(err, message) {
-      try {
+      if (err) {
+        res.json({ 'status': 500, 'error': err });
+
+      } else {
         var channel = escape(req.params.channel);
 
         noodleRedis.getUserlist(client, channel, function(userErr, userList) {
@@ -86,9 +49,6 @@ module.exports = function(client, nconf, app, io, isLoggedIn) {
             res.json({ 'status': 500, 'error': userErr });
           }
         });
-
-      } catch(err) {
-        res.json({ 'status': 500, 'error': err });
       }
     });
   });

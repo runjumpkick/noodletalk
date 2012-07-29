@@ -26,18 +26,13 @@ io.sockets.on('connection', function(socket) {
   socket.on('join channel', function(channel) {
     socket.join(channel);
   });
-
-  socket.on('private', function(data) {
-    io.sockets.in(data.channel).emit('private', data.privateChannel);
-  });
 });
 
 var isLoggedIn = function(req, res, next) {
   if (req.session.email) {
     next();
   } else {
-    err.status = 403;
-    next(new Error('not allowed!'));
+    res.redirect('/');
   }
 }
 

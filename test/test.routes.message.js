@@ -251,38 +251,4 @@ describe('message', function() {
       });
     });
   });
-
-  describe('request for a notification feed not including this user', function() {
-    it('should return a 403 Forbidden', function(done) {
-      http.get({
-        host: addr.address,
-        port: addr.port,
-        headers: {
-          "Content-Type": "text/xml"
-        },
-        path: '/notifications/12345abc/12345.xml'
-      }, function (res) {
-        res.statusCode.should.equal(403);
-        done();
-      });
-    });
-  });
-
-  describe('request for a notification feed including this user', function() {
-    it('should render the notification rss', function(done) {
-      client.get('privateFeedKey:12345abc', function(err, rssKey) {
-        http.get({
-          host: addr.address,
-          port: addr.port,
-          headers: {
-            "Content-Type": "text/xml"
-          },
-          path: '/notifications/12345abc/' + rssKey + '.xml'
-        }, function (res) {
-          res.statusCode.should.equal(200);
-          done();
-        });
-      });
-    });
-  });
 });

@@ -76,42 +76,4 @@ describe('index', function() {
       });
     });
   });
-
-  describe('request for a private chat not including this user', function() {
-    it('should return a 403 Forbidden', function(done) {
-      http.get({
-          host: addr.address,
-          port: addr.port,
-          path: '/about/private-844ab0f2f8ce63760d92b75722be5b87-8837992a7a410d4e950c949d6a066708'
-        }, function (res) {
-          res.statusCode.should.equal(403);
-          done();
-        });
-    });
-  });
-
-  describe('request for a private chat including this user', function() {
-    it('should render the index view', function(done) {
-      app.get('/create-test-session', function (req, res) {
-        req.session.email = 'test@test.org';
-        req.session.emailHash = '617d86fdffa6007ede1628d91049094c';
-        req.session.nickname = {};
-        res.json('OK');
-      });
-      http.get({ host: addr.address, port: addr.port, path: '/create-test-session' }, function (res) {
-        var testSession = String(res.headers['set-cookie']).split(';')[0];
-        http.get({
-          host: addr.address,
-          port: addr.port,
-          headers: {
-            Cookie: testSession
-          },
-          path: '/about/private-617d86fdffa6007ede1628d91049094c-8837992a7a410d4e950c949d6a066708'
-        }, function (res) {
-          res.statusCode.should.equal(200);
-          done();
-        });
-      });
-    });
-  });
 });

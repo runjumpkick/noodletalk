@@ -34,6 +34,7 @@ $(function() {
       message.match(mediaAudioMatcher) ||
       (message.match(mediaImageMatcher) &&
       message.indexOf('class="emoti"') === -1)) {
+
       var mediaItem = $('<li class="font' + data.font + '" data-created="' +
         data.created +'"></li>');
 
@@ -205,12 +206,6 @@ $(function() {
       updateMessage(data);
     });
 
-    socket.on('private', function (data) {
-      if (data) {
-        updateMessage(message);
-      }
-    });
-
     socket.emit('join channel', currentChannel);
   });
 
@@ -219,9 +214,7 @@ $(function() {
     noodlers.html('');
 
     for (var i=0; i < userList.length; i ++) {
-      var noodleItem = $('<li><a href="/profile/' +
-        userList[i].avatar.split('/')[4] + '" title="" src="' + userList[i].avatar +
-        '?size=24"><img src="' + userList[i].avatar + '?size=45">' + userList[i].nickname + '</a></li>');
+      var noodleItem = $('<li><img src="' + userList[i].avatar + '?size=45">' + userList[i].nickname + '</a></li>');
       noodlers.append(noodleItem);
     }
     if (userList.length < userCount) {
