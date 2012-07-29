@@ -52,7 +52,7 @@ define(['jquery', 'commands', 'messages', 'users'],
 
   messageForm.find('form').submit(function(ev) {
     ev.preventDefault();
-    messages.postMessage($(this), currentChannel);
+    messages.postMessage($(this));
   });
 
   $('ol').on('click', 'li a.delete', function(ev) {

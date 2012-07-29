@@ -5,6 +5,7 @@ define(['jquery', 'commands', 'time-format', 'version-timeout'],
 
   var myEmailHash = $('body').data('email-hash');
   var messageList = $('body #messages ol');
+  var currentChannel = $('body').data('channel');
   var logLimit = 80;
   var mediaLimit = 5;
   var myPost = false;
@@ -89,7 +90,7 @@ define(['jquery', 'commands', 'time-format', 'version-timeout'],
   };
 
   var self = {
-    clearUnreadMessages: function(currentChannel) {
+    clearUnreadMessages: function() {
       document.title = '#' + currentChannel;
     },
 
@@ -121,7 +122,7 @@ define(['jquery', 'commands', 'time-format', 'version-timeout'],
       versionTimeout.checkVersion();
     },
 
-    postMessage: function(formEl, currentChannel) {
+    postMessage: function(formEl) {
       myPost = true;
       commands.hideAllCommands();
 
@@ -137,7 +138,7 @@ define(['jquery', 'commands', 'time-format', 'version-timeout'],
           data: formEl.serialize(),
           success: function(data) {
             $('form input').val('');
-            self.clearUnreadMessages(currentChannel);
+            self.clearUnreadMessages();
             isSubmitting = false;
           },
           dataType: 'json'
