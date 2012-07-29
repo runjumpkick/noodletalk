@@ -1,24 +1,33 @@
 'use strict';
 
-// Date formatting functions
-var padTimeDigit = function(digit) {
-  if (digit < 10) {
-    return '0' + digit;
-  }
-  return digit;
-};
+define(['jquery'],
+  function($) {
 
-var buildTimeString = function(hours, mins, secs) {
-  return padTimeDigit(hours) + ':' + padTimeDigit(mins) + ':' + padTimeDigit(secs);
-};
+  // Date formatting functions
+  var padTimeDigit = function(digit) {
+    if (digit < 10) {
+      return '0' + digit;
+    }
 
-var getMessageDateTimeString = function(data) {
-  var serverTime = new Date(data.raw_time);
-  var timezoneOffsetInHours = (new Date().getTimezoneOffset()/60) - data.server_timezone;
-  var messageLocale = new Date(data.raw_time).toLocaleDateString();
-  var messageHours = new Date(data.raw_time - (timezoneOffsetInHours*60000)).getHours();
-  var messageMinutes  = data.mins;
-  var messageSeconds = data.secs;
+    return digit;
+  };
 
-  return messageLocale + ' @ ' + buildTimeString(messageHours, messageMinutes, messageSeconds);
-};
+  var buildTimeString = function(hours, mins, secs) {
+    return padTimeDigit(hours) + ':' + padTimeDigit(mins) + ':' + padTimeDigit(secs);
+  };
+
+  var self = {
+    getMessageDateTimeString: function(data) {
+      var serverTime = new Date(data.raw_time);
+      var timezoneOffsetInHours = (new Date().getTimezoneOffset()/60) - data.server_timezone;
+      var messageLocale = new Date(data.raw_time).toLocaleDateString();
+      var messageHours = new Date(data.raw_time - (timezoneOffsetInHours*60000)).getHours();
+      var messageMinutes  = data.mins;
+      var messageSeconds = data.secs;
+
+      return messageLocale + ' @ ' + buildTimeString(messageHours, messageMinutes, messageSeconds);
+    }
+  };
+
+  return self;
+});

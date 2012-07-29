@@ -33,7 +33,10 @@ module.exports = function(client, nconf, app, io, isLoggedIn) {
                 } else {
                   io.sockets.in(channel).emit('userlist', userList);
                   io.sockets.in(channel).emit('message', message);
-                  res.json({ 'channel': channel });
+                  res.json({
+                    'channel': channel,
+                    'font': req.session.userFont
+                  });
                 }
               });
             }

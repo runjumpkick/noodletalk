@@ -1,3 +1,14 @@
+mixin messageForm(enabled)
+  #message(class='#{enabled}')
+    form(method='post', action='/about/#{channel}/message', autocomplete='off', class='font#{session.userFont || 0}')
+      input(type='text', name='message', placeholder='enter your message here or type /help for more commands')
+      button(type='submit') add
+
+mixin loginForm(enabled)
+  a(href='#', id='login', class='#{enabled}') Log in
+    form(method='post', action='/about/#{channel}/login', id='login-form')
+      input(type='hidden', name='bid_assertion', value='1')
+
 .wrapper
   block header
   #header
@@ -5,16 +16,15 @@
       h1 Noodle Talk
 
     if session.email
-      #message
-        form(method='post', action='/about/#{channel}/message', autocomplete='off', class='font#{session.userFont}')
-          input(type='text', name='message', placeholder='enter your message here or type /help for more commands')
-          button(type='submit') add
+      mixin messageForm('enabled')
+    else
+      mixin messageForm('disabled')
 
-    div#info
-      if !session.email
-        a(href='#', id='login') Log in
-        form(method='post', action='/about/#{channel}/login', id='login-form')
-          input(type='hidden', name='bid_assertion', value='1')
+    #info
+      if session.email
+        mixin loginForm('disabled')
+      else
+        mixin loginForm('enabled')
 
   #messages
     ol

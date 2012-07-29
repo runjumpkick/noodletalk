@@ -161,6 +161,14 @@ a {
     text-decoration: none;
 }
 
+.enabled {
+    display: block;
+}
+
+.disabled {
+    display: none;
+}
+
 #header {
     clear: both;
     float: left;

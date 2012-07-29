@@ -12,15 +12,10 @@ module.exports = function(client, noodle, nconf, app, io) {
 
   app.get('/about/:channel?', function(req, res) {
     var avatar = '';
-
-    if (!req.params.channel) {
-      res.redirect('/about/noodletalk');
-    }
-
-    var channel = escape(req.params.channel.replace(/\s/, ''));
     var nickname = '';
+    var channel = escape(req.params.channel.replace(/\s/, ''));
 
-    if (!channel) {
+    if (!req.params.channel || !channel) {
       res.redirect('/about/noodletalk');
     }
 
