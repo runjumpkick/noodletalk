@@ -54,7 +54,7 @@ define(['jquery'],
       // switch fonts
       } else if(commandMatched(fontMatcher)) {
         commandIsMatched = true;
-        hideAllCommands();
+        this.hideAllCommands();
         $.get('/font', function(data) {
           $('#message form').attr('class', 'font' + data.font);
         });
