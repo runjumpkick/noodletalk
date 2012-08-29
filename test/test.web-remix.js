@@ -63,6 +63,26 @@ describe('web-remix', function() {
       });
     });
 
+    it('returns oembed code for a twitter status url', function(done) {
+      var scope = nock('api.twitter.com').get('/1/statuses/oembed.json?url=https://twitter.com/CBCElectronic/status/240125822537707520&maxwidth=440&lang=en').reply(200,
+        {type: "rich",
+          url: "https:\/\/twitter.com\/CBCElectronic\/status\/240125822537707520",
+          provider_name: "Twitter",
+          height: null,
+          html: "\u003Cblockquote class=\"twitter-tweet\"\u003E\u003Cp\u003EThis interview with Brian Eno may have taken place over 30 years ago, but it's a great read.\u003Ca href=\"http:\/\/t.co\/gvqnW0sl\" title=\"http:\/\/ow.ly\/dghnU\"\u003Eow.ly\/dghnU\u003C\/a\u003E\u003C\/p\u003E&mdash; CBCElectronic (@CBCElectronic) \u003Ca href=\"https:\/\/twitter.com\/CBCElectronic\/status\/240125822537707520\" data-datetime=\"2012-08-27T16:37:12+00:00\"\u003EAugust 27, 2012\u003C\/a\u003E\u003C\/blockquote\u003E\n\u003Cscript src=\"\/\/platform.twitter.com\/widgets.js\" charset=\"utf-8\"\u003E\u003C\/script\u003E",
+          provider_url: "http:\/\/twitter.com",
+          author_name: "CBCElectronic",
+          author_url: "https:\/\/twitter.com\/CBCElectronic",
+          cache_age: "31536000000",
+          version: "1.0",
+          width: 440});
+      webRemix.generate('https://twitter.com/CBCElectronic/status/240125822537707520', function(err, subject) {
+        subject.should.equal(' <blockquote class="twitter-tweet tw-align-center" width="440"><p>This interview with Brian Eno may have taken place over 30 years ago, but it\'s a great read.<a href="http://t.co/gvqnW0sl" title="http://ow.ly/dghnU">ow.ly/dghnU</a></p>&mdash; CBCElectronic (@CBCElectronic) <a href="https://twitter.com/CBCElectronic/status/240125822537707520" data-datetime="2012-08-27T16:37:12+00:00">August 27, 2012</a></blockquote>\n' +
+        '<script src="//platform.twitter.com/widgets.js" charset="utf-8"></script>');
+        done();
+      });
+    });
+
     it('returns embed code for a rd.io short url', function(done) {
       webRemix.generate('http://rd.io/i/QVME9DdeW1GL', function(err, subject) {
         subject.should.equal(' <iframe class="rdio" width="450" height="80" ' +
