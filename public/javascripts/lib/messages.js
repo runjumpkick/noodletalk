@@ -13,7 +13,6 @@ define(['jquery', 'commands', 'time-format', 'version-timeout'],
   var mediaObjectMatcher = /<object\s.+><\/object>/i;
   var mediaVideoMatcher = /<video\s.+>.+<\/video>/i;
   var mediaAudioMatcher = /<audio\s.+>.+<\/audio>/i;
-  var mediaTweetMatcher = /<blockquote class="twitter-tweet/i;
   var mediaImageMatcher = /\.((jpg)|(jpeg)|(png)|(gif))<\/a>/i;
   var isSubmitting = false;
 
@@ -26,7 +25,6 @@ define(['jquery', 'commands', 'time-format', 'version-timeout'],
       message.match(mediaObjectMatcher) ||
       message.match(mediaVideoMatcher) ||
       message.match(mediaAudioMatcher) ||
-      message.match(mediaTweetMatcher) ||
       (message.match(mediaImageMatcher) &&
       message.indexOf('class="emoti"') === -1)) {
 
